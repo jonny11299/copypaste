@@ -1,0 +1,629 @@
+Sub ProgrammaticCopy()
+'
+' ProgrammaticCopy Macro
+' Reads selected rows from Operative export and formats into deal specification
+'
+' Keyboard Shortcut: Ctrl+Shift+J
+'
+
+    Dim ws As Worksheet
+    Dim selectedRows As Range
+    Dim firstRow As Long, lastRow As Long
+    Dim dataRow As Long
+    Dim outputRow As Long
+    Dim i As Long
+    Dim validationRow As Long
+    Dim prodLineName As String
+    
+    ' Column indices (adjust if needed based on actual file structure)
+    Const COL_PRODUCTION_LINE_NAME As Long = 25  ' Column Y
+    Const COL_PREFIX As Long = 24                 ' Column X
+    Const COL_START_DATE As Long = 36             ' Column AJ (Start Date.1)
+    Const COL_END_DATE As Long = 37               ' Column AK (End Date.1)
+    Const COL_PUSH_QUANTITY As Long = 34          ' Column AH
+    Const COL_UNIT_COST As Long = 35              ' Column AI
+    Const COL_PRODUCT As Long = 29                ' Column AC
+    Const COL_VIDEO_CREATIVE_LENGTH As Long = 62  ' Column BJ
+    
+    ' Set the active worksheet
+    Set ws = ActiveSheet
+    
+    ' Check if any rows are selected
+    If Selection.Rows.Count < 2 Then
+        MsgBox "Please select at least 2 rows (including header row).", vbExclamation
+        Exit Sub
+    End If
+    
+    ' Get the first and last row of selection
+    Set selectedRows = Selection.EntireRow
+    firstRow = selectedRows.row
+    lastRow = firstRow + selectedRows.Rows.Count - 1
+    
+    ' SORT THE SELECTED ROWS BY PREFIX (Column X / COL_PREFIX) - Min to Max
+    Dim sortRange As Range
+    Dim headerRowNum As Long
+    
+    ' Determine if row 1 is included in selection (it's the header)
+    If firstRow = 1 Then
+        headerRowNum = 1
+    Else
+        headerRowNum = firstRow
+    End If
+    
+    ' Define the range to sort (from first row to last row, all columns)
+    Set sortRange = ws.Range(ws.Cells(firstRow, 1), ws.Cells(lastRow, 100))  ' Using column 100 to ensure we capture all data
+    
+    ' Sort by Prefix column (Column 24 = X)
+    With ws.Sort
+        .SortFields.Clear
+        .SortFields.Add Key:=ws.Cells(headerRowNum + 1, COL_PREFIX), _
+            SortOn:=xlSortOnValues, _
+            Order:=xlAscending, _
+            DataOption:=xlSortNormal
+        .SetRange sortRange
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+    
+    ' ======================================================================
+    ' VALIDATION: Check for Order ID in Production Line Names
+    ' ======================================================================
+    Dim missingOrderID As Boolean
+    
+    missingOrderID = False
+    
+    ' Determine first data row
+    If firstRow = 1 Then
+        validationRow = 2
+    Else
+        validationRow = firstRow + 1
+    End If
+    
+    ' Check each selected row for Order ID format (xxxxxx-#_yyyyyy_US)
+    Dim badLineName As String
+    For i = validationRow To lastRow
+        prodLineName = GetCellValue(ws, i, COL_PRODUCTION_LINE_NAME)
+        
+        ' Check for pattern: underscore + 6 digits + underscore
+        If Not HasOrderID(prodLineName) Then
+            missingOrderID = True
+            badLineName = prodLineName
+            Exit For
+        End If
+    Next i
+    
+    If missingOrderID Then
+        MsgBox "Line(s) are lacking Order ID in the name -- please ask Sales to include Order ID in line names." & vbCrLf & vbCrLf & _
+               "Example: " & badLineName, _
+               vbExclamation, "Missing Order ID"
+        
+    End If
+    
+    ' ======================================================================
+    ' MAGNITE DEAL CHECK
+    ' ======================================================================
+    Dim isMagniteDeal As Boolean
+    Dim magPrefix As String
+    Dim userResponse As VbMsgBoxResult
+    
+    userResponse = MsgBox("Is this a Magnite deal?" & vbCrLf & vbCrLf & _
+                        "Press Ctrl+Break or Escape at any time to cancel the macro.", _
+                        vbYesNo + vbQuestion, "Magnite Deal Check")
+    isMagniteDeal = (userResponse = vbYes)
+    
+    If isMagniteDeal Then
+        ' Check that all lines contain "Magnite"
+        Dim missingMagnite As Boolean
+        Dim searchText As String
+        missingMagnite = False
+        
+        ' List of acceptable substrings (all lowercase for easy comparison)
+        Dim validTerms As Variant
+        validTerms = Array("magnite", "mag", "mag")
+        
+        For i = validationRow To lastRow
+        
+            prodLineName = LCase(GetCellValue(ws, i, COL_PRODUCTION_LINE_NAME))
+        
+            Dim foundMatch As Boolean
+            foundMatch = False
+        
+            Dim t As Variant
+            For Each t In validTerms
+                If InStr(1, prodLineName, t, vbTextCompare) > 0 Then
+                    foundMatch = True
+                    Exit For
+                End If
+            Next t
+        
+            If Not foundMatch Then
+                missingMagnite = True
+                Exit For
+            End If
+        
+        Next i
+        
+        If missingMagnite Then
+            MsgBox "Please ask Sales to include 'Magnite' in the line name for all Magnite deals.", _
+                   vbExclamation, "Missing Magnite in Line Name"
+            Exit Sub
+        End If
+        
+        ' Ask for Magnite prefix
+        magPrefix = InputBox("Please enter deal prefix [PARA-MAG-xxx-]:" & vbCrLf & vbCrLf & _
+                        "Example: PARA-MAG-HD-", _
+                        "Magnite Deal Prefix", "PARA-MAG-")
+        
+        ' If empty, default to standard PARA-MAG-
+        If magPrefix = "" Then magPrefix = "PARA-MAG-"
+    End If
+    
+    ' ======================================================================
+    ' GET USER INPUTS VIA DIALOG PROMPTS
+    ' ======================================================================
+    
+    Dim seatID As String
+    Dim fcaps As String
+    Dim hasDNR As Boolean
+    Dim hasAudienceSegments As Boolean
+    Dim hasRelationshipTargeting As Boolean
+    Dim budgetModel As String
+    
+    ' Prompt 1: Seat ID
+    seatID = InputBox("Please enter Seat ID:", "Seat ID Input", "")
+    If seatID = "" Then seatID = "" ' Allow blank
+    
+    ' Prompt 2: fcaps
+    fcaps = InputBox("Please enter fcaps:", "fcaps Input", "")
+    If fcaps = "" Then fcaps = "" ' Allow blank
+    
+    ' Prompt 3: DNR List
+    userResponse = MsgBox("Is there a DNR list?", vbYesNo + vbQuestion, "DNR List")
+    hasDNR = (userResponse = vbYes)
+    
+    ' Prompt 4: Audience Segments
+    userResponse = MsgBox("Are there any audience segments to apply?", vbYesNo + vbQuestion, "Audience Segments")
+    hasAudienceSegments = (userResponse = vbYes)
+    
+    ' Prompt 5: Relationship Targeting
+    userResponse = MsgBox("Is there any relationship targeting to apply?", vbYesNo + vbQuestion, "Relationship Targeting")
+    hasRelationshipTargeting = (userResponse = vbYes)
+    
+    ' Prompt 6: Budget Model (Now using InputBox instead of custom form)
+    budgetModel = InputBox("Please type in the budget model:" & vbCrLf & _
+                          " - Fixed Price" & vbCrLf & _
+                          " - 1st Price Floored" & vbCrLf & _
+                          " - 2nd Price Floored", _
+                          "Budget Model Input", "Fixed Price")
+    If budgetModel = "" Then budgetModel = "Fixed Price" ' Default to Fixed Price if blank
+    
+    ' ======================================================================
+    
+    ' Calculate output starting row (y+2 where y is last data row)
+    outputRow = lastRow + 2
+    
+    ' Clear any existing output in the output area
+    ws.Range("B" & outputRow & ":O" & outputRow + 1000).ClearContents
+    
+    ' Add column headers
+    ws.Cells(outputRow, 2).Value = "Labeled Values"
+    ws.Cells(outputRow, 2).Font.Bold = True
+    ws.Cells(outputRow, 14).Value = "Raw"
+    ws.Cells(outputRow, 14).Font.Bold = True
+    ws.Cells(outputRow, 15).Value = "1% Buffer"
+    ws.Cells(outputRow, 15).Font.Bold = True
+    
+    ' Add bold left border to column N (column 14)
+    ws.Cells(outputRow, 14).Borders(xlEdgeLeft).LineStyle = xlContinuous
+    ws.Cells(outputRow, 14).Borders(xlEdgeLeft).Weight = xlMedium
+    
+    ' Move to first data row (after headers)
+    outputRow = outputRow + 1
+    
+    ' Process each data row (skip the header in row 1 or firstRow)
+    Dim headerRow As Long
+    If firstRow = 1 Then
+        headerRow = 1
+        dataRow = 2
+    Else
+        headerRow = firstRow
+        dataRow = firstRow + 1
+    End If
+    
+    ' Loop through each data row
+    For i = dataRow To lastRow
+        ' Extract data from columns
+        Dim prefix As String
+        Dim dealID As String
+        Dim startDate As String
+        Dim endDate As String
+        Dim quantity As String
+        Dim quantityDisplay As String
+        Dim unitCost As String
+        Dim product As String
+        Dim creativeLength As String
+        
+        ' Get Production Line Name
+        prodLineName = GetCellValue(ws, i, COL_PRODUCTION_LINE_NAME)
+        
+        ' Get Prefix and create Deal ID
+        prefix = GetCellValue(ws, i, COL_PREFIX)
+        ' Create Deal ID (with Magnite prefix if applicable)
+        If isMagniteDeal Then
+            dealID = CreateDealID(prefix, magPrefix)
+        Else
+            dealID = CreateDealID(prefix, "PARA-")
+        End If
+        
+        ' Get and format dates
+        startDate = FormatDate(ws.Cells(i, COL_START_DATE).Value)
+        endDate = FormatDate(ws.Cells(i, COL_END_DATE).Value)
+        
+        ' Get and format quantity
+        quantity = FormatQuantity(ws.Cells(i, COL_PUSH_QUANTITY).Value)
+        
+        ' Check if this is a PMP deal (Production Line Name contains "PMP")
+        If InStr(1, prodLineName, "PMP", vbTextCompare) > 0 Then
+            quantityDisplay = "No Limit (PMP)"
+        Else
+            quantityDisplay = quantity & " imps"
+        End If
+        
+        ' Get and format unit cost
+        unitCost = FormatCurrency(ws.Cells(i, COL_UNIT_COST).Value)
+        
+        ' Check if Production Line Name contains "split pay"
+        Dim isSplitPay As Boolean
+        isSplitPay = (InStr(1, prodLineName, "split pay", vbTextCompare) > 0)
+        
+        ' Get Product and extract substring for Inventory field
+        product = GetCellValue(ws, i, COL_PRODUCT)
+        Dim inventoryField As String
+        inventoryField = ExtractInventorySubstring(product)
+        
+        ' Append DNR if selected
+        If hasDNR Then
+            inventoryField = inventoryField & ", DNR Excluded"
+        End If
+        
+        ' Append Audience Segments if selected
+        If hasAudienceSegments Then
+            inventoryField = inventoryField & ", Audience Segments applied"
+        End If
+        
+        ' Append Relationship Targeting if selected
+        If hasRelationshipTargeting Then
+            inventoryField = inventoryField & ", Relationship Targeting applied"
+        End If
+        
+        ' Get Video Creative Length
+        creativeLength = GetCellValue(ws, i, COL_VIDEO_CREATIVE_LENGTH)
+        
+        ' Calculate raw creative length (max number + 1)
+        Dim rawCreativeLength As String
+        rawCreativeLength = CalculateRawCreativeLength(creativeLength)
+        
+        ' Write LABELED output to Column B
+        ws.Cells(outputRow, 2).Value = "Name: " & prodLineName
+        ws.Cells(outputRow + 1, 2).Value = "Deal ID: " & dealID
+        ws.Cells(outputRow + 2, 2).Value = "Seat ID: " & seatID
+        ws.Cells(outputRow + 3, 2).Value = "Schedule: " & startDate & " - " & endDate
+        ws.Cells(outputRow + 4, 2).Value = "Quantity: " & quantityDisplay
+        ' Add SPLIT PAY if applicable (labeled output only)
+        If isSplitPay Then
+            ws.Cells(outputRow + 5, 2).Value = "Price: " & unitCost & " CPM (" & budgetModel & ") SPLIT PAY"
+        Else
+            ws.Cells(outputRow + 5, 2).Value = "Price: " & unitCost & " CPM (" & budgetModel & ")"
+        End If
+        ws.Cells(outputRow + 6, 2).Value = "Inventory: " & inventoryField
+        ws.Cells(outputRow + 7, 2).Value = "Creative Length: " & creativeLength
+        ws.Cells(outputRow + 8, 2).Value = "fcaps: " & fcaps
+        
+        ' Write RAW output to Column N (labels removed)
+        ws.Cells(outputRow, 14).Value = prodLineName
+        ws.Cells(outputRow + 1, 14).Value = dealID
+        ws.Cells(outputRow + 2, 14).Value = seatID
+        ws.Cells(outputRow + 3, 14).Value = startDate & " - " & endDate
+        
+        ' Add bold left border to each cell in column N
+        Dim j As Long
+        For j = 0 To 8
+            ws.Cells(outputRow + j, 14).Borders(xlEdgeLeft).LineStyle = xlContinuous
+            ws.Cells(outputRow + j, 14).Borders(xlEdgeLeft).Weight = xlMedium
+        Next j
+        
+        ' Quantity raw value (remove commas, remove "imps", or show "No Limit (PMP)")
+        If InStr(1, prodLineName, "PMP", vbTextCompare) > 0 Then
+            ws.Cells(outputRow + 4, 14).Value = "No Limit (PMP)"
+            ws.Cells(outputRow + 4, 15).Value = "N/A" ' 1% Buffer for PMP
+        Else
+            ws.Cells(outputRow + 4, 14).Value = Replace(quantity, ",", "")
+            ' Calculate 1% buffer in Column O
+            Dim rawQty As Double
+            rawQty = CDbl(Replace(quantity, ",", ""))
+            ws.Cells(outputRow + 4, 15).Value = WorksheetFunction.RoundUp(rawQty * 1.01, 0)
+        End If
+        
+        ' Price raw value (remove $, remove " CPM (...)")
+        Dim rawPrice As String
+        rawPrice = Replace(unitCost, "$", "")
+        ws.Cells(outputRow + 5, 14).Value = rawPrice
+        
+        ' Inventory and fcaps are left blank in raw column
+        ws.Cells(outputRow + 6, 14).Value = ""
+        ws.Cells(outputRow + 7, 14).Value = rawCreativeLength
+        ws.Cells(outputRow + 8, 14).Value = ""
+        
+        ' Move to next output block (9 lines + 1 blank = 10)
+        outputRow = outputRow + 10
+    Next i
+    
+    ' ======================================================================
+    ' ADD "FOR CM:" REMINDERS AT THE END
+    ' ======================================================================
+    
+    ' Check if any reminders need to be added
+    If hasDNR Or hasAudienceSegments Or hasRelationshipTargeting Then
+        ' Add blank line before reminders
+        outputRow = outputRow + 1
+        
+        ' Add "FOR CM:" header
+        ws.Cells(outputRow, 2).Value = "FOR CM:"
+        outputRow = outputRow + 1
+        
+        ' Add reminders based on what was selected
+        If hasDNR Then
+            ws.Cells(outputRow, 2).Value = "1. Remember to add the DNR"
+            outputRow = outputRow + 1
+        End If
+        
+        If hasAudienceSegments Then
+            ws.Cells(outputRow, 2).Value = "2. Remember to add the audience segments"
+            outputRow = outputRow + 1
+        End If
+        
+        If hasRelationshipTargeting Then
+            ws.Cells(outputRow, 2).Value = "3. Remember to add the relationship targeting"
+            outputRow = outputRow + 1
+        End If
+        
+        If isMagniteDeal Then
+            ws.Cells(outputRow, 2).Value = "4. Remember to setup Magnite and SpringServe"
+            outputRow = outputRow + 1
+        End If
+    End If
+    
+    ' ======================================================================
+    
+    MsgBox "Processing complete! Output starts at cell B" & (lastRow + 2), vbInformation
+    
+End Sub
+
+' Function to calculate raw creative length (max number + 1)
+Function CalculateRawCreativeLength(creativeLength As String) As String
+    Dim i As Long
+    Dim currentNum As String
+    Dim maxNum As Long
+    Dim foundNumber As Boolean
+    Dim ch As String
+    
+    ' Handle blank or empty values
+    If creativeLength = "{blank}" Or Len(creativeLength) = 0 Then
+        CalculateRawCreativeLength = "N/A"
+        Exit Function
+    End If
+    
+    maxNum = 0
+    foundNumber = False
+    currentNum = ""
+    
+    ' Parse through the string character by character
+    For i = 1 To Len(creativeLength)
+        ch = Mid(creativeLength, i, 1)
+        
+        ' Check if character is a digit
+        If ch >= "0" And ch <= "9" Then
+            currentNum = currentNum & ch
+        Else
+            ' End of a number, process it
+            If Len(currentNum) > 0 Then
+                If CLng(currentNum) > maxNum Then
+                    maxNum = CLng(currentNum)
+                End If
+                foundNumber = True
+                currentNum = ""
+            End If
+        End If
+    Next i
+    
+    ' Check if there's a number at the end of the string
+    If Len(currentNum) > 0 Then
+        If CLng(currentNum) > maxNum Then
+            maxNum = CLng(currentNum)
+        End If
+        foundNumber = True
+    End If
+    
+    ' Return result
+    If foundNumber Then
+        CalculateRawCreativeLength = CStr(maxNum + 1)
+    Else
+        CalculateRawCreativeLength = "N/A"
+    End If
+End Function
+
+' Helper function to safely get cell value as string
+Function GetCellValue(ws As Worksheet, row As Long, col As Long) As String
+    Dim cellVal As Variant
+    cellVal = ws.Cells(row, col).Value
+    
+    If IsEmpty(cellVal) Or IsNull(cellVal) Then
+        GetCellValue = "{blank}"
+    Else
+        GetCellValue = CStr(cellVal)
+    End If
+End Function
+
+' Function to extract inventory substring from Product field
+Function ExtractInventorySubstring(product As String) As String
+    Dim prefixesToCheck As Variant
+    Dim i As Integer
+    Dim prefixPos As Long
+    Dim startPos As Long
+    Dim nextPipePos As Long
+    Dim result As String
+    
+    ' If product is blank, return as-is
+    If product = "{blank}" Or Len(product) = 0 Then
+        ExtractInventorySubstring = product
+        Exit Function
+    End If
+    
+    ' Define the three prefixes to look for
+    prefixesToCheck = Array("US|PG|", "US|PMP|", "US||PMNT|")
+    
+    ' Try to find one of the prefixes
+    For i = LBound(prefixesToCheck) To UBound(prefixesToCheck)
+        prefixPos = InStr(1, product, prefixesToCheck(i), vbTextCompare)
+        
+        If prefixPos = 1 Then ' Prefix found at the beginning
+            ' Calculate where to start extracting (after the prefix)
+            startPos = prefixPos + Len(prefixesToCheck(i))
+            
+            ' Find the next pipe character after the prefix
+            nextPipePos = InStr(startPos, product, "|")
+            
+            If nextPipePos > 0 Then
+                ' Extract substring from after prefix to before next pipe
+                result = Mid(product, startPos, nextPipePos - startPos)
+                ExtractInventorySubstring = result
+                Exit Function
+            Else
+                ' No pipe found after prefix, take everything after prefix
+                result = Mid(product, startPos)
+                ExtractInventorySubstring = result
+                Exit Function
+            End If
+        End If
+    Next i
+    
+    ' If no prefix was found, return the original product value (fallback behavior)
+    ExtractInventorySubstring = product
+End Function
+
+' Function to create Deal ID from Prefix
+Function CreateDealID(prefix As String, Optional dealPrefix As String = "PARA-") As String
+    Dim lastHyphenPos As Long
+    Dim basePrefix As String
+    
+    If prefix = "{blank}" Or Len(prefix) < 2 Then
+        CreateDealID = dealPrefix & "{blank}"
+        Exit Function
+    End If
+    
+    ' Find the last hyphen
+    lastHyphenPos = InStrRev(prefix, "-")
+    
+    If lastHyphenPos > 0 Then
+        ' Remove everything from the last hyphen onwards
+        basePrefix = Left(prefix, lastHyphenPos - 1)
+    Else
+        ' No hyphen found, remove last 2 characters
+        If Len(prefix) > 2 Then
+            basePrefix = Left(prefix, Len(prefix) - 2)
+        Else
+            basePrefix = prefix
+        End If
+    End If
+    
+    CreateDealID = dealPrefix & basePrefix
+End Function
+
+' Function to format date as MM/DD/YY
+Function FormatDate(dateVal As Variant) As String
+    If IsEmpty(dateVal) Or IsNull(dateVal) Then
+        FormatDate = "{blank}"
+        Exit Function
+    End If
+    
+    If IsDate(dateVal) Then
+        FormatDate = Format(dateVal, "mm/dd/yy")
+    Else
+        ' Try to parse as string date
+        On Error Resume Next
+        FormatDate = Format(CDate(dateVal), "mm/dd/yy")
+        If Err.Number <> 0 Then
+            FormatDate = CStr(dateVal)
+        End If
+        On Error GoTo 0
+    End If
+End Function
+
+' Function to format quantity with commas
+Function FormatQuantity(quantityVal As Variant) As String
+    If IsEmpty(quantityVal) Or IsNull(quantityVal) Then
+        FormatQuantity = "{blank}"
+        Exit Function
+    End If
+    
+    If IsNumeric(quantityVal) Then
+        FormatQuantity = Format(quantityVal, "#,##0")
+    Else
+        FormatQuantity = CStr(quantityVal)
+    End If
+End Function
+
+' Function to format currency as $DD.cc
+Function FormatCurrency(costVal As Variant) As String
+    If IsEmpty(costVal) Or IsNull(costVal) Then
+        FormatCurrency = "{blank}"
+        Exit Function
+    End If
+    
+    If IsNumeric(costVal) Then
+        FormatCurrency = "$" & Format(costVal, "0.00")
+    Else
+        FormatCurrency = CStr(costVal)
+    End If
+End Function
+
+' Function to check if Production Line Name has Order ID format (_xxxxxx_)
+Function HasOrderID(prodLineName As String) As Boolean
+    Dim i As Long
+    Dim foundFirstUnderscore As Boolean
+    Dim digitCount As Long
+    
+    HasOrderID = False
+    foundFirstUnderscore = False
+    digitCount = 0
+    
+    For i = 1 To Len(prodLineName)
+        If Mid(prodLineName, i, 1) = "_" Or Mid(prodLineName, i, 1) = " " Then
+            If Not foundFirstUnderscore Then
+                ' Found first underscore, start counting digits
+                foundFirstUnderscore = True
+                digitCount = 0
+            ElseIf foundFirstUnderscore And digitCount = 6 Then
+                ' Found second underscore after exactly 6 digits
+                HasOrderID = True
+                Exit Function
+            Else
+                ' Found second underscore but not 6 digits, reset
+                foundFirstUnderscore = False
+                digitCount = 0
+            End If
+        ElseIf foundFirstUnderscore Then
+            ' Count digits between underscores
+            If Mid(prodLineName, i, 1) >= "0" And Mid(prodLineName, i, 1) <= "9" Then
+                digitCount = digitCount + 1
+            Else
+                ' Non-digit found, reset
+                foundFirstUnderscore = False
+                digitCount = 0
+            End If
+        End If
+    Next i
+End Function

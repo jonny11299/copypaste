@@ -1,0 +1,15 @@
+A list of safe assumptions to make when processing an excel document such as "sample_doc_1220377_PRODUCTION_TICKET_CBSINTERACTIVE_04072026_165746EDT", and checks to verify this is the case:
+
+Assumption 1:
+The column headers will be the same, in the same order. Specifically, A1-CK1 will contain "Ticket ID	Ticket	Order	Order ID	Status	Advertiser	Agency	Start Date	End Date	Production System TZ	Order Currency	Order Owner	Primary Sales Person	Assignee(s)	Reason Pended	Additional Info	SLI ID	Parent Line ID	Parent Line Item Name	Package ID	Package Name	Revision Flag	Internal PLI ID	Prefix	Production Line Name	Line Item Status	Reservation Status	Status	Product	Order Cost Method	Push Cost Method	Order Quantity	Production Quantity	Push Quantity	Unit Cost	Start Date	End Date	Billable 3P Ad Server	Locator 1	Locator 2	Locator 3	Locator 4	Sold Targeting	Push Additional Info	Production System	Ad Size	Media Property	PS Order ID	PS Line Item ID	Push Production Fields	PS Ad Status	PS Ad Status Timestamp	PS Ad Status Icon	Health	Third Party Order ID	Third Party Line Item ID	Unreviewed Notes	IO Budget Model	IO Budget Amount	Delivery Finalized	Frequency Measure (VCBS FW)	Video Creative Length	US Advanced Combination Site-Video Targeting (VCBS FW)	Frequency Served (VCBS FW)	Buyer	VPaid Support	Pricing Model	Video Position (VCBS FW)	Yield Optimization Inventory Prioritization	Link Style (VCBS FW)	Country (VCBS FW)	US Client Required Zip Targeting (FW 520311)	Deal Type	US Content Group Exclusion (VCBS FW)	US Audience Manager Segment (VCBS FW)	Audience Segment	Ad Unit	Frequency Cap	Section Group Exclude	VPaid Support	Content Group Exclude	Buyer	Pricing Model	Content Group	Yield Optimization Inventory Prioritization	Link Style	Deal Type	Country	Frequency Measure"
+
+Check 1:
+Verify that the document being processed has these column headers, with these names, in this order. If not, please alert the user, using the form "Expected: ..., Result: ...". log to the console, and ask if we should proceed or exit.
+
+
+Assumption 2:
+Every row is a unique SLI, also known as Line Item. Upon each row (except for the headers), there is a distinct SLI with its own details. Some of these details will be the same, but each cell's details belong to that row's SLI.
+
+Check 2:
+No check required for this assumption.
+

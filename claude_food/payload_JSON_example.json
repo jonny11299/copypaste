@@ -1,0 +1,58 @@
+{
+    "id": "a1b2c3",
+    "name": "Q2 Dominos Direct",
+    "mode": "direct",
+    "saved_at": "2026-04-16T12:00:00Z",
+    "chunks": [
+        {
+            "id": "d4e5f6",
+            "payload_id": "a1b2c3",
+            "chunk_index": 0,
+            "chunk_title": "SLI #1715774",
+            "items": [
+                {
+                    "id": "g7h8i9",
+                    "chunk_id": "d4e5f6",
+                    "item_index": 0,
+                    "item_title": "Tracker :15s Cross Platform",
+                    "contents": [
+                        {
+                            "id": "j1k2l3",
+                            "item_id": "g7h8i9",
+                            "c_id": 0,
+                            "c_title": "SLI Name",
+                            "c_contents": "SLI #1715774",
+                            "c_override": null,
+                            "c_type": "string"
+                        },
+                        {
+                            "id": "m4n5o6",
+                            "item_id": "g7h8i9",
+                            "c_id": 1,
+                            "c_title": "Item Name",
+                            "c_contents": "Tracker :15s Cross Platform",
+                            "c_override": null,
+                            "c_type": "string"
+                        },
+                        {
+                            "id": "n6o7p8",
+                            "item_id": "g7h8i9",
+                            "c_id": 2,
+                            "c_title": "Placement ID",
+                            "c_contents": "444046784",
+                            "c_override": null,
+                            "c_type": "string"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "q9r1s2",
+            "payload_id": "a1b2c3",
+            "chunk_index": 1,
+            "chunk_title": "SLI #1715880",
+            "items": []
+        }
+    ]
+}

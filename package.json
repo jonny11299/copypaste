@@ -1,0 +1,22 @@
+{
+  "name": "copypaste",
+  "version": "1.0.0",
+  "description": "SLI clipboard overlay",
+  "main": "out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "sfmessage": "node scripts/sfmessage.js"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^2.5.3",
+    "electron": "^31.7.7",
+    "electron-vite": "^2.3.0",
+    "svelte": "^4.2.19",
+    "vite": "^5.4.0"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}

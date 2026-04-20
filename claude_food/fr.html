@@ -1,0 +1,2280 @@
+<!--
+
+3/18/26 post-vibe-coding genesis notes:
+
+
+When I get this back:
+1. apply a <br> between PASTE TARGET and SELECT_ALL
+2. Modify the names / instructions (CLIPBOARD -> TABLE = MACRO REPLACEMENT)
+3. fix the highlight strength
+
+Eventually:
+1. Build a backend to store the correct rules
+2. Keep track of logs
+basically, make this operable on a per-user basis, with admin permissions for saving stuff.
+Like, anyone can save their own personal rules, but we'll need a backend to save that, and a password-protected "Default rules" thing.
+
+hmmm... maybe it just operates under one ruleset that is modifiable with password only.
+
+
+
+
+Backend thinking:
+Server design: Postman
+https://www.postman.com/
+
+
+"Designed a RESTFul API with postman"
+I should either use Python Flask or FAST API
+
+"REST endpoints for CRUD on rulesets and log persistence
+The full roundtrip from a vanilla JS frontend to a real DB"
+
+
+
+
+-----------------------------------
+
+
+
+In the future, you'll have to make this more friendly to multiple users.
+
+
+You'll have to give them an auto-generated username, and then
+mod the blob posting to checkout a new cell for a new username that doesn't exist yet.
+
+Given a dedicated column, you can probably
+chain some 'awaits' together to have a 
+'username key' at the top of the column,
+then get this key upon launch, reference which cell is ours, and then route accordingly.
+
+
+
+--------------------------
+
+3/20/26:
+1. Add the rules
+2. Submit blob
+3. Add the conditional
+
+
+Hotkey improvements:
+'a' -> add a new rule
+'e' -> edit selected rule
+'d' -> duplicate selected rule
+
+
+
+3/21/26:
+I'm going to need to overhaul certain aspects, namely:
+
+1. various rulesets (i.e. COPPA ruleset, GAM ruleset)
+2. various profiles (backend overhaul)
+3. add the conditional ruleset (if cell includes this, replace this)
+
+
+
+Also, these ones are the IAS and DV exception. Check the big book of fw:
+#{request.keyValue("bundle_id")}
+#{section.attribute("appBundle")}
+#{site.attribute("appBundle")}
+#{request.keyValue("_fw_app_bundle")}
+
+
+-->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find → Replace</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/pages/hidden/tools/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/pages/hidden/tools/favicon/favicon-16x16.png">
+  <!-- Including my own backend tools: -->
+  <script src="../backend/blob_keys.js"></script>
+  <script src="../backend/tool_server.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;500&display=swap');
+
+    :root {
+      --bg: #090b0d;
+      --surface: #161719;
+      --border: #2a2c30;
+      --accent: #f0d660;
+      --accent2: #60c8f0;
+      --good: #50b967;
+      --bad: #f06060;
+      --text: #e8eaed;
+      --muted: #9aa0ac;
+      --row-even: #13141600;
+      --row-odd: #1c1e2255;
+      --th-bg: #1e2024;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      padding: 40px 32px;
+    }
+
+    header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+    }
+
+    header h1 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    header span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* MODE TOGGLE */
+    .mode-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .mode-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .mode-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .mode-btn:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .mode-btn.active[data-mode="tsv"] {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: #c8f06010;
+    }
+
+    .mode-btn.active[data-mode="html"] {
+      border-color: var(--accent2);
+      color: var(--accent2);
+      background: #60c8f010;
+    }
+
+    .mode-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+    }
+
+    .mode-btn.active[data-mode="tsv"]::after {
+      background: var(--accent);
+    }
+
+    .mode-btn.active[data-mode="html"]::after {
+      background: var(--accent2);
+    }
+
+    /* TEXTAREA */
+    .paste-zone {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .paste-zone-header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .paste-zone label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .select-all-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .select-all-btn:hover {
+      border-color: var(--text);
+      color: var(--text);
+    }
+
+    .select-all-btn.flash {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: #c8f06015;
+    }
+
+    .paste-zone label span.mode-indicator {
+      margin-left: 8px;
+      padding: 2px 8px;
+      border-radius: 2px;
+      font-size: 0.65rem;
+    }
+
+    .mode-indicator.tsv {
+      background: #c8f06020;
+      color: var(--accent);
+    }
+
+    .mode-indicator.html {
+      background: #60c8f020;
+      color: var(--accent2);
+    }
+
+    textarea {
+      width: 100%;
+      height: 130px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      padding: 14px 16px;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.15s;
+      line-height: 1.6;
+    }
+
+    textarea::placeholder {
+      color: var(--accent);
+    }
+
+    textarea:focus {
+      border-color: var(--muted);
+    }
+
+    .flash-tsv {
+      border-color: var(--accent) !important;
+    }
+
+    .flash-html {
+      border-color: var(--accent2) !important;
+    }
+
+    /* STATUS BAR */
+    .status {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+      min-height: 1.2em;
+      transition: color 0.2s;
+    }
+
+    .status.ok-tsv {
+      color: var(--accent);
+    }
+
+    .status.ok-html {
+      color: var(--accent2);
+    }
+
+    .status.err {
+      color: #f06060;
+    }
+
+    /* TABLE WRAPPER */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+    }
+
+    .table-wrap:empty {
+      display: none;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 0.85rem;
+    }
+
+    thead tr {
+      background: var(--th-bg);
+    }
+
+    th {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 10px 16px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 9px 16px;
+      border-bottom: 1px solid var(--border);
+      white-space: pre-wrap;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: var(--row-odd);
+    }
+
+    tbody tr:nth-child(even) {
+      background: var(--row-even);
+    }
+
+    tbody tr:hover {
+      background: #ffffff08;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* row number col */
+    td.rn,
+    th.rn {
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      text-align: right;
+      padding-right: 12px;
+      user-select: none;
+      width: 1%;
+      white-space: nowrap;
+    }
+
+    /* clickable cells */
+    tbody td:not(.rn) {
+      cursor: pointer;
+    }
+
+    tbody td.copied {
+      outline: 1px solid var(--accent);
+      background: #c8f06018 !important;
+      transition: outline 0.05s, background 0.05s;
+    }
+
+    /* ── TABS ──────────────────────────────────────────────────── */
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 10px 24px;
+      border: none;
+      border-bottom: 2px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      margin-bottom: -1px;
+    }
+
+    .tab-btn:hover {
+      color: var(--text);
+    }
+
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* ── RULES PANEL ────────────────────────────────────────────── */
+    .rules-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .rules-action-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 6px 16px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .rules-action-btn:hover {
+      border-color: var(--text);
+      color: var(--text);
+    }
+
+    .rules-action-btn.btn-add:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .rules-action-btn.btn-remove:hover {
+      border-color: #f06060;
+      color: #f06060;
+    }
+
+    .rules-action-btn.btn-edit:hover {
+      border-color: var(--accent2);
+      color: var(--accent2);
+    }
+
+    .rules-action-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .rules-action-btn:disabled:hover {
+      border-color: var(--border);
+      color: var(--muted);
+    }
+
+    /* column headers */
+    .rules-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 0 12px 8px 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    .rules-col-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* rule rows */
+    .rules-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .rule-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.1s, border-color 0.1s;
+      border-radius: 2px;
+    }
+
+    .rule-row:hover {
+      background: #ffffff06;
+    }
+
+    .rule-row.selected {
+      border-color: var(--accent2);
+      background: #60c8f00c;
+    }
+
+    .rule-row.delete-candidate {
+      border-color: #f06060;
+      background: #f0606010;
+    }
+
+    .rule-row.delete-candidate .rule-cell {
+      color: #f06060aa;
+    }
+
+    .rule-cell {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-all;
+      line-height: 1.5;
+      min-height: 1.2em;
+    }
+
+    .rule-cell.pre {
+      color: #f09060;
+    }
+
+    .rule-cell.post {
+      color: var(--accent);
+    }
+
+    /* inline edit textareas inside a rule row */
+    .rule-row.editing {
+      cursor: default;
+      border-color: var(--accent2);
+      background: #60c8f008;
+    }
+
+    .rule-edit-area {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      padding: 6px 8px;
+      resize: vertical;
+      outline: none;
+      line-height: 1.5;
+      min-height: 60px;
+      transition: border-color 0.15s;
+    }
+
+    .rule-edit-area:focus {
+      border-color: var(--accent2);
+    }
+
+    .rule-edit-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 8px;
+      padding-top: 6px;
+    }
+
+    .rule-edit-save,
+    .rule-edit-cancel {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border: 1px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .rule-edit-save {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .rule-edit-save:hover {
+      background: #c8f06018;
+    }
+
+    .rule-edit-cancel {
+      color: var(--muted);
+    }
+
+    .rule-edit-cancel:hover {
+      color: var(--text);
+      border-color: var(--text);
+    }
+
+    /* delete confirm bar */
+    .delete-bar {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 10px 14px;
+      border: 1px solid #f06060;
+      background: #f0606010;
+    }
+
+    .delete-bar.visible {
+      display: flex;
+    }
+
+    .delete-bar span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: #f06060;
+      flex: 1;
+    }
+
+    .delete-confirm,
+    .delete-cancel {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border: 1px solid;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .delete-confirm {
+      color: #f06060;
+      border-color: #f06060;
+    }
+
+    .delete-confirm:hover {
+      background: #f0606020;
+    }
+
+    .delete-cancel {
+      color: var(--muted);
+      border-color: var(--border);
+    }
+
+    .delete-cancel:hover {
+      color: var(--text);
+      border-color: var(--text);
+    }
+
+    /* add-rule form */
+    .add-rule-form {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .add-rule-form.visible {
+      display: grid;
+    }
+
+    .add-rule-form textarea {
+      width: 100%;
+      height: 80px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      padding: 8px 10px;
+      resize: vertical;
+      outline: none;
+      line-height: 1.5;
+      transition: border-color 0.15s;
+    }
+
+    .add-rule-form textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .add-rule-form label {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .add-rule-form-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 8px;
+    }
+
+    .add-rule-save,
+    .add-rule-cancel {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border: 1px solid;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .add-rule-save {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .add-rule-save:hover {
+      background: #c8f06018;
+    }
+
+    .add-rule-cancel {
+      color: var(--muted);
+      border-color: var(--border);
+    }
+
+    .add-rule-cancel:hover {
+      color: var(--text);
+      border-color: var(--text);
+    }
+
+    .rules-action-btn.btn-run {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .rules-action-btn.btn-run:hover {
+      background: #c8f06018;
+    }
+
+    .rules-action-btn.btn-run:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      background: transparent;
+    }
+
+    .rules-empty {
+      padding: 40px;
+      text-align: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      border: 1px dashed var(--border);
+    }
+
+    /* ── LOG TAB ────────────────────────────────────────────────── */
+    .log-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .hotkey-toolbar {
+      margin-left: auto;
+    }
+
+    .hotkey-hint {
+      position: relative;
+      display: inline-block;
+      cursor: default;
+    }
+
+    .hotkey-tooltip {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      z-index: 100;
+      background: #1e1e1e;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 8px 12px;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .hotkey-hint:hover .hotkey-tooltip {
+      display: block;
+    }
+
+    .rules-action-btn.btn-clear-log:hover {
+      border-color: #f06060;
+      color: #f06060;
+    }
+
+    .log-header {
+      display: grid;
+      grid-template-columns: 180px 1fr 100px;
+      gap: 12px;
+      padding: 0 12px 8px 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    .log-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .log-entry {
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+
+    .log-entry-summary {
+      display: grid;
+      grid-template-columns: 180px 1fr 100px;
+      gap: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+
+    .log-entry-summary:hover {
+      background: #ffffff06;
+    }
+
+    .log-entry.open {
+      border-color: var(--accent2);
+    }
+
+    .log-entry.open .log-entry-summary {
+      background: #60c8f008;
+    }
+
+    .log-entry-summary span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text);
+    }
+
+    .log-entry-summary .log-ts {
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .log-entry-summary .log-count {
+      color: var(--accent2);
+    }
+
+    .log-entry-summary .log-cells {
+      color: var(--muted);
+      font-size: 0.72rem;
+      text-align: right;
+    }
+
+    .log-entry-detail {
+      display: none;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .log-entry.open .log-entry-detail {
+      display: block;
+    }
+
+    .log-detail-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr 60px;
+      gap: 12px;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .log-detail-header span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .log-detail-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 60px;
+      gap: 12px;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .log-detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .log-detail-row span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text);
+      word-break: break-all;
+      white-space: pre-wrap;
+    }
+
+    .log-detail-row .ldr-pre {
+      color: #f09060;
+    }
+
+    .log-detail-row .ldr-post {
+      color: var(--accent);
+    }
+
+    .log-detail-row .ldr-n {
+      color: var(--accent2);
+      text-align: right;
+    }
+
+
+    /* -- DATABASE PANEL --------------------------------------------- */
+
+
+    .status-readout {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 6px 16px;
+      border: 0px solid var(--good);
+      background: transparent;
+      color: var(--good);
+      transition: all 0.15s;
+    }
+
+    .user-readout {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 6px 16px;
+      border: 0px solid var(--good);
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+
+
+    .btn-danger:hover {
+      border-color: var(--bad);
+      transition: all 0.15s ease;
+    }
+
+    .btn-blue:hover {
+      border-color: var(--accent2);
+      transition: all 0.15s ease;
+    }
+
+
+
+
+    .mode-btn-style-copy {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .mode-btn-style-copy:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .mode-btn-style-copy.active[data-mode="tsv"] {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: #c8f06010;
+    }
+
+    .mode-btn-style-copy.active[data-mode="html"] {
+      border-color: var(--accent2);
+      color: var(--accent2);
+      background: #60c8f010;
+    }
+
+    .mode-btn-style-copy.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+    }
+
+    .mode-btn-style-copy.active[data-mode="tsv"]::after {
+      background: var(--accent);
+    }
+
+    .mode-btn-style-copy.active[data-mode="html"]::after {
+      background: var(--accent2);
+    }
+
+
+    /* ── DIFF MODE ──────────────────────────────────────────────── */
+    .diff-banner {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      border: 1px solid #ffe94d;
+      background: #ffe94d0d;
+    }
+
+    .diff-banner.visible {
+      display: flex;
+    }
+
+    .diff-banner-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #ffe94d;
+      white-space: nowrap;
+    }
+
+    .diff-banner-rule {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .diff-banner-rule .dbr-pre {
+      color: #f09060;
+    }
+
+    .diff-banner-rule .dbr-post {
+      color: var(--accent);
+    }
+
+    .diff-banner-rule .dbr-sep {
+      color: var(--muted);
+      margin: 0 6px;
+    }
+
+    .diff-banner-hits {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: #ffe94d;
+      white-space: nowrap;
+    }
+
+    .diff-exit-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border: 1px solid #ffe94d;
+      background: transparent;
+      color: #ffe94d;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .diff-exit-btn:hover {
+      background: #ffe94d18;
+    }
+
+    /* the highlight applied to matched cells in diff mode —
+     inset box-shadow is visible regardless of cell background color */
+    .diff-hit {
+      box-shadow: inset 0 0 0 5px #ffe94d !important;
+      background-color: #ffe94d22 !important;
+      position: relative;
+    }
+
+    /* make hit-count spans in log detail clickable */
+    .ldr-n.clickable {
+      cursor: pointer;
+      text-decoration: underline dotted;
+      transition: color 0.1s;
+    }
+
+    .ldr-n.clickable:hover {
+      color: #ffe94d;
+    }
+
+    .empty-state {
+      padding: 48px;
+      text-align: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      border: 1px dashed var(--border);
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Find → Replace</h1>
+    <span>paste spreadsheet cells, replace macros with a ruleset</span>
+  </header>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="table">Table</button>
+    <button class="tab-btn" data-tab="rules" id="rules-tab-button">Rules</button>
+    <button class="tab-btn" data-tab="log">Log</button>
+    <button class="tab-btn" data-tab="database">Database</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-table">
+
+    <div class="mode-bar">
+      <span class="mode-label">parse via</span>
+      <button class="mode-btn" data-mode="tsv">use_tsv</button>
+      <button class="mode-btn active" data-mode="html">use_html</button>
+    </div>
+
+    <div class="paste-zone">
+      <div class="paste-zone-header">
+        <label>
+          paste target
+          <span class="mode-indicator html" id="modeIndicator">HTML</span>
+        </label>
+        <br> <!-- I added this (Jonny), hehe. -->
+        <button class="select-all-btn" id="selectAllBtn">select_all</button>
+      </div>
+      <textarea id="pasteArea" class="paste-area"
+        placeholder="Click here, then paste your spreadsheet cells (Ctrl+V / Cmd+V)…" spellcheck="false"></textarea>
+    </div>
+
+    <div class="status" id="status">waiting for paste…</div>
+
+    <div class="diff-banner" id="diffBanner">
+      <span class="diff-banner-label">diff mode</span>
+      <span class="diff-banner-rule" id="diffBannerRule"></span>
+      <span class="diff-banner-hits" id="diffBannerHits"></span>
+      <button class="diff-exit-btn" id="diffExitBtn">✕ exit diff</button>
+    </div>
+
+    <div id="runReplaceWrap" style="display:none; margin-bottom: 12px;">
+      <button class="rules-action-btn btn-run" id="runReplaceBtn">⟳ run find + replace</button>
+    </div>
+
+    <div class="table-wrap" id="tableWrap">
+      <div class="empty-state">no data yet — paste something above</div>
+    </div>
+
+  </div><!-- /tab-table -->
+
+  <div class="tab-panel" id="tab-rules">
+
+
+
+    <div class="rules-toolbar">
+      <span class="mode-label">rules</span>
+      <button class="rules-action-btn btn-add" id="ruleAddBtn">+ add</button>
+      <button class="rules-action-btn btn-edit" id="ruleEditBtn" disabled>edit</button>
+      <button class="rules-action-btn btn-remove" id="ruleRemoveBtn" disabled>− remove</button>
+      <div class="hotkey-toolbar">
+        <div class="hotkey-hint">
+          <span class="mode-label">Hotkeys ▾</span>
+          <div class="hotkey-tooltip">
+            <div class="user-readout">a: add new rule</div>
+            <div class="user-readout">s: save current rule</div>
+            <div class="user-readout">e: edit selected rule</div>
+            <div class="user-readout">d: duplicate selected rule</div>
+            <div class="user-readout">c: cancel edits</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rules-header">
+      <span class="rules-col-label">find (pre)</span>
+      <span class="rules-col-label">replace (post)</span>
+    </div>
+
+    <div class="rules-list" id="rulesList">
+      <div class="rules-empty" id="rulesEmpty">no rules yet — click + add to create one</div>
+    </div>
+
+    <div class="add-rule-form" id="addRuleForm">
+      <div>
+        <label>find (pre)</label>
+        <textarea id="addPreTA" placeholder="text to find…" spellcheck="false"></textarea>
+      </div>
+      <div>
+        <label>replace (post)</label>
+        <textarea id="addPostTA" placeholder="replacement text…" spellcheck="false"></textarea>
+      </div>
+      <div class="add-rule-form-actions">
+        <button class="add-rule-save" id="addRuleSave">save</button>
+        <button class="add-rule-cancel" id="addRuleCancel">cancel</button>
+      </div>
+    </div>
+
+    <div class="delete-bar" id="deleteBar">
+      <span id="deleteBarMsg"></span>
+      <button class="delete-cancel" id="deleteCancelBtn">cancel</button>
+      <button class="delete-confirm" id="deleteConfirmBtn">confirm delete</button>
+    </div>
+
+  </div><!-- /tab-rules -->
+
+  <div class="tab-panel" id="tab-log">
+
+    <div class="log-toolbar">
+      <span class="mode-label">run log</span>
+      <button class="rules-action-btn btn-clear-log" id="clearLogBtn" disabled>clear log</button>
+    </div>
+
+    <div class="log-header">
+      <span class="rules-col-label">timestamp</span>
+      <span class="rules-col-label">rules applied</span>
+      <span class="rules-col-label">cells changed</span>
+    </div>
+
+    <div class="log-list" id="logList">
+      <div class="rules-empty" id="logEmpty">no runs yet — use run find + replace on the Table tab</div>
+    </div>
+
+  </div><!-- /tab-log -->
+
+  <div class="tab-panel" id="tab-database">
+
+
+    <div class="log-toolbar">
+      <span class="mode-label">User:</span>
+      <button class="user-readout" id="user-readout" disabled>Pending implementation.</button>
+    </div>
+
+    <div class="log-toolbar">
+      <span class="mode-label">Status:</span>
+      <button class="status-readout" id="status-readout" disabled>No status currently</button>
+    </div>
+
+    <div class="log-header"></div>
+
+    <br>
+
+    <div class="mode-bar">
+      <span class="mode-label">Database Options:</span>
+      <button class="mode-btn-style-copy btn-blue" id="saveUserRuleset">Save Local Ruleset</button>
+      <button class="mode-btn-style-copy" id="loadUserRuleset">Load Local Ruleset</button>
+    </div>
+
+    <br>
+
+    <div class="mode-bar">
+      <span class="mode-label">Admin Options:</span>
+      <button class="mode-btn-style-copy btn-danger" id="saveDefaultRuleset">Save As Default Ruleset</button>
+      <button class="mode-btn-style-copy" id="loadDefaultRuleset">Load Default Ruleset</button>
+    </div>
+
+
+
+  </div><!-- /tab-database -->
+
+  <script>
+    // ── TABS ──────────────────────────────────────────────────────
+
+
+    /*
+
+    claude is using dataset attributes on the buttons, so we can use old-school methods like this to get the data:
+    btn.getAttribute("data-tab");      
+    btn.setAttribute("data-tab", "settings");
+    btn.removeAttribute("data-tab");
+
+    but the HTML attributes map dashes to camel case:
+    data-tab="hey" -> btn.dataset.tab = "hey" 
+    data-user-id -> btn.dataset.userId
+    data-my-long-name -> btn.dataset.myLongName
+
+
+    claude is using these attributes to store state.
+    */
+
+    let activeTab = 'table';
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        console.log("Switching tabs. switched to: " + btn.dataset.tab);
+        activeTab = btn.dataset.tab;
+
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+      });
+    });
+
+    // used specifically for the paste handler
+    let currentMode = 'html';
+
+    const pasteArea = document.getElementById('pasteArea');
+    const tableWrap = document.getElementById('tableWrap');
+    const statusEl = document.getElementById('status');
+    const modeIndicator = document.getElementById('modeIndicator');
+    const modeBtns = document.querySelectorAll('.mode-btn');
+
+    const selectAllBtn = document.getElementById('selectAllBtn');
+
+    // ── SELECT ALL BUTTON ─────────────────────────────────────────
+    selectAllBtn.addEventListener('click', () => {
+      pasteArea.select();
+      pasteArea.focus();
+      selectAllBtn.classList.add('flash');
+      setTimeout(() => selectAllBtn.classList.remove('flash'), 300);
+    });
+    modeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentMode = btn.dataset.mode;
+        modeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (currentMode) modeIndicator.textContent = currentMode.toUpperCase();
+        modeIndicator.className = `mode-indicator ${currentMode}`;
+
+        setStatus(`mode set to ${currentMode} — paste to parse`, `ok-${currentMode}`);
+        // re-parse if there's already content
+        if (pasteArea.value.trim()) triggerRender(null);
+      });
+    });
+
+    // ── PASTE HANDLER ─────────────────────────────────────────────
+    pasteArea.addEventListener('paste', (e) => {
+      e.preventDefault();
+
+      if (currentMode === 'tsv') {
+        const raw = e.clipboardData.getData('text/plain');
+        pasteArea.value = raw;
+        renderFromTSV(raw);
+      } else {
+        const raw = e.clipboardData.getData('text/html');
+        if (raw && raw.trim()) {
+          pasteArea.value = raw;
+          renderFromHTML(raw);
+        } else {
+          // fallback if clipboard has no html format
+          const tsv = e.clipboardData.getData('text/plain');
+          pasteArea.value = tsv;
+          setStatus('no HTML in clipboard — fell back to TSV', 'err');
+          renderFromTSV(tsv);
+        }
+      }
+
+      flashTextarea();
+    });
+
+    // Also re-parse on manual edits (e.g. typing or modifying)
+    pasteArea.addEventListener('input', () => triggerRender(null));
+
+    function triggerRender() {
+      const val = pasteArea.value;
+      if (!val.trim()) {
+        tableWrap.innerHTML = '<div class="empty-state">no data yet — paste something above</div>';
+        setStatus('waiting for paste…', '');
+        return;
+      }
+      if (currentMode === 'tsv') {
+        renderFromTSV(val);
+      } else {
+        renderFromHTML(val);
+      }
+    }
+
+    // ── TSV PARSER ────────────────────────────────────────────────
+    function renderFromTSV(raw) {
+      const rows = raw.trim().split('\n').map(r => r.split('\t'));
+      if (!rows.length || (rows.length === 1 && rows[0].length === 1 && !rows[0][0])) {
+        tableWrap.innerHTML = '<div class="empty-state">could not parse any rows</div>';
+        setStatus('parse error — empty result', 'err');
+        return;
+      }
+
+      const [header, ...body] = rows;
+      let html = '<table><thead><tr><th class="rn">#</th>';
+      header.forEach(cell => {
+        html += `<th>${esc(cell)}</th>`;
+      });
+      html += '</tr></thead><tbody>';
+
+      body.forEach((row, i) => {
+        html += `<tr><td class="rn">${i + 1}</td>`;
+        row.forEach(cell => { html += `<td>${esc(cell)}</td>`; });
+        html += '</tr>';
+      });
+
+      html += '</tbody></table>';
+      tableWrap.innerHTML = html;
+      setStatus(`TSV parsed — ${rows.length} rows × ${header.length} cols`, 'ok-tsv');
+    }
+
+    // ── HTML PARSER ───────────────────────────────────────────────
+    const SAFE_STYLES = [
+      'background-color', 'font-weight', 'font-style',
+      'text-decoration', 'text-align', 'font-size'
+      // 'color' intentionally excluded — we compute it from bg luminance below
+    ];
+
+    // Parse an inline style string into a key→value map
+    function parseStyleAttr(el) {
+      const map = {};
+      const raw = el.getAttribute('style');
+      if (!raw) return map;
+      raw.split(';').forEach(decl => {
+        const idx = decl.indexOf(':');
+        if (idx === -1) return;
+        const prop = decl.slice(0, idx).trim().toLowerCase();
+        const val = decl.slice(idx + 1).trim();
+        if (prop && val) map[prop] = val;
+      });
+      return map;
+    }
+
+    // Convert any CSS color string → [r, g, b] (0–255), or null if transparent/none/missing
+    function parseColor(str) {
+      if (!str) return null;
+      const s = str.trim().toLowerCase();
+      if (s === 'transparent' || s === 'none' || s === 'initial' || s === 'inherit') return null;
+
+      // rgb() / rgba()
+      const rgbMatch = s.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+      if (rgbMatch) {
+        // treat rgba with alpha=0 as transparent
+        const alphaMatch = s.match(/rgba\(.*,\s*([\d.]+)\s*\)/);
+        if (alphaMatch && parseFloat(alphaMatch[1]) === 0) return null;
+        return [parseInt(rgbMatch[1]), parseInt(rgbMatch[2]), parseInt(rgbMatch[3])];
+      }
+
+      // hex #rrggbb / #rgb / #rrggbbaa
+      const hexMatch = s.match(/^#([0-9a-f]+)$/);
+      if (hexMatch) {
+        const h = hexMatch[1];
+        if (h.length === 3) {
+          return [parseInt(h[0] + h[0], 16), parseInt(h[1] + h[1], 16), parseInt(h[2] + h[2], 16)];
+        }
+        if (h.length >= 6) {
+          return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+        }
+      }
+
+      // Named colors — handle the ones Excel/Sheets commonly emit
+      const named = {
+        white: '#ffffff', black: '#000000', red: '#ff0000', green: '#008000',
+        blue: '#0000ff', yellow: '#ffff00', orange: '#ffa500', purple: '#800080',
+        pink: '#ffc0cb', cyan: '#00ffff', magenta: '#ff00ff', lime: '#00ff00',
+        silver: '#c0c0c0', gray: '#808080', grey: '#808080', maroon: '#800000',
+        navy: '#000080', teal: '#008080', olive: '#808000'
+      };
+      if (named[s]) return parseColor(named[s]);
+
+      return null; // unknown format — treat as no background
+    }
+
+    // WCAG relative luminance (0 = black, 1 = white)
+    function luminance([r, g, b]) {
+      const c = [r, g, b].map(v => {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+    }
+
+    // Returns a forced text color based on bg, or null if no bg (let site theme handle it)
+    // Threshold: luminance > 0.35 → dark text, < 0.35 → light text
+    function contrastColor(bgStr) {
+      const rgb = parseColor(bgStr);
+      if (!rgb) return null;                          // transparent/missing → site theme
+      return luminance(rgb) > 0.35 ? '#111111' : '#f0f0f0';
+    }
+
+    function buildCellStyle(styleMap) {
+      const parts = [];
+      // carry over safe non-color styles
+      SAFE_STYLES.forEach(prop => {
+        if (styleMap[prop]) parts.push(`${prop}:${styleMap[prop]}`);
+      });
+      // compute forced text color from background
+      const forced = contrastColor(styleMap['background-color']);
+      if (forced) parts.push(`color:${forced}`);
+      return parts.join(';');
+    }
+
+    function renderFromHTML(raw) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(raw, 'text/html');
+      const srcTable = doc.querySelector('table');
+
+      if (!srcTable) {
+        setStatus('no <table> found in HTML clipboard data', 'err');
+        tableWrap.innerHTML = '<div class="empty-state">no table found in pasted HTML</div>';
+        return;
+      }
+
+      const allRows = Array.from(srcTable.querySelectorAll('tr'));
+      if (!allRows.length) {
+        setStatus('table found but no rows', 'err');
+        return;
+      }
+
+      const headerCells = Array.from(allRows[0].querySelectorAll('th, td'));
+      const bodyRows = allRows.slice(1);
+
+      let html = '<table><thead><tr><th class="rn">#</th>';
+      headerCells.forEach(cell => {
+        const style = buildCellStyle(parseStyleAttr(cell));
+        html += `<th${style ? ` style="${style}"` : ''}>${esc(cell.textContent.trim())}</th>`;
+      });
+      html += '</tr></thead><tbody>';
+
+      bodyRows.forEach((row, i) => {
+        const rowMap = parseStyleAttr(row);
+        const rowStyle = buildCellStyle(rowMap);
+        html += `<tr${rowStyle ? ` style="${rowStyle}"` : ''}><td class="rn">${i + 1}</td>`;
+        Array.from(row.querySelectorAll('th, td')).forEach(cell => {
+          // cell bg takes priority over row bg; fall back to row bg if cell has none
+          const cellMap = parseStyleAttr(cell);
+          if (!cellMap['background-color'] && rowMap['background-color']) {
+            cellMap['background-color'] = rowMap['background-color'];
+          }
+          const style = buildCellStyle(cellMap);
+          html += `<td${style ? ` style="${style}"` : ''}>${esc(cell.textContent.trim())}</td>`;
+        });
+        html += '</tr>';
+      });
+
+      html += '</tbody></table>';
+      tableWrap.innerHTML = html;
+      setStatus(`HTML parsed — ${allRows.length} rows × ${headerCells.length} cols`, 'ok-html');
+    }
+
+    // ── CELL CLICK → COPY ────────────────────────────────────────
+    tableWrap.addEventListener('click', (e) => {
+      const td = e.target.closest('tbody td:not(.rn)');
+      if (!td) return;
+      const text = td.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        td.classList.add('copied');
+        setStatus(`copied: "${text.length > 40 ? text.slice(0, 40) + '…' : text}"`, 'ok-tsv');
+        setTimeout(() => td.classList.remove('copied'), 600);
+      }).catch(() => {
+        setStatus('clipboard write failed (check browser permissions)', 'err');
+      });
+    });
+
+
+    function esc(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function setStatus(msg, cls) {
+      statusEl.textContent = msg;
+      statusEl.className = `status ${cls}`;
+    }
+
+    function flashTextarea() {
+      pasteArea.classList.add(`flash-${currentMode}`);
+      setTimeout(() => pasteArea.classList.remove(`flash-${currentMode}`), 400);
+    }
+
+    // ── RULES ─────────────────────────────────────────────────────
+    let rules = [];          // [{pre, post}, ...]
+    let selectedRuleIdx = null;
+    let deleteMode = false;
+    let deleteCandidates = new Set();
+
+    const rulesList = document.getElementById('rulesList');
+    const rulesEmpty = document.getElementById('rulesEmpty');
+    const ruleAddBtn = document.getElementById('ruleAddBtn');
+    const ruleEditBtn = document.getElementById('ruleEditBtn');
+    const ruleRemoveBtn = document.getElementById('ruleRemoveBtn');
+    const addRuleForm = document.getElementById('addRuleForm');
+    const addPreTA = document.getElementById('addPreTA');
+    const addPostTA = document.getElementById('addPostTA');
+    const addRuleSave = document.getElementById('addRuleSave');
+    const addRuleCancel = document.getElementById('addRuleCancel');
+    const deleteBar = document.getElementById('deleteBar');
+    const deleteBarMsg = document.getElementById('deleteBarMsg');
+    const deleteConfirmBtn = document.getElementById('deleteConfirmBtn');
+    const deleteCancelBtn = document.getElementById('deleteCancelBtn');
+
+    function renderRules() {
+      // remove existing rule rows (keep rulesEmpty)
+      rulesList.querySelectorAll('.rule-row').forEach(r => r.remove());
+
+      rulesEmpty.style.display = rules.length === 0 ? '' : 'none';
+
+      rules.forEach((rule, i) => {
+        const row = document.createElement('div');
+        row.className = 'rule-row';
+        row.dataset.idx = i;
+
+        if (deleteMode && deleteCandidates.has(i)) row.classList.add('delete-candidate');
+        else if (!deleteMode && selectedRuleIdx === i) row.classList.add('selected');
+
+        row.innerHTML = `
+        <div class="rule-cell pre">${escHtml(rule.pre)}</div>
+        <div class="rule-cell post">${escHtml(rule.post)}</div>
+      `;
+
+        row.addEventListener('click', () => onRuleRowClick(i, row));
+        rulesList.appendChild(row);
+      });
+
+      // toolbar button states
+      const hasSel = selectedRuleIdx !== null;
+      ruleEditBtn.disabled = !hasSel || deleteMode;
+      ruleRemoveBtn.disabled = rules.length === 0 || deleteMode;
+    }
+
+    function onRuleRowClick(i, row) {
+      if (deleteMode) {
+        // toggle candidate
+        if (deleteCandidates.has(i)) deleteCandidates.delete(i);
+        else deleteCandidates.add(i);
+        updateDeleteBar();
+        renderRules();
+        return;
+      }
+
+      // if this row is currently in edit mode, ignore click
+      if (row.classList.contains('editing')) return;
+
+      // toggle selection
+      selectedRuleIdx = selectedRuleIdx === i ? null : i;
+      renderRules();
+    }
+
+    // ── ADD RULE ──────────────────────────────────────────────────
+    function addNewRule() {
+      exitDeleteMode(false);
+      selectedRuleIdx = null;
+      addPreTA.value = '';
+      addPostTA.value = '';
+      addRuleForm.classList.add('visible');
+      addPreTA.focus();
+    }
+    ruleAddBtn.addEventListener('click', () => {
+      addNewRule();
+    });
+
+    function saveCurrentRule() {
+      const pre = addPreTA.value;
+      const post = addPostTA.value;
+      if (!pre && !post) { addRuleForm.classList.remove('visible'); return; }
+      rules.push({ pre, post });
+      addRuleForm.classList.remove('visible');
+      selectedRuleIdx = rules.length - 1;
+      renderRules();
+      saveLocalRulesetLS(); // this line makes our edits save to our local version, so that they can always be recalled.
+    }
+
+    // heyooo!! I wrote this fairly quickly, and it works. Woohoo!!
+    function duplicateSelectedRule() {
+      if (selectedRuleIdx === null) return;
+      const i = selectedRuleIdx;
+      const row = rulesList.querySelectorAll('.rule-row')[i];
+      if (!row || row.classList.contains('editing')) return;
+
+      const rule = rules[i];
+      console.log(rule);
+
+      addNewRule();
+      addPreTA.value = rule.pre;
+      addPostTA.value = rule.post;
+
+    }
+
+    addRuleSave.addEventListener('click', () => {
+      saveCurrentRule();
+    });
+
+    function cancelCurrentRule() {
+      addRuleForm.classList.remove('visible');
+
+    }
+    addRuleCancel.addEventListener('click', () => {
+      cancelCurrentRule();
+    });
+
+
+    // ── EDIT RULE ─────────────────────────────────────────────────
+
+
+
+    function editSelectedRule() {
+      if (selectedRuleIdx === null) return;
+      const i = selectedRuleIdx;
+      const row = rulesList.querySelectorAll('.rule-row')[i];
+      if (!row || row.classList.contains('editing')) return;
+
+      const rule = rules[i];
+      row.classList.add('editing');
+      // the class is eventually destroyed in renderRules, right after the .forEach(r => r.remove());
+
+
+      row.innerHTML = `
+      <div>
+        <textarea class="rule-edit-area" id="editPreTA" spellcheck="false">${escHtml(rule.pre)}</textarea>
+      </div>
+      <div>
+        <textarea class="rule-edit-area" id="editPostTA" spellcheck="false">${escHtml(rule.post)}</textarea>
+      </div>
+      <div class="rule-edit-actions">
+        <button class="rule-edit-save">save</button>
+        <button class="rule-edit-cancel">cancel</button>
+      </div>
+    `;
+
+      row.querySelector('.rule-edit-save').addEventListener('click', (e) => {
+        e.stopPropagation();
+        rules[i].pre = row.querySelector('#editPreTA').value;
+        rules[i].post = row.querySelector('#editPostTA').value;
+        renderRules();
+      });
+
+      row.querySelector('.rule-edit-cancel').addEventListener('click', (e) => {
+        e.stopPropagation();
+        renderRules();
+      });
+
+      row.querySelector('#editPreTA').focus();
+    }
+
+    ruleEditBtn.addEventListener('click', () => editSelectedRule());
+
+    // key press listener:
+    // keycodes:
+    // e: 69
+    // a: 65
+    // d: 68
+    // s: 83
+    // c: 67
+
+    document.addEventListener('keydown', (e) => {
+      console.log("Keydown: " + e.key + ", " + e.keyCode);
+      if (activeTab === 'rules') {
+        const tag = document.activeElement.tagName;
+        // tagName is a property on any DOM element that returns its HTML tag as an uppercase string
+        // document.activeElement.tagName  // "TEXTAREA", "INPUT", "BUTTON", "DIV", etc.
+
+        // console.log(tag);
+        if (tag === 'TEXTAREA' || tag === 'INPUT') return; // user is typing, bail out
+
+        // console.log("Running hotkey.");
+
+        if (e.keyCode === 69) { // e
+          e.preventDefault();
+          editSelectedRule();
+        } else if (e.keyCode === 65) { // a
+          e.preventDefault();
+          addNewRule();
+        } else if (e.keyCode === 68) { // d
+          e.preventDefault();
+          duplicateSelectedRule();
+        } else if (e.keyCode === 83) { // s
+          e.preventDefault();
+          saveCurrentRule();
+        } else if (e.keyCode === 67) { // c
+          e.preventDefault();
+          cancelCurrentRule();
+        }
+
+      }
+    });
+
+    // ── REMOVE / DELETE MODE ──────────────────────────────────────
+    ruleRemoveBtn.addEventListener('click', () => {
+      if (rules.length === 0) return;
+      deleteMode = true;
+      deleteCandidates.clear();
+      selectedRuleIdx = null;
+      addRuleForm.classList.remove('visible');
+      updateDeleteBar();
+      renderRules();
+    });
+
+    function updateDeleteBar() {
+      const n = deleteCandidates.size;
+      deleteBarMsg.textContent = n === 0
+        ? 'click rules to mark for deletion'
+        : `${n} rule${n > 1 ? 's' : ''} marked for deletion`;
+      deleteBar.classList.add('visible');
+    }
+
+    deleteConfirmBtn.addEventListener('click', () => {
+      rules = rules.filter((_, i) => !deleteCandidates.has(i));
+      exitDeleteMode(true);
+      saveLocalRulesetLS();
+    });
+
+    deleteCancelBtn.addEventListener('click', () => exitDeleteMode(false));
+
+    function exitDeleteMode(render) {
+      deleteMode = false;
+      deleteCandidates.clear();
+      deleteBar.classList.remove('visible');
+      // always re-render to clear red highlight from rows
+      renderRules();
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    renderRules();
+
+    // ── RUN FIND + REPLACE ────────────────────────────────────────
+    const runReplaceWrap = document.getElementById('runReplaceWrap');
+    const runReplaceBtn = document.getElementById('runReplaceBtn');
+    const logList = document.getElementById('logList');
+    const logEmpty = document.getElementById('logEmpty');
+    const clearLogBtn = document.getElementById('clearLogBtn');
+    const diffBanner = document.getElementById('diffBanner');
+    const diffBannerRule = document.getElementById('diffBannerRule');
+    const diffBannerHits = document.getElementById('diffBannerHits');
+    const diffExitBtn = document.getElementById('diffExitBtn');
+
+    let runLog = [];
+    let diffMode = false;
+    let liveTableHTML = null; // saved so we can restore on exit
+
+    function updateRunBtn() {
+      const hasTable = tableWrap.querySelector('table') !== null;
+      runReplaceWrap.style.display = hasTable && !diffMode ? '' : 'none';
+      if (!diffMode) runReplaceBtn.disabled = rules.length === 0;
+    }
+
+    new MutationObserver(updateRunBtn).observe(tableWrap, { childList: true, subtree: false });
+
+    runReplaceBtn.addEventListener('click', () => {
+      if (rules.length === 0 || diffMode) return;
+
+      const cells = tableWrap.querySelectorAll('tbody td:not(.rn)');
+      if (!cells.length) return;
+
+      // per-rule: hit counts + exactly which cells were touched
+      const ruleCounts = rules.map(() => 0);
+      const ruleChanges = rules.map(() => []); // [{rowIdx, colIdx, before, after}]
+      const allChanged = [];
+
+      cells.forEach(td => {
+        const row = td.closest('tr');
+        const rowIdx = row ? Array.from(row.parentElement.children).indexOf(row) : -1;
+        const colIdx = Array.from(td.parentElement.children).indexOf(td);
+        const originalText = td.textContent;
+        let text = originalText;
+
+
+        /*
+        This version is case-sensitive. We're going to ignore case.
+
+        rules.forEach((rule, ri) => {
+          if (!rule.pre) return;
+          const parts = text.split(rule.pre);
+          const hits = parts.length - 1;
+          if (hits > 0) {
+            const textBefore = text;
+            text = parts.join(rule.post);
+            ruleCounts[ri] += hits;
+            ruleChanges[ri].push({ rowIdx, colIdx, before: textBefore, after: text });
+          }
+        });
+        */
+        rules.forEach((rule, ri) => {
+          if (!rule.pre) return;
+          const escaped = rule.pre.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const regex = new RegExp(escaped, 'gi');
+          const parts = text.split(regex);
+          const hits = parts.length - 1;
+          if (hits > 0) {
+            const textBefore = text;
+            text = parts.join(rule.post);
+            ruleCounts[ri] += hits;
+            ruleChanges[ri].push({ rowIdx, colIdx, before: textBefore, after: text });
+          }
+        });
+
+
+        if (text !== originalText) {
+          td.textContent = text;
+          allChanged.push({ rowIdx, colIdx, before: originalText, after: text });
+        }
+      });
+
+      const totalHits = ruleCounts.reduce((a, b) => a + b, 0);
+
+      // snapshot the full table HTML *after* changes are applied
+      const tableSnapshotHTML = tableWrap.querySelector('table')
+        ? tableWrap.querySelector('table').outerHTML
+        : null;
+
+      const entry = {
+        timestamp: new Date(),
+        rulesSnap: rules.map((r, i) => ({
+          pre: r.pre,
+          post: r.post,
+          count: ruleCounts[i],
+          cellsAffected: ruleChanges[i]
+        })),
+        cellChanges: allChanged,
+        totalCells: allChanged.length,
+        tableSnapshotHTML
+      };
+
+      runLog.push(entry);
+      renderLog();
+      setStatus(`find + replace applied — ${totalHits} replacement${totalHits !== 1 ? 's' : ''} across ${allChanged.length} cell${allChanged.length !== 1 ? 's' : ''}`, 'ok-tsv');
+    });
+
+    // ── DIFF MODE ─────────────────────────────────────────────────
+    function enterDiffMode(entry, ruleIdx) {
+      const rule = entry.rulesSnap[ruleIdx];
+      if (!entry.tableSnapshotHTML || !rule) return;
+
+      // switch to Table tab
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelector('.tab-btn[data-tab="table"]').classList.add('active');
+      document.getElementById('tab-table').classList.add('active');
+
+      // save live table so we can restore it
+      const liveTable = tableWrap.querySelector('table');
+      liveTableHTML = liveTable ? liveTable.outerHTML : null;
+
+      // render the historical snapshot
+      tableWrap.innerHTML = entry.tableSnapshotHTML;
+
+      // highlight the cells this specific rule touched
+      const tbody = tableWrap.querySelector('tbody');
+      if (tbody) {
+        const trs = Array.from(tbody.querySelectorAll('tr'));
+        rule.cellsAffected.forEach(({ rowIdx, colIdx }) => {
+          const tr = trs[rowIdx];
+          if (!tr) return;
+          const td = tr.children[colIdx];
+          if (td) td.classList.add('diff-hit');
+        });
+      }
+
+      // show banner
+      diffBannerRule.innerHTML =
+        `<span class="dbr-pre">${escHtml(rule.pre)}</span>` +
+        `<span class="dbr-sep">→</span>` +
+        `<span class="dbr-post">${escHtml(rule.post)}</span>`;
+      diffBannerHits.textContent = `×${rule.count} hit${rule.count !== 1 ? 's' : ''}`;
+      diffBanner.classList.add('visible');
+      diffMode = true;
+      runReplaceWrap.style.display = 'none';
+    }
+
+    function exitDiffMode() {
+      diffMode = false;
+      diffBanner.classList.remove('visible');
+
+      // restore live table
+      if (liveTableHTML) {
+        tableWrap.innerHTML = liveTableHTML;
+        liveTableHTML = null;
+      }
+
+      // always strip any lingering diff-hit classes — guards against
+      // double-entry where a snapshot-with-highlights got saved as liveTableHTML
+      tableWrap.querySelectorAll('.diff-hit').forEach(el => el.classList.remove('diff-hit'));
+
+      updateRunBtn();
+      setStatus('diff mode exited', '');
+    }
+
+    diffExitBtn.addEventListener('click', exitDiffMode);
+
+    // ── LOG RENDERING ─────────────────────────────────────────────
+    function renderLog() {
+      logList.querySelectorAll('.log-entry').forEach(el => el.remove());
+      logEmpty.style.display = runLog.length === 0 ? '' : 'none';
+      clearLogBtn.disabled = runLog.length === 0;
+
+      runLog.forEach((entry, ei) => {
+        const ts = entry.timestamp;
+        const tsStr = ts.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+          + ' ' + ts.toLocaleDateString([], { month: 'short', day: 'numeric' });
+
+        const appliedRules = entry.rulesSnap.filter(r => r.count > 0);
+        const summaryLabel = appliedRules.length === 0
+          ? 'no matches'
+          : `${appliedRules.length} rule${appliedRules.length !== 1 ? 's' : ''}`;
+
+        const el = document.createElement('div');
+        el.className = 'log-entry';
+
+        let detailRows = '';
+        if (appliedRules.length === 0) {
+          detailRows = `<div class="log-detail-row"><span style="color:var(--muted);grid-column:1/-1">no rules matched any cell content</span></div>`;
+        } else {
+          // build detail rows with clickable hit counts
+          // we need original ruleSnap index for diff lookup
+          entry.rulesSnap.forEach((r, ri) => {
+            if (r.count === 0) return;
+            const isClickable = entry.tableSnapshotHTML && r.cellsAffected.length > 0;
+            detailRows += `
+            <div class="log-detail-row">
+              <span class="ldr-pre">${escHtml(r.pre)}</span>
+              <span class="ldr-post">${escHtml(r.post)}</span>
+              <span class="ldr-n${isClickable ? ' clickable' : ''}"
+                    data-entry="${ei}" data-rule="${ri}"
+                    title="${isClickable ? 'Click to view diff on Table tab' : ''}">×${r.count}</span>
+            </div>`;
+          });
+        }
+
+        el.innerHTML = `
+        <div class="log-entry-summary">
+          <span class="log-ts">${escHtml(tsStr)}</span>
+          <span class="log-count">${escHtml(summaryLabel)}</span>
+          <span class="log-cells">${entry.totalCells} cell${entry.totalCells !== 1 ? 's' : ''}</span>
+        </div>
+        <div class="log-entry-detail">
+          <div class="log-detail-header">
+            <span>find (pre)</span>
+            <span>replace (post)</span>
+            <span style="text-align:right">hits</span>
+          </div>
+          ${detailRows}
+        </div>`;
+
+        el.querySelector('.log-entry-summary').addEventListener('click', () => {
+          el.classList.toggle('open');
+        });
+
+        // wire up clickable hit counts
+        el.querySelectorAll('.ldr-n.clickable').forEach(span => {
+          span.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const entryIdx = parseInt(span.dataset.entry);
+            const ruleIdx = parseInt(span.dataset.rule);
+            enterDiffMode(runLog[entryIdx], ruleIdx);
+          });
+        });
+
+        logList.appendChild(el);
+      });
+    }
+
+    clearLogBtn.addEventListener('click', () => {
+      if (diffMode) exitDiffMode();
+      runLog = [];
+      renderLog();
+    });
+
+    renderLog();
+
+
+    /*
+    :root {
+      --bg: #090b0d;
+      --surface: #161719;
+      --border: #2a2c30;
+      --accent: #f0d660;
+      --accent2: #60c8f0;
+      --good: #50b967;
+      --text: #e8eaed;
+      --muted: #9aa0ac;
+      --row-even: #13141600;
+      --row-odd: #1c1e2255;
+      --th-bg: #1e2024;
+    }
+
+    */
+
+    /*
+    user-readout
+    status-readout
+
+    saveUserRuleset
+    loadUserRuleset
+    saveDefaultRuleset
+    loadDefaultRuleset
+
+    */
+
+
+    document.getElementById('rules-tab-button').addEventListener('click', () => {
+      renderRules();
+    });
+
+
+    setTimeout(async () => {
+      loadLocalRulesetLS();
+      if (rules.length === 0) {
+        rules = await getDefaultRuleset();
+      }
+    }, 20);
+
+
+    const ur = document.getElementById('user-readout');
+    const sr = document.getElementById('status-readout');
+
+    const sur = document.getElementById('saveUserRuleset');
+    const lur = document.getElementById('loadUserRuleset');
+    const sdr = document.getElementById('saveDefaultRuleset');
+    const ldr = document.getElementById('loadDefaultRuleset');
+
+    const blob_default = 'fr_ruleset_default';
+    const blob_user = 'fr_ruleset_user';
+
+    const ls = 'fr_ruleset_localstorage';
+
+
+    // save local ruleset
+    function saveLocalRulesetLS() {
+      localStorage.setItem(ls, JSON.stringify(rules));
+      setStatus('Saved local ruleset.', 'var(--good)');
+    }
+    sur.addEventListener('click', () => {
+      saveLocalRulesetLS();
+    });
+    // load local ruleset
+    function loadLocalRulesetLS() {
+      const rsloaded = JSON.parse(localStorage.getItem(ls));
+      rules = rsloaded;
+      if (!rules) rules = [];
+      setStatus('Loaded local ruleset.', 'var(--good)');
+    }
+    lur.addEventListener('click', () => {
+      loadLocalRulesetLS();
+    });
+
+
+    sdr.addEventListener('click', async () => {
+      const res = prompt('Are you sure you want to overwrite the default ruleset? Enter the password to confirm.', 'no');
+      if (res.toLowerCase() === 'absolutely') {
+        postDefaultRuleset(rules);
+      } else {
+        setStatus('Failed to save default ruleset; entered incorrect password.', 'var(--bad)');
+      }
+
+    });
+
+    ldr.addEventListener('click', async () => {
+      rules = await getDefaultRuleset();
+
+      renderRules();
+
+      // Going to choose not to overwrite local storage:
+      // localStorage.setItem(ls, JSON.stringify(rules));
+    });
+
+
+    function setStatus(text, color = 'var(--muted)') {
+      console.log("%cSetting status to:", "color: #00aa00");
+      console.log(text);
+
+      sr.textContent = text;
+      sr.style.color = color;
+    }
+
+    async function postDefaultRuleset(blob) {
+      setStatus('Saving ruleset as default ruleset', 'var(--accent)');
+      post_blob(getLocation(blob_default), blob, (successResponse) => {
+        setStatus("Succeeded saving default ruleset.", 'var(--good)');
+      }, (failResponse) => {
+        setStatus("Failed to save default ruleset.", 'var(--bad)');
+      });
+    }
+
+    async function getDefaultRuleset() {
+      setStatus('Loading default ruleset', 'var(--accent)');
+      const blob = await get_blob(getLocation(blob_default)).then((result) => {
+        setStatus('Successfully loaded default ruleset. We have not overwritten your local version.', 'var(--good)');
+
+        // console.log("Logging result here...");
+        // console.log(result);
+        // console.log(typeof result);
+
+        return result;
+      }).catch((error) => {
+        setStatus('Failed getting default ruleset. See console for error', 'var(--bad)');
+        console.error(error);
+
+        return '[]';
+      });
+
+      // console.log("Logging blob again...");
+      // console.log(blob);
+      // console.log(typeof blob);
+      return JSON.parse(blob);
+    }
+
+  </script>
+</body>
+
+</html>

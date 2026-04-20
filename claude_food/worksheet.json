@@ -1,0 +1,69 @@
+// Programmatic mode:
+{
+  "mode": "programmatic",
+  "slis": [
+    {
+      "name": "string",
+      "dealID": "string",
+      "seatID": "string",
+      "schedule": "string",
+      "quantity": "string",
+      "quantityBuffer": "string",
+      "price": "string",
+      "inventory": "string",
+      "creativeLength": "string",
+      "fcaps": "string"
+    }
+  ],
+  "salesforceMessage": "string"
+}
+// 1x1 mode
+{
+  "mode": "1x1",
+  "plis": [
+    {
+      "name": "string",
+      "fields": [
+        {
+          "label": "string",
+          "url": "string"
+        }
+      ]
+    }
+  ]
+}
+// Payload Format:
+{
+  "mode": "programmatic" /or/ "1x1",
+  "items": [ /example here is for the blank 'on launch' message/
+    {
+      "item_id": 0,
+      "item_title": "SLI 1",
+      "contents": [
+        {
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_contents": /what gets pasted when you run ctrl+1/,
+          "c_type": "string"
+        },
+        {
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_contents": /what gets pasted when you run ctrl+2/,
+          "c_type": "string"
+        },
+        /.../
+        {
+          /This is a blank entry. When we use ctrl+1-0 to read a payload, if an expected "c_id" is not present, we can assume it looks like this; with a blank c_title and c_contents/
+          "c_id": 11,
+          "c_title": "",
+          "c_contents": "",
+          "c_type": "string"
+        }
+        
+        /We can tell here that 'c_id' 0 - 9 is responsible for the pasting done by ctrl + 1 - 0/
+        /'c_id' 10 - 19 is responsible for the pasting done by ctrl + shift + 1 - 0/
+      ]
+    }
+  ]
+}

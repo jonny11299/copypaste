@@ -9,9 +9,11 @@
     "preview": "electron-vite preview",
     "sfmessage": "node scripts/sfmessage.js",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "postinstall": "electron-rebuild -f -w better-sqlite3"
   },
   "devDependencies": {
+    "@electron/rebuild": "^4.0.4",
     "@sveltejs/vite-plugin-svelte": "^2.5.3",
     "electron": "^31.7.7",
     "electron-vite": "^2.3.0",
@@ -20,6 +22,7 @@
     "vitest": "^4.1.4"
   },
   "dependencies": {
+    "better-sqlite3": "^12.9.0",
     "xlsx": "^0.18.5"
   }
 }

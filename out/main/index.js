@@ -3,6 +3,83 @@ const electron = require("electron");
 const path = require("path");
 const fs = require("fs");
 const XLSX = require("xlsx");
+const Database = require("better-sqlite3");
+let db = null;
+function initDb() {
+  db = new Database(":memory:");
+  db.exec(`
+    CREATE TABLE payloads (
+      id       INTEGER PRIMARY KEY AUTOINCREMENT,
+      name     TEXT    NOT NULL,
+      mode     TEXT    NOT NULL,
+      saved_at TEXT    NOT NULL
+    );
+    CREATE TABLE chunks (
+      id          INTEGER PRIMARY KEY AUTOINCREMENT,
+      payload_id  INTEGER NOT NULL REFERENCES payloads(id),
+      chunk_index INTEGER NOT NULL,
+      chunk_title TEXT    NOT NULL
+    );
+    CREATE TABLE items (
+      id         INTEGER PRIMARY KEY AUTOINCREMENT,
+      chunk_id   INTEGER NOT NULL REFERENCES chunks(id),
+      item_index INTEGER NOT NULL,
+      item_title TEXT    NOT NULL
+    );
+    CREATE TABLE contents (
+      id         INTEGER PRIMARY KEY AUTOINCREMENT,
+      item_id    INTEGER NOT NULL REFERENCES items(id),
+      c_id       INTEGER NOT NULL,
+      c_title    TEXT    NOT NULL,
+      c_contents TEXT    NOT NULL,
+      c_override TEXT,
+      c_type     TEXT    NOT NULL DEFAULT 'string'
+    );
+  `);
+}
+function savePayload(name, payload) {
+  db.exec("DELETE FROM contents; DELETE FROM items; DELETE FROM chunks; DELETE FROM payloads;");
+  const savedAt = (/* @__PURE__ */ new Date()).toISOString();
+  const insertPayload = db.prepare("INSERT INTO payloads (name, mode, saved_at) VALUES (?, ?, ?)");
+  const insertChunk = db.prepare("INSERT INTO chunks (payload_id, chunk_index, chunk_title) VALUES (?, ?, ?)");
+  const insertItem = db.prepare("INSERT INTO items (chunk_id, item_index, item_title) VALUES (?, ?, ?)");
+  const insertContent = db.prepare(
+    "INSERT INTO contents (item_id, c_id, c_title, c_contents, c_override, c_type) VALUES (?, ?, ?, ?, ?, ?)"
+  );
+  const payloadId = insertPayload.run(name, payload.mode, savedAt).lastInsertRowid;
+  const chunkId = insertChunk.run(payloadId, 0, "Programmatic Chunk").lastInsertRowid;
+  const saveAll = db.transaction(() => {
+    for (let i = 0; i < payload.items.length; i++) {
+      const item = payload.items[i];
+      const itemId = insertItem.run(chunkId, i, item.item_title).lastInsertRowid;
+      for (const c of item.contents) {
+        insertContent.run(itemId, c.c_id, c.c_title, c.c_contents, null, c.c_type ?? "string");
+      }
+    }
+  });
+  saveAll();
+}
+function queryAll() {
+  return db.prepare(`
+    SELECT
+      p.name        AS payload_name,
+      p.mode        AS payload_mode,
+      p.saved_at,
+      k.chunk_title,
+      i.item_index,
+      i.item_title,
+      c.c_id,
+      c.c_title,
+      c.c_contents,
+      c.c_override,
+      c.c_type
+    FROM payloads p
+    JOIN chunks   k ON k.payload_id = p.id
+    JOIN items    i ON i.chunk_id   = k.id
+    JOIN contents c ON c.item_id    = i.id
+    ORDER BY i.item_index, c.c_id
+  `).all();
+}
 const COL = {
   SLI_ID: 16,
   PREFIX: 23,
@@ -402,7 +479,9 @@ const DATA_DIR = path.join(__dirname, "../../data");
 const LINKS_FILE = path.join(DATA_DIR, "quicklinks.json");
 let mainWin = null;
 let menuWin = null;
+let payloadTableWin = null;
 let cachedRows = [];
+let cachedFileName = "unknown";
 let currentPayload = null;
 function createMainWindow() {
   const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
@@ -452,7 +531,33 @@ function createMenuWindow() {
     menuWin = null;
   });
 }
+function createPayloadTableWindow() {
+  if (payloadTableWin) {
+    payloadTableWin.focus();
+    return;
+  }
+  payloadTableWin = new electron.BrowserWindow({
+    width: 1100,
+    height: 680,
+    center: true,
+    resizable: true,
+    frame: false,
+    webPreferences: {
+      preload: path.join(__dirname, "../preload/index.js"),
+      contextIsolation: true
+    }
+  });
+  if (process.env["ELECTRON_RENDERER_URL"]) {
+    payloadTableWin.loadURL(process.env["ELECTRON_RENDERER_URL"] + "/payloadtable.html");
+  } else {
+    payloadTableWin.loadFile(path.join(__dirname, "../renderer/payloadtable.html"));
+  }
+  payloadTableWin.on("closed", () => {
+    payloadTableWin = null;
+  });
+}
 electron.app.whenReady().then(() => {
+  initDb();
   createMainWindow();
   createMenuWindow();
   KEYS.forEach((key) => {
@@ -517,9 +622,14 @@ electron.ipcMain.handle("load-workbook", (_, filePath) => {
   const missingMagRow = getMissingMagniteLine(dataRows);
   const missingMagniteLine = missingMagRow ? getCellValue(missingMagRow, COL.PRODUCTION_LINE_NAME) : null;
   cachedRows = dataRows;
+  cachedFileName = filePath.split("/").pop();
   return { mismatches, headerComparison, rowCount: dataRows.length, badOrderIDs, hasSplit, missingMagniteLine };
 });
-electron.ipcMain.handle("process-file", (_, opts) => processRows(cachedRows, opts));
+electron.ipcMain.handle("process-file", (_, opts) => {
+  const payload = processRows(cachedRows, opts);
+  if (payload?.mode === "programmatic") savePayload(cachedFileName, payload);
+  return payload;
+});
 electron.ipcMain.handle("parse-pasted-slis", (_, text) => parsePastedSLIs(text));
 electron.ipcMain.handle("parse-pasted-plis", (_, text) => parsePastedPLIs(text));
 electron.ipcMain.on("setup-complete", (_, data) => {
@@ -538,3 +648,8 @@ electron.ipcMain.handle("get-quick-links", () => {
 electron.ipcMain.handle("save-quick-links", (_, links) => {
   fs.writeFileSync(LINKS_FILE, JSON.stringify(links, null, 2), "utf8");
 });
+electron.ipcMain.on("open-payload-table", () => createPayloadTableWindow());
+electron.ipcMain.on("close-payload-table", () => {
+  payloadTableWin?.close();
+});
+electron.ipcMain.handle("query-db", () => queryAll());

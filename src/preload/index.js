@@ -32,4 +32,9 @@ contextBridge.exposeInMainWorld('api', {
 
   // Main overlay — receive SLI data
   onSLIData:        (cb)    => ipcRenderer.on('sli-data', (_, data) => cb(data)),
+
+  // SQL table window
+  openPayloadTable:  ()     => ipcRenderer.send('open-payload-table'),
+  closePayloadTable: ()     => ipcRenderer.send('close-payload-table'),
+  queryDb:           ()     => ipcRenderer.invoke('query-db'),
 })

@@ -13,8 +13,9 @@ export default defineConfig({
     build: {
       rollupOptions: {
         input: {
-          index: 'src/renderer/index.html',
-          menu:  'src/renderer/menu.html',
+          index:        'src/renderer/index.html',
+          menu:         'src/renderer/menu.html',
+          payloadtable: 'src/renderer/payloadtable.html',
         }
       }
     }

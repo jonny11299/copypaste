@@ -119,6 +119,11 @@
     MENU
   </button>
 
+  <!-- SQL table viewer button -->
+  <button class="menu-section-btn" on:click={() => window.api.openPayloadTable()}>
+    SQL TABLE
+  </button>
+
   {#if active}
     <!-- Item list -->
     <div class="sli-list" role="listbox" aria-label="Item list">

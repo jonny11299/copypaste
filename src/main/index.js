@@ -2,6 +2,7 @@ import { app, BrowserWindow, screen, ipcMain, clipboard, globalShortcut, dialog,
 import { join } from 'path'
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import XLSX from 'xlsx'
+import { initDb, savePayload, queryAll } from './db.js'
 import {
   EXPECTED_HEADERS,
   validateHeaders,
@@ -21,10 +22,12 @@ const KEYS        = ['1','2','3','4','5','6','7','8','9','0']
 const DATA_DIR    = join(__dirname, '../../data')
 const LINKS_FILE  = join(DATA_DIR, 'quicklinks.json')
 
-let mainWin       = null
-let menuWin       = null
-let cachedRows    = []
-let currentPayload = null
+let mainWin          = null
+let menuWin          = null
+let payloadTableWin  = null
+let cachedRows       = []
+let cachedFileName   = 'unknown'
+let currentPayload   = null
 
 // ─── Main overlay window ──────────────────────────────────────────────────────
 
@@ -81,9 +84,36 @@ function createMenuWindow() {
   menuWin.on('closed', () => { menuWin = null })
 }
 
+// ─── Payload table window ─────────────────────────────────────────────────────
+
+function createPayloadTableWindow() {
+  if (payloadTableWin) { payloadTableWin.focus(); return }
+
+  payloadTableWin = new BrowserWindow({
+    width: 1100,
+    height: 680,
+    center: true,
+    resizable: true,
+    frame: false,
+    webPreferences: {
+      preload: join(__dirname, '../preload/index.js'),
+      contextIsolation: true,
+    }
+  })
+
+  if (process.env['ELECTRON_RENDERER_URL']) {
+    payloadTableWin.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/payloadtable.html')
+  } else {
+    payloadTableWin.loadFile(join(__dirname, '../renderer/payloadtable.html'))
+  }
+
+  payloadTableWin.on('closed', () => { payloadTableWin = null })
+}
+
 // ─── App lifecycle ────────────────────────────────────────────────────────────
 
 app.whenReady().then(() => {
+  initDb()
   createMainWindow()
   createMenuWindow()
 
@@ -163,12 +193,17 @@ ipcMain.handle('load-workbook', (_, filePath) => {
     ? getCellValue(missingMagRow, COL.PRODUCTION_LINE_NAME)
     : null
 
-  cachedRows = dataRows
+  cachedRows     = dataRows
+  cachedFileName = filePath.split('/').pop()
   return { mismatches, headerComparison, rowCount: dataRows.length, badOrderIDs, hasSplit, missingMagniteLine }
 })
 
-// Process cached rows
-ipcMain.handle('process-file', (_, opts) => processRows(cachedRows, opts))
+// Process cached rows and persist to DB
+ipcMain.handle('process-file', (_, opts) => {
+  const payload = processRows(cachedRows, opts)
+  if (payload?.mode === 'programmatic') savePayload(cachedFileName, payload)
+  return payload
+})
 
 // Parse pasted text
 ipcMain.handle('parse-pasted-slis',  (_, text) => parsePastedSLIs(text))
@@ -193,3 +228,10 @@ ipcMain.handle('get-quick-links', () => {
 ipcMain.handle('save-quick-links', (_, links) => {
   writeFileSync(LINKS_FILE, JSON.stringify(links, null, 2), 'utf8')
 })
+
+// Payload SQL table window
+ipcMain.on('open-payload-table',  () => createPayloadTableWindow())
+ipcMain.on('close-payload-table', () => { payloadTableWin?.close() })
+
+// DB query for table viewer
+ipcMain.handle('query-db', () => queryAll())

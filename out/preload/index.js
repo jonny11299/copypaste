@@ -25,5 +25,9 @@ electron.contextBridge.exposeInMainWorld("api", {
   getQuickLinks: () => electron.ipcRenderer.invoke("get-quick-links"),
   saveQuickLinks: (links) => electron.ipcRenderer.invoke("save-quick-links", links),
   // Main overlay — receive SLI data
-  onSLIData: (cb) => electron.ipcRenderer.on("sli-data", (_, data) => cb(data))
+  onSLIData: (cb) => electron.ipcRenderer.on("sli-data", (_, data) => cb(data)),
+  // SQL table window
+  openPayloadTable: () => electron.ipcRenderer.send("open-payload-table"),
+  closePayloadTable: () => electron.ipcRenderer.send("close-payload-table"),
+  queryDb: () => electron.ipcRenderer.invoke("query-db")
 });

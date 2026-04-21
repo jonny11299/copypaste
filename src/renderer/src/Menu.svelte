@@ -81,7 +81,7 @@
     errorMsg = null
     const data = await window.api.parsePastedSLIs(pasteText)
     loading  = false
-    if (!data.slis.length) { errorMsg = 'No SLIs found in pasted text.'; return }
+    if (!data.items.length) { errorMsg = 'No SLIs found in pasted text.'; return }
     window.api.setupComplete(data)
     window.api.closeMenuWindow()
   }
@@ -106,7 +106,7 @@
     pliErrorMsg = null
     const data = await window.api.parsePastedPLIs(pliPasteText)
     pliLoading = false
-    if (!data.plis.length) { pliErrorMsg = 'No PLIs found in pasted text.'; return }
+    if (!data.items.length) { pliErrorMsg = 'No PLIs found in pasted text.'; return }
     window.api.setupComplete({ ...data, mode: '1x1' })
     window.api.closeMenuWindow()
   }

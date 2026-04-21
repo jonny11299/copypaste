@@ -16,7 +16,7 @@
 
   // Form fields
   let isMagnite      = false
-  let dealPrefix     = 'PARA-MAG-'
+  let dealPrefix     = 'PARA-'
   let seatID         = ''
   let fcaps          = ''
   let hasDNR         = false
@@ -89,7 +89,7 @@
   function resetSetup() {
     loadSource = null; filePath = null; fileName = null
     pasteText  = ''; validation = null; errorMsg = null
-    isMagnite  = false; dealPrefix = 'PARA-MAG-'; seatID = ''; fcaps = ''
+    isMagnite  = false; dealPrefix = 'PARA-'; seatID = ''; fcaps = ''
     hasDNR     = false; hasAudience = false; hasRelTarget = false
     isSplitPayDeal = false; splitPrePrice = ''; splitPostPrice = ''
     budgetModel = 'Fixed Price'

@@ -7,14 +7,17 @@
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
-    "sfmessage": "node scripts/sfmessage.js"
+    "sfmessage": "node scripts/sfmessage.js",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.5.3",
     "electron": "^31.7.7",
     "electron-vite": "^2.3.0",
     "svelte": "^4.2.19",
-    "vite": "^5.4.0"
+    "vite": "^5.4.0",
+    "vitest": "^4.1.4"
   },
   "dependencies": {
     "xlsx": "^0.18.5"

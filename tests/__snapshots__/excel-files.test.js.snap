@@ -1,0 +1,3113 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`1222186 — CBS Interactive 04/13/2026 (2 rows, 15 header mismatches) > all items clipboard slots match snapshot 1`] = `
+{
+  "c_id_0": "1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite",
+  "c_id_1": "PARA-1718316",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "5902615",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "04/20/26 - 05/31/26",
+  "c_id_4": "5844173",
+  "c_id_5": "23.77",
+  "c_id_6": "PARA CBS Sports",
+  "c_id_7": "15/30",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite
+Deal ID: PARA-1718316
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 5,844,173 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+
+Name: 1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite
+Deal ID: PARA-1718317
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 8,766,260 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+",
+}
+`;
+
+exports[`1222186 — CBS Interactive 04/13/2026 (2 rows, 15 header mismatches) > all items clipboard slots match snapshot 2`] = `
+{
+  "c_id_0": "1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite",
+  "c_id_1": "PARA-1718317",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "8853923",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "04/20/26 - 05/31/26",
+  "c_id_4": "8766260",
+  "c_id_5": "23.77",
+  "c_id_6": "PARA CBS Sports",
+  "c_id_7": "15/30",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite
+Deal ID: PARA-1718316
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 5,844,173 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+
+Name: 1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite
+Deal ID: PARA-1718317
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 8,766,260 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+",
+}
+`;
+
+exports[`1222186 — CBS Interactive 04/13/2026 (2 rows, 15 header mismatches) > full payload matches snapshot 1`] = `
+{
+  "items": [
+    {
+      "contents": [
+        {
+          "c_contents": "1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1718316",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/20/26 - 05/31/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "5844173",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "23.77",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA CBS Sports",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "15/30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "5902615",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite
+Deal ID: PARA-1718316
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 5,844,173 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+
+Name: 1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite
+Deal ID: PARA-1718317
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 8,766,260 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 0,
+      "item_title": "1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1718317",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/20/26 - 05/31/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "8766260",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "23.77",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA CBS Sports",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "15/30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "8853923",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite
+Deal ID: PARA-1718316
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 5,844,173 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+
+Name: 1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite
+Deal ID: PARA-1718317
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 8,766,260 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 1,
+      "item_title": "1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite",
+    },
+  ],
+  "mode": "programmatic",
+}
+`;
+
+exports[`1222186 — CBS Interactive 04/13/2026 (2 rows, 15 header mismatches) > item titles match production line names 1`] = `
+[
+  "1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite",
+  "1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite",
+]
+`;
+
+exports[`1222593 — CBS Interactive 04/14/2026 (2 rows, 15 header mismatches) > all items clipboard slots match snapshot 1`] = `
+{
+  "c_id_0": "1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite",
+  "c_id_1": "PARA-1718316",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "5902615",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "04/20/26 - 05/31/26",
+  "c_id_4": "5844173",
+  "c_id_5": "23.77",
+  "c_id_6": "PARA CBS Sports",
+  "c_id_7": "15/30",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite
+Deal ID: PARA-1718316
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 5,844,173 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+
+Name: 1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite
+Deal ID: PARA-1718317
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 8,766,260 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+",
+}
+`;
+
+exports[`1222593 — CBS Interactive 04/14/2026 (2 rows, 15 header mismatches) > all items clipboard slots match snapshot 2`] = `
+{
+  "c_id_0": "1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite",
+  "c_id_1": "PARA-1718317",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "8853923",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "04/20/26 - 05/31/26",
+  "c_id_4": "8766260",
+  "c_id_5": "23.77",
+  "c_id_6": "PARA CBS Sports",
+  "c_id_7": "15/30",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite
+Deal ID: PARA-1718316
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 5,844,173 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+
+Name: 1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite
+Deal ID: PARA-1718317
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 8,766,260 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+",
+}
+`;
+
+exports[`1222593 — CBS Interactive 04/14/2026 (2 rows, 15 header mismatches) > full payload matches snapshot 1`] = `
+{
+  "items": [
+    {
+      "contents": [
+        {
+          "c_contents": "1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1718316",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/20/26 - 05/31/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "5844173",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "23.77",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA CBS Sports",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "15/30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "5902615",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite
+Deal ID: PARA-1718316
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 5,844,173 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+
+Name: 1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite
+Deal ID: PARA-1718317
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 8,766,260 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 0,
+      "item_title": "1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1718317",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/20/26 - 05/31/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "8766260",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "23.77",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA CBS Sports",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "15/30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "8853923",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite
+Deal ID: PARA-1718316
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 5,844,173 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+
+Name: 1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite
+Deal ID: PARA-1718317
+Seat ID: none
+Schedule: 04/20/26 - 05/31/26
+Quantity: 8,766,260 imps
+Price: $23.77 CPM (Fixed Price)
+Inventory: PARA CBS Sports
+Creative Length: 15s/30s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 1,
+      "item_title": "1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite",
+    },
+  ],
+  "mode": "programmatic",
+}
+`;
+
+exports[`1222593 — CBS Interactive 04/14/2026 (2 rows, 15 header mismatches) > item titles match production line names 1`] = `
+[
+  "1718316-1_269973 US|PG|PARA CBS Sports|Video|Standard 15s Magnite",
+  "1718317-1_269973 US|PG|PARA CBS Sports|Video|Standard 30s Magnite",
+]
+`;
+
+exports[`1226496 — CBS Interactive 04/16/2026 (3 rows) > all items clipboard slots match snapshot 1`] = `
+{
+  "c_id_0": "1719162-1_270433 US|PG|PARA Video Data|Video|Standard 60s Magnite",
+  "c_id_1": "PARA-1719162",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "1007314",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "04/13/26 - 06/07/26",
+  "c_id_4": "997340",
+  "c_id_5": "37.60",
+  "c_id_6": "PARA Video Data",
+  "c_id_7": "60",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1719162-1_270433 US|PG|PARA Video Data|Video|Standard 60s Magnite
+Deal ID: PARA-1719162
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 997,340 imps
+Price: $37.60 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 60s
+fcaps: none
+
+Name: 1719163-1_270433 US|PG|PARA Video Data|Video|Standard 30s Magnite
+Deal ID: PARA-1719163
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 2,327,128 imps
+Price: $18.80 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 30s
+fcaps: none
+
+Name: 1719164-1_270433 US|PG|PARA Video Data|Video|Standard 15s Magnite
+Deal ID: PARA-1719164
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 2,327,128 imps
+Price: $18.80 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 15s
+fcaps: none
+",
+}
+`;
+
+exports[`1226496 — CBS Interactive 04/16/2026 (3 rows) > all items clipboard slots match snapshot 2`] = `
+{
+  "c_id_0": "1719163-1_270433 US|PG|PARA Video Data|Video|Standard 30s Magnite",
+  "c_id_1": "PARA-1719163",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "2350400",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "04/13/26 - 06/07/26",
+  "c_id_4": "2327128",
+  "c_id_5": "18.80",
+  "c_id_6": "PARA Video Data",
+  "c_id_7": "30",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1719162-1_270433 US|PG|PARA Video Data|Video|Standard 60s Magnite
+Deal ID: PARA-1719162
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 997,340 imps
+Price: $37.60 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 60s
+fcaps: none
+
+Name: 1719163-1_270433 US|PG|PARA Video Data|Video|Standard 30s Magnite
+Deal ID: PARA-1719163
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 2,327,128 imps
+Price: $18.80 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 30s
+fcaps: none
+
+Name: 1719164-1_270433 US|PG|PARA Video Data|Video|Standard 15s Magnite
+Deal ID: PARA-1719164
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 2,327,128 imps
+Price: $18.80 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 15s
+fcaps: none
+",
+}
+`;
+
+exports[`1226496 — CBS Interactive 04/16/2026 (3 rows) > all items clipboard slots match snapshot 3`] = `
+{
+  "c_id_0": "1719164-1_270433 US|PG|PARA Video Data|Video|Standard 15s Magnite",
+  "c_id_1": "PARA-1719164",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "2350400",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "04/13/26 - 06/07/26",
+  "c_id_4": "2327128",
+  "c_id_5": "18.80",
+  "c_id_6": "PARA Video Data",
+  "c_id_7": "15",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1719162-1_270433 US|PG|PARA Video Data|Video|Standard 60s Magnite
+Deal ID: PARA-1719162
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 997,340 imps
+Price: $37.60 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 60s
+fcaps: none
+
+Name: 1719163-1_270433 US|PG|PARA Video Data|Video|Standard 30s Magnite
+Deal ID: PARA-1719163
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 2,327,128 imps
+Price: $18.80 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 30s
+fcaps: none
+
+Name: 1719164-1_270433 US|PG|PARA Video Data|Video|Standard 15s Magnite
+Deal ID: PARA-1719164
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 2,327,128 imps
+Price: $18.80 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 15s
+fcaps: none
+",
+}
+`;
+
+exports[`1226496 — CBS Interactive 04/16/2026 (3 rows) > full payload matches snapshot 1`] = `
+{
+  "items": [
+    {
+      "contents": [
+        {
+          "c_contents": "1719162-1_270433 US|PG|PARA Video Data|Video|Standard 60s Magnite",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1719162",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/13/26 - 06/07/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "997340",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "37.60",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA Video Data",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "60",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "1007314",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1719162-1_270433 US|PG|PARA Video Data|Video|Standard 60s Magnite
+Deal ID: PARA-1719162
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 997,340 imps
+Price: $37.60 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 60s
+fcaps: none
+
+Name: 1719163-1_270433 US|PG|PARA Video Data|Video|Standard 30s Magnite
+Deal ID: PARA-1719163
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 2,327,128 imps
+Price: $18.80 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 30s
+fcaps: none
+
+Name: 1719164-1_270433 US|PG|PARA Video Data|Video|Standard 15s Magnite
+Deal ID: PARA-1719164
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 2,327,128 imps
+Price: $18.80 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 0,
+      "item_title": "1719162-1_270433 US|PG|PARA Video Data|Video|Standard 60s Magnite",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "1719163-1_270433 US|PG|PARA Video Data|Video|Standard 30s Magnite",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1719163",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/13/26 - 06/07/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "2327128",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "18.80",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA Video Data",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "2350400",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1719162-1_270433 US|PG|PARA Video Data|Video|Standard 60s Magnite
+Deal ID: PARA-1719162
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 997,340 imps
+Price: $37.60 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 60s
+fcaps: none
+
+Name: 1719163-1_270433 US|PG|PARA Video Data|Video|Standard 30s Magnite
+Deal ID: PARA-1719163
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 2,327,128 imps
+Price: $18.80 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 30s
+fcaps: none
+
+Name: 1719164-1_270433 US|PG|PARA Video Data|Video|Standard 15s Magnite
+Deal ID: PARA-1719164
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 2,327,128 imps
+Price: $18.80 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 1,
+      "item_title": "1719163-1_270433 US|PG|PARA Video Data|Video|Standard 30s Magnite",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "1719164-1_270433 US|PG|PARA Video Data|Video|Standard 15s Magnite",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1719164",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/13/26 - 06/07/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "2327128",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "18.80",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA Video Data",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "15",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "2350400",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1719162-1_270433 US|PG|PARA Video Data|Video|Standard 60s Magnite
+Deal ID: PARA-1719162
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 997,340 imps
+Price: $37.60 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 60s
+fcaps: none
+
+Name: 1719163-1_270433 US|PG|PARA Video Data|Video|Standard 30s Magnite
+Deal ID: PARA-1719163
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 2,327,128 imps
+Price: $18.80 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 30s
+fcaps: none
+
+Name: 1719164-1_270433 US|PG|PARA Video Data|Video|Standard 15s Magnite
+Deal ID: PARA-1719164
+Seat ID: none
+Schedule: 04/13/26 - 06/07/26
+Quantity: 2,327,128 imps
+Price: $18.80 CPM (Fixed Price)
+Inventory: PARA Video Data
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 2,
+      "item_title": "1719164-1_270433 US|PG|PARA Video Data|Video|Standard 15s Magnite",
+    },
+  ],
+  "mode": "programmatic",
+}
+`;
+
+exports[`1226496 — CBS Interactive 04/16/2026 (3 rows) > item titles match production line names 1`] = `
+[
+  "1719162-1_270433 US|PG|PARA Video Data|Video|Standard 60s Magnite",
+  "1719163-1_270433 US|PG|PARA Video Data|Video|Standard 30s Magnite",
+  "1719164-1_270433 US|PG|PARA Video Data|Video|Standard 15s Magnite",
+]
+`;
+
+exports[`1227715 — CBS Interactive 04/20/2026 (8 rows) > all items clipboard slots match snapshot 1`] = `
+{
+  "c_id_0": "1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s",
+  "c_id_1": "PARA-1720250",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "201259",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "04/27/26 - 04/30/26",
+  "c_id_4": "199266",
+  "c_id_5": "28.96",
+  "c_id_6": "US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard",
+  "c_id_7": "30",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+}
+`;
+
+exports[`1227715 — CBS Interactive 04/20/2026 (8 rows) > all items clipboard slots match snapshot 2`] = `
+{
+  "c_id_0": "1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s",
+  "c_id_1": "PARA-1720251",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "22362",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "04/27/26 - 04/30/26",
+  "c_id_4": "22140",
+  "c_id_5": "28.96",
+  "c_id_6": "US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard",
+  "c_id_7": "30",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+}
+`;
+
+exports[`1227715 — CBS Interactive 04/20/2026 (8 rows) > all items clipboard slots match snapshot 3`] = `
+{
+  "c_id_0": "1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s",
+  "c_id_1": "PARA-1720254",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "99127",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "04/27/26 - 04/30/26",
+  "c_id_4": "98145",
+  "c_id_5": "28.96",
+  "c_id_6": "US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard",
+  "c_id_7": "15",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+}
+`;
+
+exports[`1227715 — CBS Interactive 04/20/2026 (8 rows) > all items clipboard slots match snapshot 4`] = `
+{
+  "c_id_0": "1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s",
+  "c_id_1": "PARA-1720255",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "11015",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "04/27/26 - 04/30/26",
+  "c_id_4": "10905",
+  "c_id_5": "28.96",
+  "c_id_6": "US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard",
+  "c_id_7": "15",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+}
+`;
+
+exports[`1227715 — CBS Interactive 04/20/2026 (8 rows) > all items clipboard slots match snapshot 5`] = `
+{
+  "c_id_0": "1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s",
+  "c_id_1": "PARA-1720252",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "1811317",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "05/01/26 - 05/31/26",
+  "c_id_4": "1793383",
+  "c_id_5": "28.96",
+  "c_id_6": "US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard",
+  "c_id_7": "30",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+}
+`;
+
+exports[`1227715 — CBS Interactive 04/20/2026 (8 rows) > all items clipboard slots match snapshot 6`] = `
+{
+  "c_id_0": "1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s",
+  "c_id_1": "PARA-1720253",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "201258",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "05/01/26 - 05/31/26",
+  "c_id_4": "199265",
+  "c_id_5": "28.96",
+  "c_id_6": "US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard",
+  "c_id_7": "30",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+}
+`;
+
+exports[`1227715 — CBS Interactive 04/20/2026 (8 rows) > all items clipboard slots match snapshot 7`] = `
+{
+  "c_id_0": "1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s",
+  "c_id_1": "PARA-1720256",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "892143",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "05/01/26 - 05/31/26",
+  "c_id_4": "883309",
+  "c_id_5": "28.96",
+  "c_id_6": "US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard",
+  "c_id_7": "15",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+}
+`;
+
+exports[`1227715 — CBS Interactive 04/20/2026 (8 rows) > all items clipboard slots match snapshot 8`] = `
+{
+  "c_id_0": "1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s",
+  "c_id_1": "PARA-1720257",
+  "c_id_10": "",
+  "c_id_11": "",
+  "c_id_12": "",
+  "c_id_13": "",
+  "c_id_14": "99127",
+  "c_id_15": "",
+  "c_id_16": "",
+  "c_id_17": "",
+  "c_id_18": "",
+  "c_id_19": "",
+  "c_id_2": "",
+  "c_id_3": "05/01/26 - 05/31/26",
+  "c_id_4": "98145",
+  "c_id_5": "28.96",
+  "c_id_6": "US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard",
+  "c_id_7": "15",
+  "c_id_8": "none",
+  "c_id_9": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+}
+`;
+
+exports[`1227715 — CBS Interactive 04/20/2026 (8 rows) > full payload matches snapshot 1`] = `
+{
+  "items": [
+    {
+      "contents": [
+        {
+          "c_contents": "1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1720250",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/27/26 - 04/30/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "199266",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "28.96",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "201259",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 0,
+      "item_title": "1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1720251",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/27/26 - 04/30/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "22140",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "28.96",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "22362",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 1,
+      "item_title": "1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1720254",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/27/26 - 04/30/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "98145",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "28.96",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "15",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "99127",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 2,
+      "item_title": "1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1720255",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/27/26 - 04/30/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "10905",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "28.96",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "15",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "11015",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 3,
+      "item_title": "1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1720252",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "05/01/26 - 05/31/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "1793383",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "28.96",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "1811317",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 4,
+      "item_title": "1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1720253",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "05/01/26 - 05/31/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "199265",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "28.96",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "201258",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 5,
+      "item_title": "1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1720256",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "05/01/26 - 05/31/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "883309",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "28.96",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "15",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "892143",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 6,
+      "item_title": "1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-1720257",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "05/01/26 - 05/31/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "98145",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "28.96",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "15",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "99127",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720250
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 199,266 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s
+Deal ID: PARA-1720251
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 22,140 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720254
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s
+Deal ID: PARA-1720255
+Seat ID: none
+Schedule: 04/27/26 - 04/30/26
+Quantity: 10,905 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720252
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 1,793,383 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s
+Deal ID: PARA-1720253
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 199,265 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 30s
+fcaps: none
+
+Name: 1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720256
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 883,309 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+
+Name: 1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s
+Deal ID: PARA-1720257
+Seat ID: none
+Schedule: 05/01/26 - 05/31/26
+Quantity: 98,145 imps
+Price: $28.96 CPM (Fixed Price)
+Inventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 7,
+      "item_title": "1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s",
+    },
+  ],
+  "mode": "programmatic",
+}
+`;
+
+exports[`1227715 — CBS Interactive 04/20/2026 (8 rows) > item titles match production line names 1`] = `
+[
+  "1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s",
+  "1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s",
+  "1720254-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 15s",
+  "1720255-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 15s",
+  "1720252-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 30s",
+  "1720253-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 30s",
+  "1720256-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | May 15s",
+  "1720257-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | May 15s",
+]
+`;

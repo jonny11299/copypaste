@@ -1,0 +1,19 @@
+Deal Name: VCBS_FW_111111_Q1_PG_Video_:15
+Deal ID: PARA-VCBS-FW-0003
+Seat ID: 98765
+Schedule: 04/01/26 - 04/30/26
+Quantity: 250,000 imps
+Price: $18.75 CPM (Fixed Price)
+Inventory: VideoStream, DNR Excluded
+Creative Length: 15 seconds
+Fcaps: 3/day
+
+Deal Name: VCBS_FW_123456_Q1_PG_Video_:30
+Deal ID: PARA-VCBS-FW-0001
+Seat ID: 98765
+Schedule: 05/01/26 - 05/31/26
+Quantity: 500,000 imps
+Price: $25.00 CPM (Fixed Price)
+Inventory: VideoStream
+Creative Length: 30 seconds
+Fcaps: none

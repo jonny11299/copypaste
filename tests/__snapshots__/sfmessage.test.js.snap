@@ -1,0 +1,894 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`parsePastedSLIs > single-item paste > all clipboard slots match snapshot 1`] = `
+{
+  "ctrl+0": "TestDeal_:30",
+  "ctrl+1": "PARA-TEST-0001",
+  "ctrl+2": "55555",
+  "ctrl+3": "01/01/26 - 01/31/26",
+  "ctrl+4": "1000000",
+  "ctrl+5": "5.00",
+  "ctrl+6": "Display",
+  "ctrl+7": "30",
+  "ctrl+8": "none",
+  "ctrl+9": "Name: TestDeal_:30
+Deal ID: PARA-TEST-0001
+Seat ID: 55555
+Schedule: 01/01/26 - 01/31/26
+Quantity: 1000000
+Price: $5.00 CPM (Fixed Price)
+Inventory: Display
+Creative Length: 30s
+fcaps: none",
+  "ctrl+shift+0": "",
+  "ctrl+shift+1": "",
+  "ctrl+shift+2": "",
+  "ctrl+shift+3": "",
+  "ctrl+shift+4": "1010000",
+  "ctrl+shift+5": "",
+  "ctrl+shift+6": "",
+  "ctrl+shift+7": "",
+  "ctrl+shift+8": "",
+  "ctrl+shift+9": "",
+}
+`;
+
+exports[`parsePastedSLIs > single-item paste > full payload matches snapshot 1`] = `
+{
+  "items": [
+    {
+      "contents": [
+        {
+          "c_contents": "TestDeal_:30",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-TEST-0001",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "55555",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "01/01/26 - 01/31/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "1000000",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "5.00",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Display",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "1010000",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: TestDeal_:30
+Deal ID: PARA-TEST-0001
+Seat ID: 55555
+Schedule: 01/01/26 - 01/31/26
+Quantity: 1000000
+Price: $5.00 CPM (Fixed Price)
+Inventory: Display
+Creative Length: 30s
+fcaps: none",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 0,
+      "item_title": "TestDeal_:30",
+    },
+  ],
+  "mode": "programmatic",
+}
+`;
+
+exports[`parsePastedSLIs > standard two-item paste > full payload matches snapshot 1`] = `
+{
+  "items": [
+    {
+      "contents": [
+        {
+          "c_contents": "VCBS_FW_111111_Q1_PG_Video_:15",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-VCBS-FW-0003",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "98765",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/01/26 - 04/30/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "250000",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "18.75",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "VideoStream, DNR Excluded",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "15",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "3/day",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "252500",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: VCBS_FW_111111_Q1_PG_Video_:15
+Deal ID: PARA-VCBS-FW-0003
+Seat ID: 98765
+Schedule: 04/01/26 - 04/30/26
+Quantity: 250000
+Price: $18.75 CPM (Fixed Price)
+Inventory: VideoStream, DNR Excluded
+Creative Length: 15s
+fcaps: 3/day
+
+Name: VCBS_FW_123456_Q1_PG_Video_:30
+Deal ID: PARA-VCBS-FW-0001
+Seat ID: 98765
+Schedule: 05/01/26 - 05/31/26
+Quantity: 500000
+Price: $25.00 CPM (Fixed Price)
+Inventory: VideoStream
+Creative Length: 30s
+fcaps: none",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 0,
+      "item_title": "VCBS_FW_111111_Q1_PG_Video_:15",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "VCBS_FW_123456_Q1_PG_Video_:30",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-VCBS-FW-0001",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "98765",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "05/01/26 - 05/31/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "500000",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "25.00",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "VideoStream",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "505000",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: VCBS_FW_111111_Q1_PG_Video_:15
+Deal ID: PARA-VCBS-FW-0003
+Seat ID: 98765
+Schedule: 04/01/26 - 04/30/26
+Quantity: 250000
+Price: $18.75 CPM (Fixed Price)
+Inventory: VideoStream, DNR Excluded
+Creative Length: 15s
+fcaps: 3/day
+
+Name: VCBS_FW_123456_Q1_PG_Video_:30
+Deal ID: PARA-VCBS-FW-0001
+Seat ID: 98765
+Schedule: 05/01/26 - 05/31/26
+Quantity: 500000
+Price: $25.00 CPM (Fixed Price)
+Inventory: VideoStream
+Creative Length: 30s
+fcaps: none",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 1,
+      "item_title": "VCBS_FW_123456_Q1_PG_Video_:30",
+    },
+  ],
+  "mode": "programmatic",
+}
+`;
+
+exports[`processRows > PMP deal — no quantity limit > full payload matches snapshot 1`] = `
+{
+  "items": [
+    {
+      "contents": [
+        {
+          "c_contents": "VCBS_FW_789012_Q1_PMP_Display",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-VCBS-FW-0002",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "05/31/26 - 06/29/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "No Limit (PMP)",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "10.50",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Display",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "{blank}",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "N/A",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: VCBS_FW_789012_Q1_PMP_Display
+Deal ID: PARA-VCBS-FW-0002
+Seat ID: none
+Schedule: 05/31/26 - 06/29/26
+Quantity: No Limit (PMP)
+Price: $10.50 CPM (Fixed Price)
+Inventory: Display
+Creative Length: {blank}
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 0,
+      "item_title": "VCBS_FW_789012_Q1_PMP_Display",
+    },
+  ],
+  "mode": "programmatic",
+}
+`;
+
+exports[`processRows > basic PG deal (single row) > all clipboard slots match snapshot 1`] = `
+{
+  "ctrl+0": "VCBS_FW_123456_Q1_PG_Video_:30",
+  "ctrl+1": "PARA-VCBS-FW-0001",
+  "ctrl+2": "98765",
+  "ctrl+3": "04/30/26 - 05/30/26",
+  "ctrl+4": "500000",
+  "ctrl+5": "25.00",
+  "ctrl+6": "VideoStream",
+  "ctrl+7": "30",
+  "ctrl+8": "3/day",
+  "ctrl+9": "Name: VCBS_FW_123456_Q1_PG_Video_:30
+Deal ID: PARA-VCBS-FW-0001
+Seat ID: 98765
+Schedule: 04/30/26 - 05/30/26
+Quantity: 500,000 imps
+Price: $25.00 CPM (Fixed Price)
+Inventory: VideoStream
+Creative Length: 30s
+fcaps: 3/day
+",
+  "ctrl+shift+0": "",
+  "ctrl+shift+1": "",
+  "ctrl+shift+2": "",
+  "ctrl+shift+3": "",
+  "ctrl+shift+4": "505000",
+  "ctrl+shift+5": "",
+  "ctrl+shift+6": "",
+  "ctrl+shift+7": "",
+  "ctrl+shift+8": "",
+  "ctrl+shift+9": "",
+}
+`;
+
+exports[`processRows > basic PG deal (single row) > full payload matches snapshot 1`] = `
+{
+  "items": [
+    {
+      "contents": [
+        {
+          "c_contents": "VCBS_FW_123456_Q1_PG_Video_:30",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-VCBS-FW-0001",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "98765",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/30/26 - 05/30/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "500000",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "25.00",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "VideoStream",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "3/day",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "505000",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: VCBS_FW_123456_Q1_PG_Video_:30
+Deal ID: PARA-VCBS-FW-0001
+Seat ID: 98765
+Schedule: 04/30/26 - 05/30/26
+Quantity: 500,000 imps
+Price: $25.00 CPM (Fixed Price)
+Inventory: VideoStream
+Creative Length: 30s
+fcaps: 3/day
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 0,
+      "item_title": "VCBS_FW_123456_Q1_PG_Video_:30",
+    },
+  ],
+  "mode": "programmatic",
+}
+`;
+
+exports[`processRows > multi-row sort order > full payload matches snapshot 1`] = `
+{
+  "items": [
+    {
+      "contents": [
+        {
+          "c_contents": "VCBS_FW_123456_Q1_PG_Video_:30",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-VCBS-FW-0001",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/30/26 - 05/30/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "500000",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "25.00",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "VideoStream",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "505000",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: VCBS_FW_123456_Q1_PG_Video_:30
+Deal ID: PARA-VCBS-FW-0001
+Seat ID: none
+Schedule: 04/30/26 - 05/30/26
+Quantity: 500,000 imps
+Price: $25.00 CPM (Fixed Price)
+Inventory: VideoStream
+Creative Length: 30s
+fcaps: none
+
+Name: VCBS_FW_111111_Q1_PG_Video_:15
+Deal ID: PARA-VCBS-FW-0003
+Seat ID: none
+Schedule: 03/31/26 - 04/29/26
+Quantity: 250,000 imps
+Price: $18.75 CPM (Fixed Price)
+Inventory: VideoStream
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 0,
+      "item_title": "VCBS_FW_123456_Q1_PG_Video_:30",
+    },
+    {
+      "contents": [
+        {
+          "c_contents": "VCBS_FW_111111_Q1_PG_Video_:15",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-VCBS-FW-0003",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "03/31/26 - 04/29/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "250000",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "18.75",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "VideoStream",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "15",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "252500",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: VCBS_FW_123456_Q1_PG_Video_:30
+Deal ID: PARA-VCBS-FW-0001
+Seat ID: none
+Schedule: 04/30/26 - 05/30/26
+Quantity: 500,000 imps
+Price: $25.00 CPM (Fixed Price)
+Inventory: VideoStream
+Creative Length: 30s
+fcaps: none
+
+Name: VCBS_FW_111111_Q1_PG_Video_:15
+Deal ID: PARA-VCBS-FW-0003
+Seat ID: none
+Schedule: 03/31/26 - 04/29/26
+Quantity: 250,000 imps
+Price: $18.75 CPM (Fixed Price)
+Inventory: VideoStream
+Creative Length: 15s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 1,
+      "item_title": "VCBS_FW_111111_Q1_PG_Video_:15",
+    },
+  ],
+  "mode": "programmatic",
+}
+`;
+
+exports[`processRows > split-pay deal > full payload matches snapshot 1`] = `
+{
+  "items": [
+    {
+      "contents": [
+        {
+          "c_contents": "VCBS_FW_123456_Q1_PG_Video_:30",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-VCBS-FW-0001",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/30/26 - 05/30/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "500000",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "$12.00 pre / $8.00 post",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "VideoStream",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "505000",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: VCBS_FW_123456_Q1_PG_Video_:30
+Deal ID: PARA-VCBS-FW-0001
+Seat ID: none
+Schedule: 04/30/26 - 05/30/26
+Quantity: 500,000 imps
+Price: $12.00 pre / $8.00 post CPM (1st Price Floored)
+Inventory: VideoStream
+Creative Length: 30s
+fcaps: none
+",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 0,
+      "item_title": "VCBS_FW_123456_Q1_PG_Video_:30",
+    },
+  ],
+  "mode": "programmatic",
+}
+`;
+
+exports[`processRows > with DNR + audience + Magnite flags > full payload matches snapshot 1`] = `
+{
+  "items": [
+    {
+      "contents": [
+        {
+          "c_contents": "VCBS_FW_123456_Q1_PG_Video_:30",
+          "c_id": 0,
+          "c_title": "Deal Name",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "PARA-VCBS-FW-0001",
+          "c_id": 1,
+          "c_title": "Deal ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "11111",
+          "c_id": 2,
+          "c_title": "Seat ID",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "04/30/26 - 05/30/26",
+          "c_id": 3,
+          "c_title": "Schedule",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "500000",
+          "c_id": 4,
+          "c_title": "Quantity",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "25.00",
+          "c_id": 5,
+          "c_title": "Price",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "VideoStream, DNR Excluded, Audience Segments applied",
+          "c_id": 6,
+          "c_title": "Inventory",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "30",
+          "c_id": 7,
+          "c_title": "Creative Length",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "none",
+          "c_id": 8,
+          "c_title": "fcaps",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "505000",
+          "c_id": 14,
+          "c_title": "Qty + 1%",
+          "c_type": "string",
+        },
+        {
+          "c_contents": "Name: VCBS_FW_123456_Q1_PG_Video_:30
+Deal ID: PARA-VCBS-FW-0001
+Seat ID: 11111
+Schedule: 04/30/26 - 05/30/26
+Quantity: 500,000 imps
+Price: $25.00 CPM (Fixed Price)
+Inventory: VideoStream, DNR Excluded, Audience Segments applied
+Creative Length: 30s
+fcaps: none
+
+FOR CM:
+1. Remember to add the DNR
+2. Remember to add the audience segments
+3. Remember to setup Magnite and SpringServe",
+          "c_id": 9,
+          "c_title": "Salesforce Message",
+          "c_type": "string",
+        },
+      ],
+      "item_id": 0,
+      "item_title": "VCBS_FW_123456_Q1_PG_Video_:30",
+    },
+  ],
+  "mode": "programmatic",
+}
+`;

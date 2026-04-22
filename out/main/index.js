@@ -115,6 +115,7 @@ function buildPayloadV2() {
     name: first.payload_name,
     mode: first.mode,
     saved_at: first.saved_at,
+    activeChunkIndex: 0,
     chunks: []
   };
   const chunkMap = /* @__PURE__ */ new Map();
@@ -126,6 +127,7 @@ function buildPayloadV2() {
         payload_id: row.payload_id,
         chunk_index: row.chunk_index,
         chunk_title: row.chunk_title,
+        activeItemIndex: 0,
         items: []
       };
       chunkMap.set(row.chunk_id, chunk);
@@ -646,9 +648,13 @@ electron.app.whenReady().then(() => {
   });
   const okUp = electron.globalShortcut.register("Ctrl+Shift+Up", () => mainWin?.webContents.send("global-nav", "up"));
   const okDown = electron.globalShortcut.register("Ctrl+Shift+Down", () => mainWin?.webContents.send("global-nav", "down"));
+  const okLeft = electron.globalShortcut.register("Ctrl+Shift+Left", () => mainWin?.webContents.send("global-nav", "left"));
+  const okRight = electron.globalShortcut.register("Ctrl+Shift+Right", () => mainWin?.webContents.send("global-nav", "right"));
   const okToggle = electron.globalShortcut.register("Ctrl+Shift+Space", () => mainWin?.webContents.send("shift-layer-on"));
   if (!okUp) console.error("[shortcuts] Failed to register Ctrl+Shift+Up");
   if (!okDown) console.error("[shortcuts] Failed to register Ctrl+Shift+Down");
+  if (!okLeft) console.error("[shortcuts] Failed to register Ctrl+Shift+Left");
+  if (!okRight) console.error("[shortcuts] Failed to register Ctrl+Shift+Right");
   if (!okToggle) console.error("[shortcuts] Failed to register Ctrl+Shift+Space");
   electron.app.on("activate", () => {
     if (electron.BrowserWindow.getAllWindows().length === 0) {
@@ -715,8 +721,7 @@ electron.ipcMain.handle("parse-pasted-plis", (_, text) => parsePastedPLIs(text))
 electron.ipcMain.on("setup-complete", (_, data) => {
   if (data?.mode === "programmatic") {
     savePayload(cachedFileName, data);
-    const v2 = buildPayloadV2();
-    currentPayload = { mode: v2.mode, items: v2.chunks.flatMap((c) => c.items) };
+    currentPayload = buildPayloadV2();
   } else {
     currentPayload = data;
   }

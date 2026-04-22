@@ -132,9 +132,13 @@ app.whenReady().then(() => {
 
   const okUp     = globalShortcut.register('Ctrl+Shift+Up',    () => mainWin?.webContents.send('global-nav', 'up'))
   const okDown   = globalShortcut.register('Ctrl+Shift+Down',  () => mainWin?.webContents.send('global-nav', 'down'))
+  const okLeft   = globalShortcut.register('Ctrl+Shift+Left',  () => mainWin?.webContents.send('global-nav', 'left'))
+  const okRight  = globalShortcut.register('Ctrl+Shift+Right', () => mainWin?.webContents.send('global-nav', 'right'))
   const okToggle = globalShortcut.register('Ctrl+Shift+Space', () => mainWin?.webContents.send('shift-layer-on'))
   if (!okUp)     console.error('[shortcuts] Failed to register Ctrl+Shift+Up')
   if (!okDown)   console.error('[shortcuts] Failed to register Ctrl+Shift+Down')
+  if (!okLeft)   console.error('[shortcuts] Failed to register Ctrl+Shift+Left')
+  if (!okRight)  console.error('[shortcuts] Failed to register Ctrl+Shift+Right')
   if (!okToggle) console.error('[shortcuts] Failed to register Ctrl+Shift+Space')
 
   app.on('activate', () => {
@@ -222,8 +226,7 @@ ipcMain.on('setup-complete', (_, data) => {
   if (data?.mode === 'programmatic') {
     // Re-save to DB (idempotent for file mode; covers paste mode which skips process-file)
     savePayload(cachedFileName, data)
-    const v2 = buildPayloadV2()
-    currentPayload = { mode: v2.mode, items: v2.chunks.flatMap(c => c.items) }
+    currentPayload = buildPayloadV2()
   } else {
     currentPayload = data
   }

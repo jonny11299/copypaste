@@ -6,11 +6,12 @@ export function buildPayloadV2() {
 
   const first = rows[0]
   const payload = {
-    id:       first.payload_id,
-    name:     first.payload_name,
-    mode:     first.mode,
-    saved_at: first.saved_at,
-    chunks:   [],
+    id:               first.payload_id,
+    name:             first.payload_name,
+    mode:             first.mode,
+    saved_at:         first.saved_at,
+    activeChunkIndex: 0,
+    chunks:           [],
   }
 
   const chunkMap = new Map()
@@ -19,11 +20,12 @@ export function buildPayloadV2() {
   for (const row of rows) {
     if (!chunkMap.has(row.chunk_id)) {
       const chunk = {
-        id:          row.chunk_id,
-        payload_id:  row.payload_id,
-        chunk_index: row.chunk_index,
-        chunk_title: row.chunk_title,
-        items:       [],
+        id:              row.chunk_id,
+        payload_id:      row.payload_id,
+        chunk_index:     row.chunk_index,
+        chunk_title:     row.chunk_title,
+        activeItemIndex: 0,
+        items:           [],
       }
       chunkMap.set(row.chunk_id, chunk)
       payload.chunks.push(chunk)

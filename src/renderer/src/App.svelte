@@ -2,21 +2,31 @@
   import { onMount, onDestroy } from 'svelte'
 
   // ── State ──────────────────────────────────────────────────────────────────
-  let active        = true
-  let selectedIndex = 0
-  let copiedKey     = null
-  let copiedShift   = false
-  let copyTimeout   = null
+  let active           = true
+  let copiedKey        = null
+  let copiedShift      = false
+  let copyTimeout      = null
   let shiftHeld        = false
   let shiftHoldTimeout = null
 
-  // ── Payload — single source of truth (shape defined in src/main/payload_v2.js)
+  // ── Payload — full v2 structure with chunk navigation state
   let payload = {
-    mode: 'none',
-    items: Array.from({ length: 8 }, (_, i) => ({
-      item_id: i, item_title: `Item ${i + 1}`, contents: [],
-    })),
+    mode:             'none',
+    activeChunkIndex: 0,
+    chunks: [{
+      chunk_title:     '',
+      activeItemIndex: 0,
+      items: Array.from({ length: 8 }, (_, i) => ({
+        item_id: i, item_title: `Item ${i + 1}`, contents: [],
+      })),
+    }],
   }
+
+  // ── Derived: active chunk and its items
+  $: activeChunk = payload.chunks[payload.activeChunkIndex] ?? payload.chunks[0]
+  $: activeItems = activeChunk?.items ?? []
+  $: selectedIndex = activeChunk?.activeItemIndex ?? 0
+  $: multiChunk = payload.chunks.length > 1
 
   // Look up a content entry by c_id; returns blank if not present
   function getSlot(item, cId) {
@@ -30,21 +40,35 @@
   const DIGIT_KEYS = ['1','2','3','4','5','6','7','8','9','0']
 
   $: normalFields = DIGIT_KEYS.map((k, i) => ({
-    key: k, label: getSlot(payload.items[selectedIndex], i).c_title, cId: i,
+    key: k, label: getSlot(activeItems[selectedIndex], i).c_title, cId: i,
   }))
 
   $: shiftFields = DIGIT_KEYS.map((k, i) => ({
-    key: k, label: getSlot(payload.items[selectedIndex], 10 + i).c_title, cId: 10 + i,
+    key: k, label: getSlot(activeItems[selectedIndex], 10 + i).c_title, cId: 10 + i,
   }))
 
   $: displayFields = shiftHeld ? shiftFields : normalFields
+
+  // ── Navigation helpers ─────────────────────────────────────────────────────
+  function navUp() {
+    payload.chunks[payload.activeChunkIndex].activeItemIndex = Math.max(selectedIndex - 1, 0)
+  }
+  function navDown() {
+    payload.chunks[payload.activeChunkIndex].activeItemIndex = Math.min(selectedIndex + 1, activeItems.length - 1)
+  }
+  function navLeft() {
+    payload.activeChunkIndex = Math.max(payload.activeChunkIndex - 1, 0)
+  }
+  function navRight() {
+    payload.activeChunkIndex = Math.min(payload.activeChunkIndex + 1, payload.chunks.length - 1)
+  }
 
   // ── Copy logic ─────────────────────────────────────────────────────────────
   function copyField(key, shift = false) {
     if (!active) return
     const keyIndex = key === '0' ? 9 : parseInt(key) - 1
     const cId      = shift ? 10 + keyIndex : keyIndex
-    const text     = getSlot(payload.items[selectedIndex], cId).c_contents
+    const text     = getSlot(activeItems[selectedIndex], cId).c_contents
     if (!text) return
     window.api.writeClipboard(String(text))
     copiedKey   = key
@@ -60,10 +84,16 @@
     if (!active) return
     if (e.key === 'ArrowDown') {
       e.preventDefault()
-      selectedIndex = Math.min(selectedIndex + 1, payload.items.length - 1)
+      navDown()
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
-      selectedIndex = Math.max(selectedIndex - 1, 0)
+      navUp()
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault()
+      navLeft()
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault()
+      navRight()
     } else if (ALL_DIGIT_KEYS.has(e.key)) {
       copyField(e.key, e.shiftKey)
     }
@@ -98,13 +128,14 @@
 
     window.api.onGlobalNav((dir) => {
       if (!active) return
-      if (dir === 'up')   selectedIndex = Math.max(selectedIndex - 1, 0)
-      if (dir === 'down') selectedIndex = Math.min(selectedIndex + 1, payload.items.length - 1)
+      if (dir === 'up')    navUp()
+      if (dir === 'down')  navDown()
+      if (dir === 'left')  navLeft()
+      if (dir === 'right') navRight()
     })
 
     window.api.onSLIData((data) => {
-      payload        = data
-      selectedIndex  = 0
+      payload = data
     })
   })
 
@@ -142,9 +173,14 @@
   </button>
 
   {#if active}
+    <!-- Chunk indicator (hidden when only one chunk) -->
+    {#if multiChunk}
+      <div class="chunk-bar">← {activeChunk.chunk_title} →</div>
+    {/if}
+
     <!-- Item list -->
     <div class="sli-list" role="listbox" aria-label="Item list">
-      {#each payload.items as item, i}
+      {#each activeItems as item, i}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
           class="sli-row"
@@ -152,7 +188,7 @@
           role="option"
           aria-selected={i === selectedIndex}
           tabindex="-1"
-          on:click={() => (selectedIndex = i)}
+          on:click={() => { payload.chunks[payload.activeChunkIndex].activeItemIndex = i }}
         >
           {item.item_title}
         </div>
@@ -260,6 +296,24 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #999;
+  }
+
+  /* ── Chunk bar ── */
+  .chunk-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #a5b4fc;
+    background: rgba(99, 102, 241, 0.1);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* ── SLI list ── */

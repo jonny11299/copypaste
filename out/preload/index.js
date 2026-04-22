@@ -21,6 +21,7 @@ electron.contextBridge.exposeInMainWorld("api", {
   setupComplete: (data) => electron.ipcRenderer.send("setup-complete", data),
   // Payload viewer
   getPayload: () => electron.ipcRenderer.invoke("get-payload"),
+  loadPayloadV2: () => electron.ipcRenderer.invoke("load-payload-v2"),
   // Quick links
   getQuickLinks: () => electron.ipcRenderer.invoke("get-quick-links"),
   saveQuickLinks: (links) => electron.ipcRenderer.invoke("save-quick-links", links),

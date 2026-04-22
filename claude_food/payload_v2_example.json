@@ -1,0 +1,54 @@
+{
+  "id": 1,
+  "name": "271325 Spanish Speakers CBS Interactive 04/20/2026",
+  "mode": "programmatic",
+  "saved_at": "2026-04-21T12:00:00.000Z",
+  "chunks": [
+    {
+      "id": 1,
+      "payload_id": 1,
+      "chunk_index": 0,
+      "chunk_title": "Programmatic Chunk",
+      "items": [
+        {
+          "id": 1,
+          "chunk_id": 1,
+          "item_index": 0,
+          "item_title": "1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s",
+          "contents": [
+            { "id": 1,  "item_id": 1, "c_id": 0,  "c_title": "Deal Name",         "c_contents": "1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s", "c_override": null, "c_type": "string" },
+            { "id": 2,  "item_id": 1, "c_id": 1,  "c_title": "Deal ID",            "c_contents": "PARA-1720250",          "c_override": null, "c_type": "string" },
+            { "id": 3,  "item_id": 1, "c_id": 2,  "c_title": "Seat ID",            "c_contents": "",                       "c_override": null, "c_type": "string" },
+            { "id": 4,  "item_id": 1, "c_id": 3,  "c_title": "Schedule",           "c_contents": "04/27/26 - 04/30/26",   "c_override": null, "c_type": "string" },
+            { "id": 5,  "item_id": 1, "c_id": 4,  "c_title": "Quantity",           "c_contents": "199266",                 "c_override": null, "c_type": "string" },
+            { "id": 6,  "item_id": 1, "c_id": 5,  "c_title": "Price",              "c_contents": "28.96",                  "c_override": null, "c_type": "string" },
+            { "id": 7,  "item_id": 1, "c_id": 6,  "c_title": "Inventory",          "c_contents": "US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard", "c_override": null, "c_type": "string" },
+            { "id": 8,  "item_id": 1, "c_id": 7,  "c_title": "Creative Length",    "c_contents": "30",                     "c_override": null, "c_type": "string" },
+            { "id": 9,  "item_id": 1, "c_id": 8,  "c_title": "fcaps",              "c_contents": "none",                   "c_override": null, "c_type": "string" },
+            { "id": 10, "item_id": 1, "c_id": 9,  "c_title": "Salesforce Message", "c_contents": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s\nDeal ID: PARA-1720250\nSeat ID: none\nSchedule: 04/27/26 - 04/30/26\nQuantity: 199,266 imps\nPrice: $28.96 CPM (Fixed Price)\nInventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard\nCreative Length: 30s\nfcaps: none\n\nName: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s\nDeal ID: PARA-1720251\nSeat ID: none\nSchedule: 04/27/26 - 04/30/26\nQuantity: 22,140 imps\nPrice: $28.96 CPM (Fixed Price)\nInventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard\nCreative Length: 30s\nfcaps: none\n\n[... 6 more deals ...]", "c_override": null, "c_type": "string" },
+            { "id": 11, "item_id": 1, "c_id": 14, "c_title": "Qty + 1%",           "c_contents": "201259",                 "c_override": null, "c_type": "string" }
+          ]
+        },
+        {
+          "id": 2,
+          "chunk_id": 1,
+          "item_index": 1,
+          "item_title": "1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s",
+          "contents": [
+            { "id": 12, "item_id": 2, "c_id": 0,  "c_title": "Deal Name",         "c_contents": "1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s", "c_override": null, "c_type": "string" },
+            { "id": 13, "item_id": 2, "c_id": 1,  "c_title": "Deal ID",            "c_contents": "PARA-1720251",          "c_override": null, "c_type": "string" },
+            { "id": 14, "item_id": 2, "c_id": 2,  "c_title": "Seat ID",            "c_contents": "",                       "c_override": null, "c_type": "string" },
+            { "id": 15, "item_id": 2, "c_id": 3,  "c_title": "Schedule",           "c_contents": "04/27/26 - 04/30/26",   "c_override": null, "c_type": "string" },
+            { "id": 16, "item_id": 2, "c_id": 4,  "c_title": "Quantity",           "c_contents": "22140",                  "c_override": null, "c_type": "string" },
+            { "id": 17, "item_id": 2, "c_id": 5,  "c_title": "Price",              "c_contents": "28.96",                  "c_override": null, "c_type": "string" },
+            { "id": 18, "item_id": 2, "c_id": 6,  "c_title": "Inventory",          "c_contents": "US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard", "c_override": null, "c_type": "string" },
+            { "id": 19, "item_id": 2, "c_id": 7,  "c_title": "Creative Length",    "c_contents": "30",                     "c_override": null, "c_type": "string" },
+            { "id": 20, "item_id": 2, "c_id": 8,  "c_title": "fcaps",              "c_contents": "none",                   "c_override": null, "c_type": "string" },
+            { "id": 21, "item_id": 2, "c_id": 9,  "c_title": "Salesforce Message", "c_contents": "Name: 1720250-1_271325_US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard | April 30s\nDeal ID: PARA-1720250\nSeat ID: none\nSchedule: 04/27/26 - 04/30/26\nQuantity: 199,266 imps\nPrice: $28.96 CPM (Fixed Price)\nInventory: US|c|PG|PARA Spanish Speakers Data News Exclusion|Video|Standard\nCreative Length: 30s\nfcaps: none\n\nName: 1720251-1_271325_US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard | April 30s\nDeal ID: PARA-1720251\nSeat ID: none\nSchedule: 04/27/26 - 04/30/26\nQuantity: 22,140 imps\nPrice: $28.96 CPM (Fixed Price)\nInventory: US|c|PG|PARA Spanish Language Content News Exclusion|Video|Standard\nCreative Length: 30s\nfcaps: none\n\n[... 6 more deals ...]", "c_override": null, "c_type": "string" },
+            { "id": 22, "item_id": 2, "c_id": 14, "c_title": "Qty + 1%",           "c_contents": "22362",                  "c_override": null, "c_type": "string" }
+          ]
+        }
+      ]
+    }
+  ]
+}

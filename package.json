@@ -7,8 +7,7 @@
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
-    "sfmessage": "node scripts/sfmessage.js",
-    "test": "vitest run",
+"test": "vitest run",
     "test:watch": "vitest",
     "postinstall": "electron-rebuild -f -w better-sqlite3"
   },

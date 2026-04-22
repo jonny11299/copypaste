@@ -161,6 +161,22 @@
     copyCellTimeout = setTimeout(() => copiedCell = null, 700)
   }
 
+  // ── Load payload_v2 from DB ────────────────────────────────────────────────
+  let v2StatusMsg = null
+  let v2StatusTimeout = null
+
+  async function copyPayloadV2() {
+    const data = await window.api.loadPayloadV2()
+    clearTimeout(v2StatusTimeout)
+    if (!data) {
+      v2StatusMsg = 'No payload in DB yet.'
+    } else {
+      window.api.writeClipboard(JSON.stringify(data, null, 2))
+      v2StatusMsg = 'Copied!'
+    }
+    v2StatusTimeout = setTimeout(() => v2StatusMsg = null, 2000)
+  }
+
   // ── Quick Links ────────────────────────────────────────────────────────────
   function addLink()       { links = [...links, { name: '', url: '' }]; linksDirty = true }
   function removeLink(i)   { links = links.filter((_, idx) => idx !== i); linksDirty = true }
@@ -224,6 +240,13 @@
         <span class="card-text">
           <span class="card-title">Quick Links</span>
           <span class="card-desc">Add and manage bookmarked links</span>
+        </span>
+      </button>
+      <button class="card" on:click={copyPayloadV2}>
+        <span class="card-icon">💾</span>
+        <span class="card-text">
+          <span class="card-title">Copy Payload v2</span>
+          <span class="card-desc">{v2StatusMsg ?? 'Copy last saved DB payload as v2 JSON'}</span>
         </span>
       </button>
     </div>

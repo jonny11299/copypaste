@@ -25,6 +25,7 @@ contextBridge.exposeInMainWorld('api', {
 
   // Payload viewer
   getPayload:       ()      => ipcRenderer.invoke('get-payload'),
+  loadPayloadV2:    ()      => ipcRenderer.invoke('load-payload-v2'),
 
   // Quick links
   getQuickLinks:    ()      => ipcRenderer.invoke('get-quick-links'),

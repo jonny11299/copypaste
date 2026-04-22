@@ -3,6 +3,7 @@ import { join } from 'path'
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import XLSX from 'xlsx'
 import { initDb, savePayload, queryAll } from './db.js'
+import { buildPayloadV2 } from './payload_v2.js'
 import {
   EXPECTED_HEADERS,
   validateHeaders,
@@ -235,3 +236,6 @@ ipcMain.on('close-payload-table', () => { payloadTableWin?.close() })
 
 // DB query for table viewer
 ipcMain.handle('query-db', () => queryAll())
+
+// Load payload_v2 from DB
+ipcMain.handle('load-payload-v2', () => buildPayloadV2())

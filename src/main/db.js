@@ -64,6 +64,33 @@ export function savePayload(name, payload) {
   saveAll()
 }
 
+export function queryAllV2() {
+  return db.prepare(`
+    SELECT
+      p.id   AS payload_id,
+      p.name AS payload_name,
+      p.mode,
+      p.saved_at,
+      k.id          AS chunk_id,
+      k.chunk_index,
+      k.chunk_title,
+      i.id         AS item_id,
+      i.item_index,
+      i.item_title,
+      c.id         AS content_id,
+      c.c_id,
+      c.c_title,
+      c.c_contents,
+      c.c_override,
+      c.c_type
+    FROM payloads p
+    JOIN chunks   k ON k.payload_id = p.id
+    JOIN items    i ON i.chunk_id   = k.id
+    JOIN contents c ON c.item_id    = i.id
+    ORDER BY k.chunk_index, i.item_index, c.c_id
+  `).all()
+}
+
 export function queryAll() {
   return db.prepare(`
     SELECT

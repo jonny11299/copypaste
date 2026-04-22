@@ -59,6 +59,32 @@ function savePayload(name, payload) {
   });
   saveAll();
 }
+function queryAllV2() {
+  return db.prepare(`
+    SELECT
+      p.id   AS payload_id,
+      p.name AS payload_name,
+      p.mode,
+      p.saved_at,
+      k.id          AS chunk_id,
+      k.chunk_index,
+      k.chunk_title,
+      i.id         AS item_id,
+      i.item_index,
+      i.item_title,
+      c.id         AS content_id,
+      c.c_id,
+      c.c_title,
+      c.c_contents,
+      c.c_override,
+      c.c_type
+    FROM payloads p
+    JOIN chunks   k ON k.payload_id = p.id
+    JOIN items    i ON i.chunk_id   = k.id
+    JOIN contents c ON c.item_id    = i.id
+    ORDER BY k.chunk_index, i.item_index, c.c_id
+  `).all();
+}
 function queryAll() {
   return db.prepare(`
     SELECT
@@ -79,6 +105,54 @@ function queryAll() {
     JOIN contents c ON c.item_id    = i.id
     ORDER BY i.item_index, c.c_id
   `).all();
+}
+function buildPayloadV2() {
+  const rows = queryAllV2();
+  if (!rows.length) return null;
+  const first = rows[0];
+  const payload = {
+    id: first.payload_id,
+    name: first.payload_name,
+    mode: first.mode,
+    saved_at: first.saved_at,
+    chunks: []
+  };
+  const chunkMap = /* @__PURE__ */ new Map();
+  const itemMap = /* @__PURE__ */ new Map();
+  for (const row of rows) {
+    if (!chunkMap.has(row.chunk_id)) {
+      const chunk = {
+        id: row.chunk_id,
+        payload_id: row.payload_id,
+        chunk_index: row.chunk_index,
+        chunk_title: row.chunk_title,
+        items: []
+      };
+      chunkMap.set(row.chunk_id, chunk);
+      payload.chunks.push(chunk);
+    }
+    if (!itemMap.has(row.item_id)) {
+      const item = {
+        id: row.item_id,
+        chunk_id: row.chunk_id,
+        item_index: row.item_index,
+        item_title: row.item_title,
+        contents: []
+      };
+      itemMap.set(row.item_id, item);
+      chunkMap.get(row.chunk_id).items.push(item);
+    }
+    itemMap.get(row.item_id).contents.push({
+      id: row.content_id,
+      item_id: row.item_id,
+      c_id: row.c_id,
+      c_title: row.c_title,
+      c_contents: row.c_contents,
+      c_override: row.c_override,
+      c_type: row.c_type
+    });
+  }
+  return payload;
 }
 const COL = {
   SLI_ID: 16,
@@ -653,3 +727,4 @@ electron.ipcMain.on("close-payload-table", () => {
   payloadTableWin?.close();
 });
 electron.ipcMain.handle("query-db", () => queryAll());
+electron.ipcMain.handle("load-payload-v2", () => buildPayloadV2());

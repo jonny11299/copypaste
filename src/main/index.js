@@ -212,8 +212,15 @@ ipcMain.handle('parse-pasted-plis',  (_, text) => parsePastedPLIs(text))
 
 // Setup complete — cache payload and push to overlay
 ipcMain.on('setup-complete', (_, data) => {
-  currentPayload = data
-  mainWin?.webContents.send('sli-data', data)
+  if (data?.mode === 'programmatic') {
+    // Re-save to DB (idempotent for file mode; covers paste mode which skips process-file)
+    savePayload(cachedFileName, data)
+    const v2 = buildPayloadV2()
+    currentPayload = { mode: v2.mode, items: v2.chunks.flatMap(c => c.items) }
+  } else {
+    currentPayload = data
+  }
+  mainWin?.webContents.send('sli-data', currentPayload)
 })
 
 // Return current payload to menu window on request

@@ -707,8 +707,14 @@ electron.ipcMain.handle("process-file", (_, opts) => {
 electron.ipcMain.handle("parse-pasted-slis", (_, text) => parsePastedSLIs(text));
 electron.ipcMain.handle("parse-pasted-plis", (_, text) => parsePastedPLIs(text));
 electron.ipcMain.on("setup-complete", (_, data) => {
-  currentPayload = data;
-  mainWin?.webContents.send("sli-data", data);
+  if (data?.mode === "programmatic") {
+    savePayload(cachedFileName, data);
+    const v2 = buildPayloadV2();
+    currentPayload = { mode: v2.mode, items: v2.chunks.flatMap((c) => c.items) };
+  } else {
+    currentPayload = data;
+  }
+  mainWin?.webContents.send("sli-data", currentPayload);
 });
 electron.ipcMain.handle("get-payload", () => currentPayload);
 electron.ipcMain.handle("get-quick-links", () => {

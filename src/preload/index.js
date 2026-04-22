@@ -5,7 +5,8 @@ contextBridge.exposeInMainWorld('api', {
   writeClipboard:   (text)  => ipcRenderer.invoke('write-clipboard', text),
   onGlobalKey:      (cb)    => ipcRenderer.on('global-key',       (_, key) => cb(key)),
   onGlobalShiftKey: (cb)    => ipcRenderer.on('global-shift-key', (_, key) => cb(key)),
-  onGlobalNav:      (cb)    => ipcRenderer.on('global-nav',       (_, dir) => cb(dir)),
+  onGlobalNav:         (cb) => ipcRenderer.on('global-nav',         (_, dir) => cb(dir)),
+  onShiftLayerOn:      (cb) => ipcRenderer.on('shift-layer-on',     cb),
 
   // Window controls
   minimizeWindow:   ()      => ipcRenderer.send('window-minimize'),

@@ -7,7 +7,8 @@
   let copiedKey     = null
   let copiedShift   = false
   let copyTimeout   = null
-  let shiftHeld     = false
+  let shiftHeld        = false
+  let shiftHoldTimeout = null
 
   // ── Payload — single source of truth (shape defined in src/main/payload_v2.js)
   let payload = {
@@ -87,6 +88,12 @@
         copyField(key, true)
         setTimeout(() => { shiftHeld = false }, 700)
       }
+    })
+
+    window.api.onShiftLayerOn(() => {
+      shiftHeld = true
+      clearTimeout(shiftHoldTimeout)
+      shiftHoldTimeout = setTimeout(() => { shiftHeld = false }, 600)
     })
 
     window.api.onGlobalNav((dir) => {

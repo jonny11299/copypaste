@@ -7,6 +7,7 @@ Ctrl+1 through Ctrl+0        Copy slots 0–9 for the selected item
 Ctrl+Shift+1 through Ctrl+Shift+0   Copy slots 10–19 for the selected item
 Ctrl+Shift+↑                 Move selection up one item
 Ctrl+Shift+↓                 Move selection down one item
+Ctrl+Shift+Space             Hold to preview shift layer (shows slots 10–19 without copying)
 
 SLOT → SHORTCUT MAPPING
 ------------------------

@@ -644,6 +644,12 @@ electron.app.whenReady().then(() => {
     });
     if (!okShift) console.error(`[shortcuts] Failed to register Ctrl+Shift+${key}`);
   });
+  const okUp = electron.globalShortcut.register("Ctrl+Shift+Up", () => mainWin?.webContents.send("global-nav", "up"));
+  const okDown = electron.globalShortcut.register("Ctrl+Shift+Down", () => mainWin?.webContents.send("global-nav", "down"));
+  const okToggle = electron.globalShortcut.register("Ctrl+Shift+Space", () => mainWin?.webContents.send("shift-layer-on"));
+  if (!okUp) console.error("[shortcuts] Failed to register Ctrl+Shift+Up");
+  if (!okDown) console.error("[shortcuts] Failed to register Ctrl+Shift+Down");
+  if (!okToggle) console.error("[shortcuts] Failed to register Ctrl+Shift+Space");
   electron.app.on("activate", () => {
     if (electron.BrowserWindow.getAllWindows().length === 0) {
       createMainWindow();

@@ -5,6 +5,8 @@ electron.contextBridge.exposeInMainWorld("api", {
   writeClipboard: (text) => electron.ipcRenderer.invoke("write-clipboard", text),
   onGlobalKey: (cb) => electron.ipcRenderer.on("global-key", (_, key) => cb(key)),
   onGlobalShiftKey: (cb) => electron.ipcRenderer.on("global-shift-key", (_, key) => cb(key)),
+  onGlobalNav: (cb) => electron.ipcRenderer.on("global-nav", (_, dir) => cb(dir)),
+  onShiftLayerOn: (cb) => electron.ipcRenderer.on("shift-layer-on", cb),
   // Window controls
   minimizeWindow: () => electron.ipcRenderer.send("window-minimize"),
   openExternal: (url) => electron.ipcRenderer.send("open-external", url),

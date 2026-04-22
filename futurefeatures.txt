@@ -1,0 +1,15 @@
+Migrating from payload to payload_v2:
+
+1. Completed Programmatic integration
+2. Haven't tested 1x1s or direct, but to be honest, these should just be
+rewritten to go into the database first. And we can already go
+from the database into the payload.
+
+Pending:
+1. Load direct deals into the databse
+	- will need to manage chunks correctly, and implement them
+	  into the overlay.
+2. Replace macros with a good ruleset
+3. Get playwright to automatically insert 1x1s into the creatives.
+
+

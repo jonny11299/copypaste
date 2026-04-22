@@ -1,0 +1,67 @@
+CopyPaste — Controls Reference
+==============================
+
+GLOBAL SHORTCUTS (work from any app, no focus required)
+---------------------------------------------------------
+Ctrl+1 through Ctrl+0        Copy slots 0–9 for the selected item
+Ctrl+Shift+1 through Ctrl+Shift+0   Copy slots 10–19 for the selected item
+Ctrl+Shift+↑                 Move selection up one item
+Ctrl+Shift+↓                 Move selection down one item
+
+SLOT → SHORTCUT MAPPING
+------------------------
+  Slot 0  →  Ctrl+1       Slot 10  →  Ctrl+Shift+1
+  Slot 1  →  Ctrl+2       Slot 11  →  Ctrl+Shift+2
+  Slot 2  →  Ctrl+3       Slot 12  →  Ctrl+Shift+3
+  Slot 3  →  Ctrl+4       Slot 13  →  Ctrl+Shift+4
+  Slot 4  →  Ctrl+5       Slot 14  →  Ctrl+Shift+5
+  Slot 5  →  Ctrl+6       Slot 15  →  Ctrl+Shift+6
+  Slot 6  →  Ctrl+7       Slot 16  →  Ctrl+Shift+7
+  Slot 7  →  Ctrl+8       Slot 17  →  Ctrl+Shift+8
+  Slot 8  →  Ctrl+9       Slot 18  →  Ctrl+Shift+9
+  Slot 9  →  Ctrl+0       Slot 19  →  Ctrl+Shift+0
+
+OVERLAY PANEL (left-side panel)
+--------------------------------
+↑ / ↓ arrow keys             Move selection up/down (requires overlay focus)
+Click an item                Select it
+Green dot                    Toggle active / paused (paused = shortcuts disabled)
+MENU button                  Open the menu window
+SQL TABLE button             Open the raw DB table viewer
+
+MENU — HOME SCREEN
+-------------------
+New Programmatic Setup       Load SLIs from an Excel file or pasted labeled text
+New 1x1 Setup                Load 1x1 tracking pixel URLs from pasted text
+View Payload                 Inspect the current in-memory payload as a table
+Quick Links                  Add, edit, and open bookmarked URLs
+Copy Payload v2              Copy the last DB-saved payload as formatted JSON
+                             (useful for verifying what was persisted)
+
+MENU — PAYLOAD VIEWER
+----------------------
+Click any cell               Copies that cell's value to clipboard
+Click row number             Filters the table to show only that row
+Click row number again       Returns to showing all rows
+
+LOADING A PAYLOAD (Programmatic)
+----------------------------------
+1. Click MENU → New Programmatic Setup
+2. Choose source:
+   - Excel File: pick a production ticket .xls/.xlsx
+   - Paste Text: paste labeled SLI text (one blank line between SLIs)
+3. Fill in the options form (Magnite, Seat ID, fcaps, DNR, etc.)
+4. Click "Load SLIs"
+5. The overlay updates immediately; the payload is also saved to the DB
+
+LOADING A PAYLOAD (1x1 Tracking)
+----------------------------------
+1. Click MENU → New 1x1 Setup
+2. Paste PLI tracking text in the format:
+     PLI = 5320037:
+     "impression
+     https://...
+     start
+     https://..."
+3. Click "Load PLIs"
+4. The overlay updates immediately

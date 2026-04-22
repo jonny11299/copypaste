@@ -89,6 +89,12 @@
       }
     })
 
+    window.api.onGlobalNav((dir) => {
+      if (!active) return
+      if (dir === 'up')   selectedIndex = Math.max(selectedIndex - 1, 0)
+      if (dir === 'down') selectedIndex = Math.min(selectedIndex + 1, payload.items.length - 1)
+    })
+
     window.api.onSLIData((data) => {
       payload        = data
       selectedIndex  = 0

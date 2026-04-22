@@ -130,6 +130,11 @@ app.whenReady().then(() => {
     if (!okShift) console.error(`[shortcuts] Failed to register Ctrl+Shift+${key}`)
   })
 
+  const okUp   = globalShortcut.register('Ctrl+Shift+Up',   () => mainWin?.webContents.send('global-nav', 'up'))
+  const okDown = globalShortcut.register('Ctrl+Shift+Down', () => mainWin?.webContents.send('global-nav', 'down'))
+  if (!okUp)   console.error('[shortcuts] Failed to register Ctrl+Shift+Up')
+  if (!okDown) console.error('[shortcuts] Failed to register Ctrl+Shift+Down')
+
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createMainWindow()

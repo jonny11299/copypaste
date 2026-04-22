@@ -9,7 +9,7 @@
   let copyTimeout   = null
   let shiftHeld     = false
 
-  // ── Payload — single source of truth (shape defined in src/main/payload.js)
+  // ── Payload — single source of truth (shape defined in src/main/payload_v2.js)
   let payload = {
     mode: 'none',
     items: Array.from({ length: 8 }, (_, i) => ({
@@ -82,7 +82,11 @@
     })
 
     window.api.onGlobalShiftKey((key) => {
-      if (active) copyField(key, true)
+      if (active) {
+        shiftHeld = true
+        copyField(key, true)
+        setTimeout(() => { shiftHeld = false }, 700)
+      }
     })
 
     window.api.onSLIData((data) => {

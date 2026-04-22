@@ -183,7 +183,7 @@ function getMissingMagniteLine(dataRows) {
  *   hasDNR, hasAudience, hasRelTarget,
  *   isSplitPayDeal, splitPrePrice, splitPostPrice,
  *   budgetModel
- * @returns {Payload}  see src/main/payload.js for full shape spec
+ * @returns {Payload}  see src/main/payload_v2.js for full shape spec
  */
 function processRows(dataRows, opts) {
   const {
@@ -309,7 +309,7 @@ function processRows(dataRows, opts) {
  *   Creative Length: ...
  *   Fcaps: ...
  *
- * @returns {Payload}  see src/main/payload.js for full shape spec
+ * @returns {Payload}  see src/main/payload_v2.js for full shape spec
  */
 function parsePastedSLIs(text) {
   const blocks = text.trim().split(/\n[ \t]*\n/)
@@ -405,7 +405,7 @@ function parsePastedSLIs(text) {
  *   c_id  9    → PLI number / name  (Ctrl+0)
  *   c_id 10–19 → fields[9–18].url  (Ctrl+Shift+1–0)
  *
- * @returns {Payload}  see src/main/payload.js for full shape spec
+ * @returns {Payload}  see src/main/payload_v2.js for full shape spec
  */
 function parsePastedPLIs(text) {
   // Split on "PLI = NNNN" header lines; capture group preserves the ID

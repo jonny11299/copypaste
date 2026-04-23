@@ -24,6 +24,11 @@ electron.contextBridge.exposeInMainWorld("api", {
   // Payload viewer
   getPayload: () => electron.ipcRenderer.invoke("get-payload"),
   loadPayloadV2: () => electron.ipcRenderer.invoke("load-payload-v2"),
+  // DB file management
+  dbListFiles: () => electron.ipcRenderer.invoke("db-list-files"),
+  dbSave: (name) => electron.ipcRenderer.invoke("db-save", name),
+  dbLoad: (filename) => electron.ipcRenderer.invoke("db-load", filename),
+  dbDelete: (filename) => electron.ipcRenderer.invoke("db-delete", filename),
   // Quick links
   getQuickLinks: () => electron.ipcRenderer.invoke("get-quick-links"),
   saveQuickLinks: (links) => electron.ipcRenderer.invoke("save-quick-links", links),

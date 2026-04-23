@@ -161,6 +161,49 @@
     copyCellTimeout = setTimeout(() => copiedCell = null, 700)
   }
 
+  // ── Manage DB ──────────────────────────────────────────────────────────────
+  let dbFiles      = []
+  let dbSaveName   = ''
+  let dbStatusMsg  = null
+  let dbStatusTimeout = null
+  let dbLoading    = false
+
+  async function openManageDb() {
+    dbFiles     = await window.api.dbListFiles()
+    dbSaveName  = ''
+    dbStatusMsg = null
+    page = 'manage-db'
+  }
+
+  async function saveDb() {
+    const name = dbSaveName.trim()
+    if (!name) return
+    dbLoading = true
+    await window.api.dbSave(name)
+    dbFiles    = await window.api.dbListFiles()
+    dbSaveName = ''
+    dbLoading  = false
+    setDbStatus('Saved!')
+  }
+
+  async function loadDb(filename) {
+    dbLoading = true
+    await window.api.dbLoad(filename)
+    dbLoading = false
+    window.api.closeMenuWindow()
+  }
+
+  async function deleteDb(filename) {
+    await window.api.dbDelete(filename)
+    dbFiles = await window.api.dbListFiles()
+  }
+
+  function setDbStatus(msg) {
+    dbStatusMsg = msg
+    clearTimeout(dbStatusTimeout)
+    dbStatusTimeout = setTimeout(() => dbStatusMsg = null, 2000)
+  }
+
   // ── Load payload_v2 from DB ────────────────────────────────────────────────
   let v2StatusMsg = null
   let v2StatusTimeout = null
@@ -203,6 +246,7 @@
       {:else if page === 'setup'}Programmatic Setup
       {:else if page === '1x1'}1x1 Setup
       {:else if page === 'payload'}Payload Viewer
+      {:else if page === 'manage-db'}Manage DB
       {:else}Quick Links
       {/if}
     </span>
@@ -247,6 +291,13 @@
         <span class="card-text">
           <span class="card-title">Copy Payload v2</span>
           <span class="card-desc">{v2StatusMsg ?? 'Copy last saved DB payload as v2 JSON'}</span>
+        </span>
+      </button>
+      <button class="card" on:click={openManageDb}>
+        <span class="card-icon">🗄</span>
+        <span class="card-text">
+          <span class="card-title">Manage DB</span>
+          <span class="card-desc">Save or load a database snapshot</span>
         </span>
       </button>
     </div>
@@ -491,6 +542,45 @@
           </table>
         </div>
       {/if}
+    </div>
+
+  <!-- ── MANAGE DB ──────────────────────────────────────────────────────────── -->
+  {:else if page === 'manage-db'}
+    <div class="content">
+
+      <!-- Save section -->
+      <p class="section-label">Save current DB</p>
+      <div class="db-save-row">
+        <input
+          bind:value={dbSaveName}
+          placeholder="Name (e.g. my-setup)"
+          class="db-name-input"
+          on:keydown={e => e.key === 'Enter' && saveDb()}
+        />
+        <button class="primary-btn" on:click={saveDb} disabled={dbLoading || !dbSaveName.trim()}>
+          {dbLoading ? 'Saving…' : 'Save'}
+        </button>
+      </div>
+      {#if dbStatusMsg}<p class="hint db-status">{dbStatusMsg}</p>{/if}
+
+      <!-- Load section -->
+      <p class="section-label" style="margin-top: 8px">Load from file</p>
+      {#if dbFiles.length === 0}
+        <p class="hint">No saved DBs yet.</p>
+      {:else}
+        <div class="db-file-list">
+          {#each dbFiles as file}
+            <div class="db-file-row">
+              <button class="db-file-load-btn" on:click={() => loadDb(file)} disabled={dbLoading}>
+                <span class="db-file-name">{file.replace(/\.db$/, '')}</span>
+                <span class="db-file-load-label">{dbLoading ? '…' : 'Load →'}</span>
+              </button>
+              <button class="db-file-delete-btn" title="Delete" on:click={() => deleteDb(file)} disabled={dbLoading}>✕</button>
+            </div>
+          {/each}
+        </div>
+      {/if}
+
     </div>
 
   <!-- ── QUICK LINKS ────────────────────────────────────────────────────────── -->
@@ -930,6 +1020,86 @@
     cursor: pointer; padding: 2px 6px;
   }
   .ghost-sm:hover { color: #a5b4fc; }
+
+  /* ── Manage DB ── */
+  .db-save-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .db-name-input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    color: #d4d4d4;
+    font-size: 12px;
+    font-family: inherit;
+    padding: 6px 10px;
+    outline: none;
+    user-select: text;
+  }
+  .db-name-input:focus { border-color: #6366f1; }
+
+  .db-status { margin-top: 4px; color: #4ade80; }
+
+  .db-file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .db-file-row {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .db-file-row:has(.db-file-load-btn:hover) { border-color: #6366f1; }
+
+  .db-file-load-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.04);
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s;
+  }
+  .db-file-load-btn:hover:not(:disabled) { background: rgba(99,102,241,0.12); }
+  .db-file-load-btn:disabled { opacity: 0.5; cursor: default; }
+
+  .db-file-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #e2e2e2;
+    font-family: 'Menlo', monospace;
+  }
+
+  .db-file-load-label {
+    font-size: 11px;
+    color: #6366f1;
+  }
+
+  .db-file-delete-btn {
+    padding: 0 12px;
+    background: rgba(255,255,255,0.03);
+    border: none;
+    border-left: 1px solid rgba(255,255,255,0.08);
+    color: #555;
+    cursor: pointer;
+    font-size: 11px;
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
+  }
+  .db-file-delete-btn:hover:not(:disabled) { background: rgba(255,95,87,0.15); color: #ff5f57; }
+  .db-file-delete-btn:disabled { opacity: 0.5; cursor: default; }
 
   /* ── Feedback ── */
   .hint  { font-size: 11px; color: #555; }

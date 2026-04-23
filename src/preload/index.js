@@ -29,6 +29,12 @@ contextBridge.exposeInMainWorld('api', {
   getPayload:       ()      => ipcRenderer.invoke('get-payload'),
   loadPayloadV2:    ()      => ipcRenderer.invoke('load-payload-v2'),
 
+  // DB file management
+  dbListFiles: ()           => ipcRenderer.invoke('db-list-files'),
+  dbSave:      (name)       => ipcRenderer.invoke('db-save', name),
+  dbLoad:      (filename)   => ipcRenderer.invoke('db-load', filename),
+  dbDelete:    (filename)   => ipcRenderer.invoke('db-delete', filename),
+
   // Quick links
   getQuickLinks:    ()      => ipcRenderer.invoke('get-quick-links'),
   saveQuickLinks:   (links) => ipcRenderer.invoke('save-quick-links', links),

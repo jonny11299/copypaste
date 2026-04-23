@@ -85,6 +85,53 @@ function queryAllV2() {
     ORDER BY k.chunk_index, i.item_index, c.c_id
   `).all();
 }
+function seedDummyDb(filePath) {
+  const seed = new Database(filePath);
+  seed.exec(`
+    CREATE TABLE payloads (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, mode TEXT NOT NULL, saved_at TEXT NOT NULL);
+    CREATE TABLE chunks   (id INTEGER PRIMARY KEY AUTOINCREMENT, payload_id INTEGER NOT NULL, chunk_index INTEGER NOT NULL, chunk_title TEXT NOT NULL);
+    CREATE TABLE items    (id INTEGER PRIMARY KEY AUTOINCREMENT, chunk_id INTEGER NOT NULL, item_index INTEGER NOT NULL, item_title TEXT NOT NULL);
+    CREATE TABLE contents (id INTEGER PRIMARY KEY AUTOINCREMENT, item_id INTEGER NOT NULL, c_id INTEGER NOT NULL, c_title TEXT NOT NULL, c_contents TEXT NOT NULL, c_override TEXT, c_type TEXT NOT NULL DEFAULT 'string');
+  `);
+  const ip = seed.prepare("INSERT INTO payloads (name, mode, saved_at) VALUES (?, ?, ?)");
+  const ic = seed.prepare("INSERT INTO chunks (payload_id, chunk_index, chunk_title) VALUES (?, ?, ?)");
+  const ii = seed.prepare("INSERT INTO items (chunk_id, item_index, item_title) VALUES (?, ?, ?)");
+  const ct = seed.prepare("INSERT INTO contents (item_id, c_id, c_title, c_contents, c_override, c_type) VALUES (?, ?, ?, ?, NULL, ?)");
+  const pid = ip.run("dummy-2-chunk", "programmatic", (/* @__PURE__ */ new Date()).toISOString()).lastInsertRowid;
+  const chunks = [
+    { title: "Alpha Flight", items: [
+      { title: "Alpha_SLI_001", fields: [["Deal Name", "Alpha Deal One"], ["Deal ID", "PARA-ALPHA-001"], ["Schedule", "05/01/25 - 05/31/25"], ["Quantity", "500000"], ["Price", "12.50"], ["Inventory", "Video"], ["Creative Length", "15s"], ["fcaps", "none"]] },
+      { title: "Alpha_SLI_002", fields: [["Deal Name", "Alpha Deal Two"], ["Deal ID", "PARA-ALPHA-002"], ["Schedule", "05/01/25 - 05/31/25"], ["Quantity", "750000"], ["Price", "14.00"], ["Inventory", "Display"], ["Creative Length", "N/A"], ["fcaps", "3/day"]] },
+      { title: "Alpha_SLI_003", fields: [["Deal Name", "Alpha Deal Three"], ["Deal ID", "PARA-ALPHA-003"], ["Schedule", "06/01/25 - 06/30/25"], ["Quantity", "1000000"], ["Price", "10.00"], ["Inventory", "Video, DNR Excluded"], ["Creative Length", "30s"], ["fcaps", "none"]] }
+    ] },
+    { title: "Bravo Squadron", items: [
+      { title: "Bravo_SLI_001", fields: [["Deal Name", "Bravo Deal One"], ["Deal ID", "PARA-BRAVO-001"], ["Schedule", "05/15/25 - 06/15/25"], ["Quantity", "250000"], ["Price", "18.75"], ["Inventory", "CTV"], ["Creative Length", "30s"], ["fcaps", "2/day"]] },
+      { title: "Bravo_SLI_002", fields: [["Deal Name", "Bravo Deal Two"], ["Deal ID", "PARA-BRAVO-002"], ["Schedule", "05/15/25 - 06/15/25"], ["Quantity", "No Limit (PMP)"], ["Price", "22.00"], ["Inventory", "Video"], ["Creative Length", "15s"], ["fcaps", "none"]] }
+    ] }
+  ];
+  seed.transaction(() => {
+    chunks.forEach((chunk, ci) => {
+      const cid = ic.run(pid, ci, chunk.title).lastInsertRowid;
+      chunk.items.forEach((item, ij) => {
+        const iid = ii.run(cid, ij, item.title).lastInsertRowid;
+        item.fields.forEach(([title, contents], cId) => ct.run(iid, cId, title, contents, "string"));
+      });
+    });
+  })();
+  seed.close();
+}
+async function saveDbToFile(filePath) {
+  await db.backup(filePath);
+}
+function loadDbFromFile(filePath) {
+  db.exec("DELETE FROM contents; DELETE FROM items; DELETE FROM chunks; DELETE FROM payloads;");
+  db.exec(`ATTACH DATABASE '${filePath.replace(/'/g, "''")}' AS src`);
+  db.exec("INSERT INTO payloads SELECT * FROM src.payloads");
+  db.exec("INSERT INTO chunks   SELECT * FROM src.chunks");
+  db.exec("INSERT INTO items    SELECT * FROM src.items");
+  db.exec("INSERT INTO contents SELECT * FROM src.contents");
+  db.exec("DETACH DATABASE src");
+}
 function queryAll() {
   return db.prepare(`
     SELECT
@@ -553,6 +600,7 @@ function parsePastedPLIs(text) {
 const KEYS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 const DATA_DIR = path.join(__dirname, "../../data");
 const LINKS_FILE = path.join(DATA_DIR, "quicklinks.json");
+const DB_DIR = path.join(DATA_DIR, "DBs");
 let mainWin = null;
 let menuWin = null;
 let payloadTableWin = null;
@@ -634,6 +682,9 @@ function createPayloadTableWindow() {
 }
 electron.app.whenReady().then(() => {
   initDb();
+  fs.mkdirSync(DB_DIR, { recursive: true });
+  const dummyPath = path.join(DB_DIR, "dummy-2-chunk.db");
+  if (!fs.existsSync(dummyPath)) seedDummyDb(dummyPath);
   createMainWindow();
   createMenuWindow();
   KEYS.forEach((key) => {
@@ -745,3 +796,21 @@ electron.ipcMain.on("close-payload-table", () => {
 });
 electron.ipcMain.handle("query-db", () => queryAll());
 electron.ipcMain.handle("load-payload-v2", () => buildPayloadV2());
+electron.ipcMain.handle(
+  "db-list-files",
+  () => fs.readdirSync(DB_DIR).filter((f) => f.endsWith(".db"))
+);
+electron.ipcMain.handle("db-save", async (_, name) => {
+  const filePath = path.join(DB_DIR, `${name}.db`);
+  await saveDbToFile(filePath);
+});
+electron.ipcMain.handle("db-delete", (_, filename) => {
+  fs.rmSync(path.join(DB_DIR, filename));
+});
+electron.ipcMain.handle("db-load", async (_, filename) => {
+  const filePath = path.join(DB_DIR, filename);
+  loadDbFromFile(filePath);
+  const v2 = buildPayloadV2();
+  currentPayload = v2;
+  mainWin?.webContents.send("sli-data", v2);
+});

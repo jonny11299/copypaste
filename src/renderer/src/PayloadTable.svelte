@@ -15,10 +15,16 @@
     }
   })
 
-  // Group rows by item for display banding
-  $: groupedRows = rows.map((r, i) => ({
+  // Derive ordered unique chunk titles
+  $: chunkTitles = [...new Map(rows.map(r => [r.chunk_title, r.chunk_title])).keys()]
+  let activeChunk = null
+  $: if (chunkTitles.length && !activeChunk) activeChunk = chunkTitles[0]
+
+  // Filter to active chunk, then band by item
+  $: chunkRows = rows.filter(r => r.chunk_title === activeChunk)
+  $: groupedRows = chunkRows.map(r => ({
     ...r,
-    _band: rows.findIndex(x => x.item_index === r.item_index && x.item_title === r.item_title) % 2 === 0,
+    _band: chunkRows.findIndex(x => x.item_index === r.item_index && x.item_title === r.item_title) % 2 === 0,
   }))
 
   $: meta = rows[0] ?? null
@@ -40,9 +46,20 @@
     <div class="meta">
       <span><strong>Payload:</strong> {meta.payload_name}</span>
       <span><strong>Mode:</strong> {meta.payload_mode}</span>
-      <span><strong>Chunk:</strong> {meta.chunk_title}</span>
       <span><strong>Saved:</strong> {new Date(meta.saved_at).toLocaleString()}</span>
     </div>
+
+    {#if chunkTitles.length > 1}
+      <div class="tab-strip">
+        {#each chunkTitles as title}
+          <button
+            class="tab"
+            class:active={activeChunk === title}
+            on:click={() => activeChunk = title}
+          >{title}</button>
+        {/each}
+      </div>
+    {/if}
 
     <div class="table-wrap">
       <table>
@@ -133,6 +150,38 @@
     flex-shrink: 0;
   }
   .meta strong { color: #bbb; }
+
+  .tab-strip {
+    display: flex;
+    gap: 2px;
+    padding: 6px 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.01);
+  }
+
+  .tab {
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: inherit;
+    color: #666;
+    background: none;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+    transition: color 0.12s, background 0.12s;
+    white-space: nowrap;
+    position: relative;
+    bottom: -1px;
+  }
+  .tab:hover { color: #aaa; background: rgba(255,255,255,0.04); }
+  .tab.active {
+    color: #a5b4fc;
+    background: #0d0d12;
+    border-color: rgba(255,255,255,0.07);
+  }
 
   .table-wrap {
     flex: 1;

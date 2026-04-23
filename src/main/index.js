@@ -1,8 +1,8 @@
 import { app, BrowserWindow, screen, ipcMain, clipboard, globalShortcut, dialog, shell } from 'electron'
 import { join } from 'path'
-import { readFileSync, writeFileSync, existsSync } from 'fs'
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'fs'
 import XLSX from 'xlsx'
-import { initDb, savePayload, queryAll } from './db.js'
+import { initDb, savePayload, queryAll, saveDbToFile, loadDbFromFile, seedDummyDb } from './db.js'
 import { buildPayloadV2 } from './payload_v2.js'
 import {
   EXPECTED_HEADERS,
@@ -22,6 +22,7 @@ import {
 const KEYS        = ['1','2','3','4','5','6','7','8','9','0']
 const DATA_DIR    = join(__dirname, '../../data')
 const LINKS_FILE  = join(DATA_DIR, 'quicklinks.json')
+const DB_DIR      = join(DATA_DIR, 'DBs')
 
 let mainWin          = null
 let menuWin          = null
@@ -115,6 +116,9 @@ function createPayloadTableWindow() {
 
 app.whenReady().then(() => {
   initDb()
+  mkdirSync(DB_DIR, { recursive: true })
+  const dummyPath = join(DB_DIR, 'dummy-2-chunk.db')
+  if (!existsSync(dummyPath)) seedDummyDb(dummyPath)
   createMainWindow()
   createMenuWindow()
 
@@ -256,3 +260,25 @@ ipcMain.handle('query-db', () => queryAll())
 
 // Load payload_v2 from DB
 ipcMain.handle('load-payload-v2', () => buildPayloadV2())
+
+// DB file management
+ipcMain.handle('db-list-files', () =>
+  readdirSync(DB_DIR).filter(f => f.endsWith('.db'))
+)
+
+ipcMain.handle('db-save', async (_, name) => {
+  const filePath = join(DB_DIR, `${name}.db`)
+  await saveDbToFile(filePath)
+})
+
+ipcMain.handle('db-delete', (_, filename) => {
+  rmSync(join(DB_DIR, filename))
+})
+
+ipcMain.handle('db-load', async (_, filename) => {
+  const filePath = join(DB_DIR, filename)
+  loadDbFromFile(filePath)
+  const v2 = buildPayloadV2()
+  currentPayload = v2
+  mainWin?.webContents.send('sli-data', v2)
+})

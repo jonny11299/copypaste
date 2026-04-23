@@ -1,3 +1,15 @@
+
+4/22/26:
+On next launch:
+1. Review new vocab in CLAUDE.md
+2. Begin implementing direct-sold deals.
+	- Should, in general, build various profiles for different VTS setups (main page, DCM, Innovid, etc)
+	- Each one has "headers", "relevant cells", etc. Can be limited this way
+	- Upon seeing unrecognizeable columns, we should mark them as "relevant" vs "not relavent", and be able to see 
+		- both relevant and non-relavent columns upon request.
+
+
+4/20/26
 Migrating from payload to payload_v2:
 
 1. Completed Programmatic integration

@@ -1,3 +1,5 @@
 # Packages
 node_modules/
 
+# Per-user settings:
+data/DBs/

@@ -40,5 +40,11 @@ electron.contextBridge.exposeInMainWorld("api", {
   queryDb: () => electron.ipcRenderer.invoke("query-db"),
   // Generic SQL table window (DataTable.svelte test)
   openGenericSqlTable: () => electron.ipcRenderer.send("open-generic-sql-table"),
-  closeGenericSqlTable: () => electron.ipcRenderer.send("close-generic-sql-table")
+  closeGenericSqlTable: () => electron.ipcRenderer.send("close-generic-sql-table"),
+  // Direct setup window
+  openDirectSetup: () => electron.ipcRenderer.send("open-direct-setup"),
+  closeDirectSetup: () => electron.ipcRenderer.send("close-direct-setup"),
+  openXlsFileDialog: () => electron.ipcRenderer.invoke("open-xls-file-dialog"),
+  openDirectFileView: () => electron.ipcRenderer.send("open-direct-file-view"),
+  onDirectFileLoaded: (cb) => electron.ipcRenderer.on("direct-file-loaded", cb)
 });

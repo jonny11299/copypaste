@@ -3,6 +3,7 @@
 
   // ── State ──────────────────────────────────────────────────────────────────
   let active           = true
+  let directFileLoaded = false
   let copiedKey        = null
   let copiedShift      = false
   let copyTimeout      = null
@@ -137,6 +138,8 @@
     window.api.onSLIData((data) => {
       payload = data
     })
+
+    window.api.onDirectFileLoaded(() => { directFileLoaded = true })
   })
 
   onDestroy(() => {
@@ -170,6 +173,14 @@
   <!-- SQL table viewer button -->
   <button class="menu-section-btn" on:click={() => window.api.openPayloadTable()}>
     SQL TABLE
+  </button>
+
+  <!-- Generic SQL / Direct file viewer button -->
+  <button
+    class="menu-section-btn"
+    on:click={() => directFileLoaded ? window.api.openDirectFileView() : window.api.openGenericSqlTable()}
+  >
+    {directFileLoaded ? 'DIRECT' : 'GENERIC SQL'}
   </button>
 
   {#if active}

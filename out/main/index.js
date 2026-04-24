@@ -153,6 +153,115 @@ function queryAll() {
     ORDER BY i.item_index, c.c_id
   `).all();
 }
+let directSetupWin = null;
+let directFileViewWin = null;
+let directFileData = null;
+function getDirectFileViewWin() {
+  return directFileViewWin;
+}
+function getDirectFileData() {
+  return directFileData;
+}
+function createDirectSetupWindow() {
+  if (directSetupWin) {
+    directSetupWin.focus();
+    return;
+  }
+  directSetupWin = new electron.BrowserWindow({
+    width: 480,
+    height: 280,
+    center: true,
+    resizable: false,
+    frame: false,
+    webPreferences: {
+      preload: path.join(__dirname, "../preload/index.js"),
+      contextIsolation: true
+    }
+  });
+  if (process.env["ELECTRON_RENDERER_URL"]) {
+    directSetupWin.loadURL(process.env["ELECTRON_RENDERER_URL"] + "/directsetup.html");
+  } else {
+    directSetupWin.loadFile(path.join(__dirname, "../renderer/directsetup.html"));
+  }
+  directSetupWin.on("closed", () => {
+    directSetupWin = null;
+  });
+}
+function createDirectFileViewWindow() {
+  if (directFileViewWin) {
+    directFileViewWin.focus();
+    return;
+  }
+  directFileViewWin = new electron.BrowserWindow({
+    width: 1100,
+    height: 680,
+    center: true,
+    resizable: true,
+    frame: false,
+    webPreferences: {
+      preload: path.join(__dirname, "../preload/index.js"),
+      contextIsolation: true
+    }
+  });
+  if (process.env["ELECTRON_RENDERER_URL"]) {
+    directFileViewWin.loadURL(process.env["ELECTRON_RENDERER_URL"] + "/genericsqltable.html");
+  } else {
+    directFileViewWin.loadFile(path.join(__dirname, "../renderer/genericsqltable.html"));
+  }
+  directFileViewWin.on("closed", () => {
+    directFileViewWin = null;
+  });
+}
+function isBlankRow(row) {
+  return !row || row.every((cell) => String(cell ?? "").trim() === "");
+}
+function colLabel(i) {
+  if (i < 26) return String.fromCharCode(65 + i);
+  return String.fromCharCode(64 + Math.floor(i / 26)) + String.fromCharCode(65 + i % 26);
+}
+function parseXlsxToRows(filePath) {
+  const wb = XLSX.readFile(filePath);
+  const allRows = [];
+  for (const sheetName of wb.SheetNames) {
+    const ws = wb.Sheets[sheetName];
+    const raw = XLSX.utils.sheet_to_json(ws, { header: 1, raw: false, defval: "" });
+    if (raw.length === 0) continue;
+    let lastDataIdx = raw.length - 1;
+    while (lastDataIdx >= 0 && isBlankRow(raw[lastDataIdx])) lastDataIdx--;
+    if (lastDataIdx < 0) continue;
+    const cutoff = Math.min(lastDataIdx + 5, raw.length - 1);
+    let numCols = 0;
+    for (let r = 0; r <= cutoff; r++) numCols = Math.max(numCols, (raw[r] || []).length);
+    const headers = Array.from({ length: numCols }, (_, i) => colLabel(i));
+    for (let r = 0; r <= cutoff; r++) {
+      const row = { chunk_title: sheetName };
+      headers.forEach((h, i) => {
+        row[h] = raw[r]?.[i] ?? "";
+      });
+      allRows.push(row);
+    }
+  }
+  return allRows;
+}
+function registerDirectHandlers() {
+  electron.ipcMain.on("open-direct-setup", () => createDirectSetupWindow());
+  electron.ipcMain.on("close-direct-setup", () => {
+    directSetupWin?.close();
+  });
+  electron.ipcMain.handle("open-xls-file-dialog", async () => {
+    const result = await electron.dialog.showOpenDialog(directSetupWin, {
+      title: "Select Excel file",
+      filters: [{ name: "Excel Files", extensions: ["xls", "xlsx"] }],
+      properties: ["openFile"]
+    });
+    if (result.canceled) return null;
+    directFileData = parseXlsxToRows(result.filePaths[0]);
+    electron.BrowserWindow.getAllWindows().forEach((w) => w.webContents.send("direct-file-loaded"));
+    createDirectFileViewWindow();
+    return result.filePaths[0].split("/").pop();
+  });
+  electron.ipcMain.on("open-direct-file-view", () => createDirectFileViewWindow());
+}
 function buildPayloadV2() {
   const rows = queryAllV2();
   if (!rows.length) return null;
@@ -821,10 +930,15 @@ electron.ipcMain.on("close-payload-table", () => {
   payloadTableWin?.close();
 });
 electron.ipcMain.on("open-generic-sql-table", () => createGenericSqlTableWindow());
-electron.ipcMain.on("close-generic-sql-table", () => {
-  genericSqlTableWin?.close();
+electron.ipcMain.on("close-generic-sql-table", (event) => {
+  electron.BrowserWindow.fromWebContents(event.sender)?.close();
 });
-electron.ipcMain.handle("query-db", () => queryAll());
+registerDirectHandlers();
+electron.ipcMain.handle("query-db", (event) => {
+  const directData = getDirectFileData();
+  if (directData && event.sender === getDirectFileViewWin()?.webContents) return directData;
+  return queryAll();
+});
 electron.ipcMain.handle("load-payload-v2", () => buildPayloadV2());
 electron.ipcMain.handle(
   "db-list-files",

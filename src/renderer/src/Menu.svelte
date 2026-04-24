@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte'
+  import DirectSetup from './DirectSetup.svelte'
 
   // ── Navigation ─────────────────────────────────────────────────────────────
   // 'home' | 'setup' | '1x1' | 'links' | 'payload'
@@ -247,6 +248,7 @@
       {:else if page === '1x1'}1x1 Setup
       {:else if page === 'payload'}Payload Viewer
       {:else if page === 'manage-db'}Manage DB
+      {:else if page === 'direct'}Direct Setup
       {:else}Quick Links
       {/if}
     </span>
@@ -263,6 +265,13 @@
         <span class="card-text">
           <span class="card-title">New Programmatic Setup</span>
           <span class="card-desc">Load SLIs from an Excel file or pasted text</span>
+        </span>
+      </button>
+      <button class="card" on:click={() => page = 'direct'}>
+        <span class="card-icon">📊</span>
+        <span class="card-text">
+          <span class="card-title">New Direct Setup</span>
+          <span class="card-desc">Load a direct deal from an Excel file</span>
         </span>
       </button>
       <button class="card" on:click={() => page = '1x1'}>
@@ -301,6 +310,10 @@
         </span>
       </button>
     </div>
+
+  <!-- ── DIRECT ────────────────────────────────────────────────────────────── -->
+  {:else if page === 'direct'}
+    <DirectSetup />
 
   <!-- ── SETUP ─────────────────────────────────────────────────────────────── -->
   {:else if page === 'setup'}

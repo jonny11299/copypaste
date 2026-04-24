@@ -139,6 +139,36 @@
     })
   }
 
+  // ── Column resizing ────────────────────────────────────────────────────────
+  let colWidths = {}   // { [key]: widthPx }
+  let resizing  = null // { key, startX, startWidth }
+
+  const DEFAULT_COL_WIDTH = 128  // px (~8rem)
+
+  $: anyResized  = Object.keys(colWidths).length > 0
+  $: tableWidth  = effectiveCols.reduce((s, c) => s + (colWidths[c.key] ?? DEFAULT_COL_WIDTH), 0)
+
+  function startResize(e, key) {
+    const th = e.currentTarget.closest('th')
+    const startWidth = colWidths[key] ?? th.getBoundingClientRect().width
+    resizing = { key, startX: e.clientX, startWidth }
+    document.body.style.cursor    = 'ew-resize'
+    document.body.style.userSelect = 'none'
+  }
+
+  function onMousemove(e) {
+    if (!resizing) return
+    const newWidth = Math.max(40, resizing.startWidth + (e.clientX - resizing.startX))
+    colWidths = { ...colWidths, [resizing.key]: newWidth }
+  }
+
+  function onMouseup() {
+    if (!resizing) return
+    resizing = null
+    document.body.style.cursor    = ''
+    document.body.style.userSelect = ''
+  }
+
   // ── Row highlight (click flash) ────────────────────────────────────────────
   let highlightedKey = null
   let highlightTimeout = null
@@ -152,10 +182,14 @@
   }
 </script>
 
-<svelte:window on:click={e => {
-  if (panelCol && !e.target.closest('.filter-panel') && !e.target.closest('.filter-btn'))
-    panelCol = null
-}} />
+<svelte:window
+  on:click={e => {
+    if (panelCol && !e.target.closest('.filter-panel') && !e.target.closest('.filter-btn'))
+      panelCol = null
+  }}
+  on:mousemove={onMousemove}
+  on:mouseup={onMouseup}
+/>
 
 <div class="datatable-root">
   {#if tabTitles && tabTitles.length > 1}
@@ -171,11 +205,14 @@
   {/if}
 
   <div class="table-wrap">
-    <table>
+    <table style={anyResized ? `table-layout: fixed; width: ${tableWidth}px;` : ''}>
       <thead>
         <tr>
           {#each effectiveCols as col}
-            <th class:sorted={sortCol === col.key}>
+            <th
+              class:sorted={sortCol === col.key}
+              style={colWidths[col.key] ? `width: ${colWidths[col.key]}px; max-width: none;` : ''}
+            >
               <div class="th-inner">
                 <button class="sort-btn" on:click={() => toggleSort(col.key)}>
                   {col.label}
@@ -190,6 +227,11 @@
                   on:click|stopPropagation={e => openFilter(col.key, e.currentTarget)}
                 >▽</button>
               </div>
+              <!-- svelte-ignore a11y-no-static-element-interactions -->
+              <div
+                class="col-resizer"
+                on:mousedown|preventDefault={e => startResize(e, col.key)}
+              />
             </th>
           {/each}
         </tr>
@@ -297,8 +339,22 @@
     color: #666;
     border-bottom: 1px solid rgba(255,255,255,0.1);
     white-space: nowrap;
+    position: relative;
+    max-width: 8rem;
+    overflow: hidden;
   }
   th.sorted { color: #a5b4fc; }
+
+  .col-resizer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    cursor: ew-resize;
+    z-index: 2;
+  }
+  .col-resizer:hover { background: rgba(99,102,241,0.45); }
 
   .th-inner { display: flex; align-items: center; gap: 2px; }
 
@@ -345,6 +401,10 @@
     border-bottom: 1px solid rgba(255,255,255,0.04);
     vertical-align: top;
     color: #ccc;
+    max-width: 8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   tr.band td { background: rgba(255,255,255,0.025); }

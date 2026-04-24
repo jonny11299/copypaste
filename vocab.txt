@@ -7,11 +7,11 @@ Payload / payload_v2
   Contains metadata (name, mode, saved_at) plus a chunks array and activeChunkIndex.
 
 Chunk
-  A named grouping of items within a payload (e.g. "Alpha Flight", "Bravo Squadron").
+  A named grouping of items within a payload (e.g. "Alpha Flight", "Bravo Squadron", "SLI #1440008").
   Each chunk has a chunk_title and an activeItemIndex tracking which item was last selected.
 
 Item
-  A single row within a chunk — represents one production line / SLI / PLI.
+  A single row within a chunk — represents one production line / SLI.
   Has an item_title and a contents array.
 
 Contents / Content slot

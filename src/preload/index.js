@@ -50,4 +50,11 @@ contextBridge.exposeInMainWorld('api', {
   // Generic SQL table window (DataTable.svelte test)
   openGenericSqlTable:  ()  => ipcRenderer.send('open-generic-sql-table'),
   closeGenericSqlTable: ()  => ipcRenderer.send('close-generic-sql-table'),
+
+  // Direct setup window
+  openDirectSetup:     ()      => ipcRenderer.send('open-direct-setup'),
+  closeDirectSetup:    ()      => ipcRenderer.send('close-direct-setup'),
+  openXlsFileDialog:   ()      => ipcRenderer.invoke('open-xls-file-dialog'),
+  openDirectFileView:  ()      => ipcRenderer.send('open-direct-file-view'),
+  onDirectFileLoaded:  (cb)    => ipcRenderer.on('direct-file-loaded', cb),
 })

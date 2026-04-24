@@ -1,0 +1,65 @@
+{
+  "262181_HitltonHotels_TS_V2_4.13.26(3).xls": {
+    "tabs": [
+      {
+        "tab_name": "TS 4.13",
+        "tab_id": 0,
+        "header_row": 18,
+        "relevant_columns": [
+          "P",
+          "Y",
+          "C",
+          "D",
+          "G",
+          "H"
+        ],
+        "relevant_area": {
+          "row_start": 18,
+          "row_end": 30,
+          "col_start": "A",
+          "col_end": "AB"
+        }
+      },
+      {
+        "tab_name": "Innovid 1x1 4.3",
+        "tab_id": 1,
+        "header_row": 8,
+        "relevant_columns": [],
+        "relevant_area": {
+          "row_start": 8,
+          "row_end": 103,
+          "col_start": "A",
+          "col_end": "J"
+        }
+      },
+      {
+        "tab_name": "Site Served 4.3",
+        "tab_id": 2,
+        "header_row": 0,
+        "relevant_columns": [
+          "A",
+          "D",
+          "F"
+        ],
+        "relevant_area": {
+          "row_start": 0,
+          "row_end": 11,
+          "col_start": "A",
+          "col_end": "E"
+        }
+      },
+      {
+        "tab_name": "UVPIAS Pixels 4.3",
+        "tab_id": 3,
+        "header_row": 8,
+        "relevant_columns": [],
+        "relevant_area": {
+          "row_start": 9,
+          "row_end": 103,
+          "col_start": "A",
+          "col_end": "K"
+        }
+      }
+    ]
+  }
+}

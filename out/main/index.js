@@ -156,12 +156,9 @@ function queryAll() {
 let directSetupWin = null;
 let directFileViewWin = null;
 let directFileData = null;
-function getDirectFileViewWin() {
-  return directFileViewWin;
-}
-function getDirectFileData() {
-  return directFileData;
-}
+let directFileName = null;
+const MAPPING_DIR = path.join(__dirname, "../../data/direct_mapping_profiles");
+const MAPPING_FILE = path.join(MAPPING_DIR, "direct-mappings.json");
 function createDirectSetupWindow() {
   if (directSetupWin) {
     directSetupWin.focus();
@@ -193,7 +190,7 @@ function createDirectFileViewWindow() {
     return;
   }
   directFileViewWin = new electron.BrowserWindow({
-    width: 1100,
+    width: 1280,
     height: 680,
     center: true,
     resizable: true,
@@ -204,9 +201,9 @@ function createDirectFileViewWindow() {
     }
   });
   if (process.env["ELECTRON_RENDERER_URL"]) {
-    directFileViewWin.loadURL(process.env["ELECTRON_RENDERER_URL"] + "/genericsqltable.html");
+    directFileViewWin.loadURL(process.env["ELECTRON_RENDERER_URL"] + "/directfileview.html");
   } else {
-    directFileViewWin.loadFile(path.join(__dirname, "../renderer/genericsqltable.html"));
+    directFileViewWin.loadFile(path.join(__dirname, "../renderer/directfileview.html"));
   }
   directFileViewWin.on("closed", () => {
     directFileViewWin = null;
@@ -234,7 +231,7 @@ function parseXlsxToRows(filePath) {
     for (let r = 0; r <= cutoff; r++) numCols = Math.max(numCols, (raw[r] || []).length);
     const headers = Array.from({ length: numCols }, (_, i) => colLabel(i));
     for (let r = 0; r <= cutoff; r++) {
-      const row = { chunk_title: sheetName };
+      const row = { chunk_title: sheetName, _row_idx: r };
       headers.forEach((h, i) => {
         row[h] = raw[r]?.[i] ?? "";
       });
@@ -248,6 +245,10 @@ function registerDirectHandlers() {
   electron.ipcMain.on("close-direct-setup", () => {
     directSetupWin?.close();
   });
+  electron.ipcMain.on("open-direct-file-view", () => createDirectFileViewWindow());
+  electron.ipcMain.on("close-direct-file-view", (event) => {
+    electron.BrowserWindow.fromWebContents(event.sender)?.close();
+  });
   electron.ipcMain.handle("open-xls-file-dialog", async () => {
     const result = await electron.dialog.showOpenDialog(directSetupWin, {
       title: "Select Excel file",
@@ -255,12 +256,37 @@ function registerDirectHandlers() {
       properties: ["openFile"]
     });
     if (result.canceled) return null;
+    directFileName = result.filePaths[0].split("/").pop();
     directFileData = parseXlsxToRows(result.filePaths[0]);
     electron.BrowserWindow.getAllWindows().forEach((w) => w.webContents.send("direct-file-loaded"));
     createDirectFileViewWindow();
-    return result.filePaths[0].split("/").pop();
+    return directFileName;
   });
-  electron.ipcMain.on("open-direct-file-view", () => createDirectFileViewWindow());
+  electron.ipcMain.handle("get-direct-file-data", () => ({
+    rows: directFileData ?? [],
+    fileName: directFileName
+  }));
+  electron.ipcMain.handle("get-direct-mapping", (_, fileName) => {
+    if (!fs.existsSync(MAPPING_FILE)) return null;
+    try {
+      const all = JSON.parse(fs.readFileSync(MAPPING_FILE, "utf8"));
+      return all[fileName] ?? null;
+    } catch {
+      return null;
+    }
+  });
+  electron.ipcMain.handle("save-direct-mapping", (_, { fileName, tabs }) => {
+    fs.mkdirSync(MAPPING_DIR, { recursive: true });
+    let all = {};
+    if (fs.existsSync(MAPPING_FILE)) {
+      try {
+        all = JSON.parse(fs.readFileSync(MAPPING_FILE, "utf8"));
+      } catch {
+      }
+    }
+    all[fileName] = { tabs };
+    fs.writeFileSync(MAPPING_FILE, JSON.stringify(all, null, 2), "utf8");
+  });
 }
 function buildPayloadV2() {
   const rows = queryAllV2();
@@ -934,11 +960,7 @@ electron.ipcMain.on("close-generic-sql-table", (event) => {
   electron.BrowserWindow.fromWebContents(event.sender)?.close();
 });
 registerDirectHandlers();
-electron.ipcMain.handle("query-db", (event) => {
-  const directData = getDirectFileData();
-  if (directData && event.sender === getDirectFileViewWin()?.webContents) return directData;
-  return queryAll();
-});
+electron.ipcMain.handle("query-db", () => queryAll());
 electron.ipcMain.handle("load-payload-v2", () => buildPayloadV2());
 electron.ipcMain.handle(
   "db-list-files",

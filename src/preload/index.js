@@ -52,9 +52,15 @@ contextBridge.exposeInMainWorld('api', {
   closeGenericSqlTable: ()  => ipcRenderer.send('close-generic-sql-table'),
 
   // Direct setup window
-  openDirectSetup:     ()      => ipcRenderer.send('open-direct-setup'),
-  closeDirectSetup:    ()      => ipcRenderer.send('close-direct-setup'),
-  openXlsFileDialog:   ()      => ipcRenderer.invoke('open-xls-file-dialog'),
-  openDirectFileView:  ()      => ipcRenderer.send('open-direct-file-view'),
-  onDirectFileLoaded:  (cb)    => ipcRenderer.on('direct-file-loaded', cb),
+  openDirectSetup:     ()                    => ipcRenderer.send('open-direct-setup'),
+  closeDirectSetup:    ()                    => ipcRenderer.send('close-direct-setup'),
+  openXlsFileDialog:   ()                    => ipcRenderer.invoke('open-xls-file-dialog'),
+  openDirectFileView:  ()                    => ipcRenderer.send('open-direct-file-view'),
+  closeDirectFileView: ()                    => ipcRenderer.send('close-direct-file-view'),
+  onDirectFileLoaded:  (cb)                  => ipcRenderer.on('direct-file-loaded', cb),
+
+  // Direct file view data & mapping
+  getDirectFileData:   ()                    => ipcRenderer.invoke('get-direct-file-data'),
+  getDirectMapping:    (fileName)            => ipcRenderer.invoke('get-direct-mapping', fileName),
+  saveDirectMapping:   ({ fileName, tabs })  => ipcRenderer.invoke('save-direct-mapping', { fileName, tabs }),
 })

@@ -1,4 +1,16 @@
 
+
+
+
+4/23/26:
+Future possible issues with the Direct View mappings:
+	- Should process the "grouped-together" lumped cells, break them up into individual cells.
+	- Inability to tell between duplicate header names. There will need to be a tag, which is located above the header cells in the case of VAST vs Direct Sold creative IDs and the like.
+
+
+
+
+
 4/22/26:
 On next launch:
 1. Begin implementing direct-sold deals.

@@ -3,7 +3,7 @@ import { join } from 'path'
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'fs'
 import XLSX from 'xlsx'
 import { initDb, savePayload, queryAll, saveDbToFile, loadDbFromFile, seedDummyDb } from './db.js'
-import { registerDirectHandlers, getDirectFileViewWin, getDirectFileData } from './direct.js'
+import { registerDirectHandlers } from './direct.js'
 import { buildPayloadV2 } from './payload_v2.js'
 import {
   EXPECTED_HEADERS,
@@ -290,12 +290,8 @@ ipcMain.on('close-generic-sql-table', (event) => { BrowserWindow.fromWebContents
 // Direct setup
 registerDirectHandlers()
 
-// DB query for table viewer (returns direct file data when called from the direct file view window)
-ipcMain.handle('query-db', (event) => {
-  const directData = getDirectFileData()
-  if (directData && event.sender === getDirectFileViewWin()?.webContents) return directData
-  return queryAll()
-})
+// DB query for table viewer
+ipcMain.handle('query-db', () => queryAll())
 
 // Load payload_v2 from DB
 ipcMain.handle('load-payload-v2', () => buildPayloadV2())

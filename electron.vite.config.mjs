@@ -18,6 +18,7 @@ export default defineConfig({
           payloadtable:   'src/renderer/payloadtable.html',
           genericsqltable: 'src/renderer/genericsqltable.html',
           directsetup:     'src/renderer/directsetup.html',
+          directfileview:  'src/renderer/directfileview.html',
         }
       }
     }

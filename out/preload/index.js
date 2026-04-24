@@ -46,5 +46,10 @@ electron.contextBridge.exposeInMainWorld("api", {
   closeDirectSetup: () => electron.ipcRenderer.send("close-direct-setup"),
   openXlsFileDialog: () => electron.ipcRenderer.invoke("open-xls-file-dialog"),
   openDirectFileView: () => electron.ipcRenderer.send("open-direct-file-view"),
-  onDirectFileLoaded: (cb) => electron.ipcRenderer.on("direct-file-loaded", cb)
+  closeDirectFileView: () => electron.ipcRenderer.send("close-direct-file-view"),
+  onDirectFileLoaded: (cb) => electron.ipcRenderer.on("direct-file-loaded", cb),
+  // Direct file view data & mapping
+  getDirectFileData: () => electron.ipcRenderer.invoke("get-direct-file-data"),
+  getDirectMapping: (fileName) => electron.ipcRenderer.invoke("get-direct-mapping", fileName),
+  saveDirectMapping: ({ fileName, tabs }) => electron.ipcRenderer.invoke("save-direct-mapping", { fileName, tabs })
 });

@@ -604,6 +604,7 @@ const DB_DIR = path.join(DATA_DIR, "DBs");
 let mainWin = null;
 let menuWin = null;
 let payloadTableWin = null;
+let genericSqlTableWin = null;
 let cachedRows = [];
 let cachedFileName = "unknown";
 let currentPayload = null;
@@ -653,6 +654,31 @@ function createMenuWindow() {
   }
   menuWin.on("closed", () => {
     menuWin = null;
+  });
+}
+function createGenericSqlTableWindow() {
+  if (genericSqlTableWin) {
+    genericSqlTableWin.focus();
+    return;
+  }
+  genericSqlTableWin = new electron.BrowserWindow({
+    width: 1100,
+    height: 680,
+    center: true,
+    resizable: true,
+    frame: false,
+    webPreferences: {
+      preload: path.join(__dirname, "../preload/index.js"),
+      contextIsolation: true
+    }
+  });
+  if (process.env["ELECTRON_RENDERER_URL"]) {
+    genericSqlTableWin.loadURL(process.env["ELECTRON_RENDERER_URL"] + "/genericsqltable.html");
+  } else {
+    genericSqlTableWin.loadFile(path.join(__dirname, "../renderer/genericsqltable.html"));
+  }
+  genericSqlTableWin.on("closed", () => {
+    genericSqlTableWin = null;
   });
 }
 function createPayloadTableWindow() {
@@ -793,6 +819,10 @@ electron.ipcMain.handle("save-quick-links", (_, links) => {
 electron.ipcMain.on("open-payload-table", () => createPayloadTableWindow());
 electron.ipcMain.on("close-payload-table", () => {
   payloadTableWin?.close();
+});
+electron.ipcMain.on("open-generic-sql-table", () => createGenericSqlTableWindow());
+electron.ipcMain.on("close-generic-sql-table", () => {
+  genericSqlTableWin?.close();
 });
 electron.ipcMain.handle("query-db", () => queryAll());
 electron.ipcMain.handle("load-payload-v2", () => buildPayloadV2());

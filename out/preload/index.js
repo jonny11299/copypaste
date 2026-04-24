@@ -37,5 +37,8 @@ electron.contextBridge.exposeInMainWorld("api", {
   // SQL table window
   openPayloadTable: () => electron.ipcRenderer.send("open-payload-table"),
   closePayloadTable: () => electron.ipcRenderer.send("close-payload-table"),
-  queryDb: () => electron.ipcRenderer.invoke("query-db")
+  queryDb: () => electron.ipcRenderer.invoke("query-db"),
+  // Generic SQL table window (DataTable.svelte test)
+  openGenericSqlTable: () => electron.ipcRenderer.send("open-generic-sql-table"),
+  closeGenericSqlTable: () => electron.ipcRenderer.send("close-generic-sql-table")
 });

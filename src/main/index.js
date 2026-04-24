@@ -24,9 +24,10 @@ const DATA_DIR    = join(__dirname, '../../data')
 const LINKS_FILE  = join(DATA_DIR, 'quicklinks.json')
 const DB_DIR      = join(DATA_DIR, 'DBs')
 
-let mainWin          = null
-let menuWin          = null
-let payloadTableWin  = null
+let mainWin             = null
+let menuWin             = null
+let payloadTableWin     = null
+let genericSqlTableWin  = null
 let cachedRows       = []
 let cachedFileName   = 'unknown'
 let currentPayload   = null
@@ -84,6 +85,32 @@ function createMenuWindow() {
   }
 
   menuWin.on('closed', () => { menuWin = null })
+}
+
+// ─── Generic SQL table window (DataTable.svelte test) ────────────────────────
+
+function createGenericSqlTableWindow() {
+  if (genericSqlTableWin) { genericSqlTableWin.focus(); return }
+
+  genericSqlTableWin = new BrowserWindow({
+    width: 1100,
+    height: 680,
+    center: true,
+    resizable: true,
+    frame: false,
+    webPreferences: {
+      preload: join(__dirname, '../preload/index.js'),
+      contextIsolation: true,
+    }
+  })
+
+  if (process.env['ELECTRON_RENDERER_URL']) {
+    genericSqlTableWin.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/genericsqltable.html')
+  } else {
+    genericSqlTableWin.loadFile(join(__dirname, '../renderer/genericsqltable.html'))
+  }
+
+  genericSqlTableWin.on('closed', () => { genericSqlTableWin = null })
 }
 
 // ─── Payload table window ─────────────────────────────────────────────────────
@@ -254,6 +281,10 @@ ipcMain.handle('save-quick-links', (_, links) => {
 // Payload SQL table window
 ipcMain.on('open-payload-table',  () => createPayloadTableWindow())
 ipcMain.on('close-payload-table', () => { payloadTableWin?.close() })
+
+// Generic SQL table window
+ipcMain.on('open-generic-sql-table',  () => createGenericSqlTableWindow())
+ipcMain.on('close-generic-sql-table', () => { genericSqlTableWin?.close() })
 
 // DB query for table viewer
 ipcMain.handle('query-db', () => queryAll())

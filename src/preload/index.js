@@ -43,7 +43,11 @@ contextBridge.exposeInMainWorld('api', {
   onSLIData:        (cb)    => ipcRenderer.on('sli-data', (_, data) => cb(data)),
 
   // SQL table window
-  openPayloadTable:  ()     => ipcRenderer.send('open-payload-table'),
-  closePayloadTable: ()     => ipcRenderer.send('close-payload-table'),
-  queryDb:           ()     => ipcRenderer.invoke('query-db'),
+  openPayloadTable:    ()   => ipcRenderer.send('open-payload-table'),
+  closePayloadTable:   ()   => ipcRenderer.send('close-payload-table'),
+  queryDb:             ()   => ipcRenderer.invoke('query-db'),
+
+  // Generic SQL table window (DataTable.svelte test)
+  openGenericSqlTable:  ()  => ipcRenderer.send('open-generic-sql-table'),
+  closeGenericSqlTable: ()  => ipcRenderer.send('close-generic-sql-table'),
 })

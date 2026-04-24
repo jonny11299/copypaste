@@ -5,7 +5,7 @@ On next launch:
 2. Begin implementing direct-sold deals.
 	- Should, in general, build various profiles for different VTS setups (main page, DCM, Innovid, etc)
 	- Each one has "headers", "relevant cells", etc. Can be limited this way
-	- Upon seeing unrecognizeable columns, we should mark them as "relevant" vs "not relavent", and be able to see 
+	- Upon seeing unrecognizable columns, we should mark them as "relevant" vs "not relevant", and be able to see 
 		- both relevant and non-relavent columns upon request.
 
 
@@ -18,7 +18,7 @@ rewritten to go into the database first. And we can already go
 from the database into the payload.
 
 Pending:
-1. Load direct deals into the databse
+1. Load direct deals into the database
 	- will need to manage chunks correctly, and implement them
 	  into the overlay.
 2. Replace macros with a good ruleset

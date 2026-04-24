@@ -170,17 +170,17 @@
     MENU
   </button>
 
-  <!-- SQL table viewer button -->
-  <button class="menu-section-btn" on:click={() => window.api.openPayloadTable()}>
-    SQL TABLE
-  </button>
-
   <!-- Generic SQL / Direct file viewer button -->
   <button
     class="menu-section-btn"
     on:click={() => directFileLoaded ? window.api.openDirectFileView() : window.api.openGenericSqlTable()}
   >
     {directFileLoaded ? 'DIRECT' : 'GENERIC SQL'}
+  </button>
+
+  <!-- Payload table viewer button -->
+  <button class="menu-section-btn" on:click={() => window.api.openPayloadTable()}>
+    PAYLOAD
   </button>
 
   {#if active}
@@ -223,6 +223,7 @@
 
 <style>
   :global(*, *::before, *::after) { box-sizing: border-box; margin: 0; padding: 0; }
+  :global(button:focus) { outline: none; }
   :global(body) {
     background: transparent;
     font-family: system-ui, -apple-system, sans-serif;

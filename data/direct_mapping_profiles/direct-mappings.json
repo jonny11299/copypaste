@@ -67,5 +67,35 @@
         }
       }
     ]
+  },
+  "267742_Domino's_VTS_4.17.26.xlsx": {
+    "tabs": [
+      {
+        "tab_name": "VTS",
+        "tab_id": 0,
+        "header_row": 18,
+        "chunk_column": "C",
+        "item_columns": [
+          "U",
+          "P",
+          "N"
+        ],
+        "relevant_columns": [
+          "U",
+          "P",
+          "L",
+          "J",
+          "H",
+          "G",
+          "N"
+        ],
+        "relevant_area": {
+          "row_start": 18,
+          "row_end": 41,
+          "col_start": "A",
+          "col_end": "X"
+        }
+      }
+    ]
   }
 }

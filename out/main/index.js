@@ -192,12 +192,13 @@ function buildDirectChunks(rows, tabMapping) {
   const sortByCol = (a, b) => colLabelToIndex(a) - colLabelToIndex(b);
   const itemSet = new Set(item_columns);
   const slotOrder = [
-    ...item_columns.slice().sort(sortByCol),
-    ...relevant_columns.filter((c) => !itemSet.has(c)).sort(sortByCol)
+    ...chunk_column ? [chunk_column] : [],
+    ...item_columns.slice().sort(sortByCol).filter((c) => c !== chunk_column),
+    ...relevant_columns.filter((c) => c !== chunk_column && !itemSet.has(c)).sort(sortByCol)
   ];
   const headerRowData = rows.find((r) => r.chunk_title === tab_name && r._row_idx === header_row);
   const headers = {};
-  relevant_columns.forEach((col) => {
+  slotOrder.forEach((col) => {
     headers[col] = String(headerRowData?.[col] ?? col);
   });
   const dataRows = rows.filter(

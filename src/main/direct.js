@@ -25,16 +25,18 @@ export function buildDirectChunks(rows, tabMapping) {
   const sortByCol = (a, b) => colLabelToIndex(a) - colLabelToIndex(b)
   const itemSet   = new Set(item_columns)
 
-  // Slot order: item columns (L→R) first, then remaining relevant columns (L→R)
+  // Slot order: chunk column (ctrl+1), then item columns (L→R), then remaining relevant columns (L→R)
   const slotOrder = [
-    ...item_columns.slice().sort(sortByCol),
-    ...relevant_columns.filter(c => !itemSet.has(c)).sort(sortByCol),
+    ...(chunk_column ? [chunk_column] : []),
+    ...item_columns.slice().sort(sortByCol).filter(c => c !== chunk_column),
+    ...relevant_columns.filter(c => c !== chunk_column && !itemSet.has(c)).sort(sortByCol),
   ]
 
-  // Header values keyed by column letter
+  // Header values for every slot column (not just relevant_columns, since chunk/item cols
+  // may be outside that set)
   const headerRowData = rows.find(r => r.chunk_title === tab_name && r._row_idx === header_row)
   const headers = {}
-  relevant_columns.forEach(col => { headers[col] = String(headerRowData?.[col] ?? col) })
+  slotOrder.forEach(col => { headers[col] = String(headerRowData?.[col] ?? col) })
 
   // Data rows: within relevant area, excluding the header row itself
   const dataRows = rows.filter(r =>

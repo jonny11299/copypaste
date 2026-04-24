@@ -1,33 +1,19 @@
 
 
-- Need to split the "unified" columns
-- Need to build that left-to-right mapping of the SLIs into a new table
-- Then, once it's proven to work, refine this view by making it:
+4/24/26:
+Will need to:
+	- Somehow pivot between (Line Items --> Creatives) as Chunks --> Items, and (Creatives --> Tags) as Chunks --> Items. I'll need to store two separate tables simultaneously, somehow.
+
+From below:
+	- Should process the "grouped-together" lumped cells, break them up into individual cells.
+	- Inability to tell between duplicate header names. There will need to be a tag, which is located above the header cells in the case of VAST vs Direct Sold creative IDs and the like.
+	- Not very good at processing blank column, or the difference between columns with VAST tags vs SiteServed tags.
+
+
+Refining "auto-guess the mapping" principles:
 	- store multiple profiles
 	- read the data present and attempt to recall which mapping it applies to
 
-
-
-Alright, I would like to proceed to the next phase of this app development. It involves building a new table out of the highlighted data in this "Direct" view. That table will eventually be loaded into the payload. But first, we need to devise the proper SQL schema to store all of this data.
-
-Look at the "data/Direct/262181_HitltonHotels_TS_V2_4.13.26(3).xls" file and follow along with what I'm describing.
-
-The Operative ID# is the highest-level category. Each unique Operative ID# will be a separate chunk, a separate "SLI". We'll need to read the highlighted "relevant area", "headers", and "relevant columns" from left-to-right, loading data into this mapping. For now, let's simplify and just stick to the first tab's data. 
-
-Once this data passes through SQL table(s) and reaches the JSON Payload, each unique "Operative ID#" will be a chunk. Each row containing that Operative ID# will be an item. Each highlighted column will be a content slot. The header is the content slot's name, and the cell is that content slot's copiable "content".
-
-We need to be careful not to lose relevant data when transferring between tables.
-
-Do you have any ideas whether we should:
-	1. Attempt to load this highlighted data from the Direct table into the existing "db.js" schema
-	2. Define a new db schema as an intermediary step
-	?
-
-What are the tradeoffs? Any questions? Let's clarify this together. Can you summarize what you understand of the task?
-
-
-
-Specifically, the "Operative ID#" 
 
 
 

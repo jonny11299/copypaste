@@ -11,14 +11,20 @@
           "C",
           "D",
           "G",
-          "H"
+          "H",
+          "J"
         ],
         "relevant_area": {
           "row_start": 18,
           "row_end": 30,
           "col_start": "A",
           "col_end": "AB"
-        }
+        },
+        "chunk_column": "C",
+        "item_columns": [
+          "Y",
+          "V"
+        ]
       },
       {
         "tab_name": "Innovid 1x1 4.3",

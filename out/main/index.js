@@ -37,6 +37,26 @@ function initDb() {
     );
   `);
 }
+function saveDirectPayload(name, chunks) {
+  db.exec("DELETE FROM contents; DELETE FROM items; DELETE FROM chunks; DELETE FROM payloads;");
+  const savedAt = (/* @__PURE__ */ new Date()).toISOString();
+  const insertPayload = db.prepare("INSERT INTO payloads (name, mode, saved_at) VALUES (?, ?, ?)");
+  const insertChunk = db.prepare("INSERT INTO chunks (payload_id, chunk_index, chunk_title) VALUES (?, ?, ?)");
+  const insertItem = db.prepare("INSERT INTO items (chunk_id, item_index, item_title) VALUES (?, ?, ?)");
+  const insertContent = db.prepare(
+    "INSERT INTO contents (item_id, c_id, c_title, c_contents, c_override, c_type) VALUES (?, ?, ?, ?, ?, ?)"
+  );
+  const payloadId = insertPayload.run(name, "direct", savedAt).lastInsertRowid;
+  db.transaction(() => {
+    chunks.forEach((chunk, ci) => {
+      const chunkId = insertChunk.run(payloadId, ci, chunk.chunk_title).lastInsertRowid;
+      chunk.items.forEach((item, ii) => {
+        const itemId = insertItem.run(chunkId, ii, item.item_title).lastInsertRowid;
+        item.contents.forEach((c) => insertContent.run(itemId, c.c_id, c.c_title, c.c_contents, null, "string"));
+      });
+    });
+  })();
+}
 function savePayload(name, payload) {
   db.exec("DELETE FROM contents; DELETE FROM items; DELETE FROM chunks; DELETE FROM payloads;");
   const savedAt = (/* @__PURE__ */ new Date()).toISOString();
@@ -159,6 +179,49 @@ let directFileData = null;
 let directFileName = null;
 const MAPPING_DIR = path.join(__dirname, "../../data/direct_mapping_profiles");
 const MAPPING_FILE = path.join(MAPPING_DIR, "direct-mappings.json");
+function getDirectFileData() {
+  return { rows: directFileData ?? [], fileName: directFileName };
+}
+function colLabelToIndex(label) {
+  let result = 0;
+  for (let i = 0; i < label.length; i++) result = result * 26 + (label.charCodeAt(i) - 64);
+  return result - 1;
+}
+function buildDirectChunks(rows, tabMapping) {
+  const { header_row, chunk_column, item_columns, relevant_columns, relevant_area, tab_name } = tabMapping;
+  const sortByCol = (a, b) => colLabelToIndex(a) - colLabelToIndex(b);
+  const itemSet = new Set(item_columns);
+  const slotOrder = [
+    ...item_columns.slice().sort(sortByCol),
+    ...relevant_columns.filter((c) => !itemSet.has(c)).sort(sortByCol)
+  ];
+  const headerRowData = rows.find((r) => r.chunk_title === tab_name && r._row_idx === header_row);
+  const headers = {};
+  relevant_columns.forEach((col) => {
+    headers[col] = String(headerRowData?.[col] ?? col);
+  });
+  const dataRows = rows.filter(
+    (r) => r.chunk_title === tab_name && r._row_idx >= relevant_area.row_start && r._row_idx <= relevant_area.row_end && r._row_idx !== header_row
+  );
+  const chunkMap = /* @__PURE__ */ new Map();
+  for (const row of dataRows) {
+    const key = String(row[chunk_column] ?? "").trim();
+    if (!key) continue;
+    if (!chunkMap.has(key)) chunkMap.set(key, []);
+    chunkMap.get(key).push(row);
+  }
+  return Array.from(chunkMap.entries()).map(([chunkTitle, chunkRows]) => ({
+    chunk_title: chunkTitle,
+    items: chunkRows.map((row) => ({
+      item_title: item_columns.slice().sort(sortByCol).map((col) => String(row[col] ?? "")).filter(Boolean).join(", "),
+      contents: slotOrder.map((col, idx) => ({
+        c_id: idx,
+        c_title: headers[col] ?? col,
+        c_contents: String(row[col] ?? "")
+      }))
+    }))
+  }));
+}
 function createDirectSetupWindow() {
   if (directSetupWin) {
     directSetupWin.focus();
@@ -960,6 +1023,16 @@ electron.ipcMain.on("close-generic-sql-table", (event) => {
   electron.BrowserWindow.fromWebContents(event.sender)?.close();
 });
 registerDirectHandlers();
+electron.ipcMain.handle("load-direct-to-db", (_, { tabMapping }) => {
+  const { rows, fileName } = getDirectFileData();
+  if (!rows?.length) throw new Error("No file loaded");
+  const chunks = buildDirectChunks(rows, tabMapping);
+  saveDirectPayload(fileName, chunks);
+  const v2 = buildPayloadV2();
+  currentPayload = v2;
+  mainWin?.webContents.send("sli-data", v2);
+  return { chunkCount: chunks.length };
+});
 electron.ipcMain.handle("query-db", () => queryAll());
 electron.ipcMain.handle("load-payload-v2", () => buildPayloadV2());
 electron.ipcMain.handle(

@@ -10,6 +10,8 @@
   export let onHeaderRowSelect    = (_rowIdx)       => {}
   export let onColumnToggle       = (_col)          => {}
   export let onAreaCornerClick    = (_rowIdx, _col) => {}
+  export let onChunkColumnSelect  = (_col)          => {}
+  export let onItemColumnToggle   = (_col)          => {}
 
   // ── Derived ────────────────────────────────────────────────────────────────
   $: tabNames = [...new Map(rows.map(r => [r.chunk_title, true])).keys()]
@@ -22,6 +24,8 @@
   $: headerRowIdx   = tabMapping?.header_row ?? -1
   $: relevantColSet = new Set(tabMapping?.relevant_columns ?? [])
   $: relevantArea   = tabMapping?.relevant_area ?? null
+  $: chunkCol       = tabMapping?.chunk_column ?? null
+  $: itemColSet     = new Set(tabMapping?.item_columns ?? [])
 
   // ── Hover state for area preview ───────────────────────────────────────────
   let hoveredCell = null   // { rowIdx, col } | null
@@ -39,7 +43,7 @@
 
   // ── Per-cell class helpers ─────────────────────────────────────────────────
   // All reactive vars are passed explicitly so Svelte tracks them as template dependencies.
-  function cellClasses(rowIdx, col, _colSet, _area, _corner, _preview, _mode, _hovCol, _hovCell) {
+  function cellClasses(rowIdx, col, _colSet, _area, _corner, _preview, _mode, _hovCol, _hovCell, _chunkCol, _itemColSet) {
     const ci = colLabelToIndex(col)
     const inRelevantArea = _area
       ? rowIdx >= _area.row_start && rowIdx <= _area.row_end
@@ -50,14 +54,20 @@
       ? rowIdx >= _preview.row_start && rowIdx <= _preview.row_end
         && ci >= _preview.col_start && ci <= _preview.col_end
       : false
+    const isChunkCol = _chunkCol === col
+    const isItemCol  = _itemColSet.has(col)
     return {
-      'cell-col-relevant': _colSet.has(col),
-      'cell-area':         inRelevantArea,
-      'cell-first-corner': isFirstCorner,
-      'cell-preview':      inPreview && !isFirstCorner,
-      'cell-clickable':    _mode === 'relevant-area' || _mode === 'relevant-columns',
-      'cell-col-hover':    _mode === 'relevant-columns' && _hovCol === col && !_colSet.has(col),
-      'cell-hover':        _mode === 'relevant-area' && !_corner && _hovCell?.rowIdx === rowIdx && _hovCell?.col === col,
+      'cell-col-relevant':    _colSet.has(col),
+      'cell-chunk-col':       isChunkCol,
+      'cell-item-col':        isItemCol && !isChunkCol,
+      'cell-area':            inRelevantArea,
+      'cell-first-corner':    isFirstCorner,
+      'cell-preview':         inPreview && !isFirstCorner,
+      'cell-clickable':       ['relevant-area','relevant-columns','chunk-column','item-columns'].includes(_mode),
+      'cell-col-hover':       _mode === 'relevant-columns' && _hovCol === col && !_colSet.has(col),
+      'cell-col-hover-chunk': _mode === 'chunk-column'     && _hovCol === col && !isChunkCol,
+      'cell-col-hover-item':  _mode === 'item-columns'     && _hovCol === col && !isItemCol && !isChunkCol,
+      'cell-hover':           _mode === 'relevant-area' && !_corner && _hovCell?.rowIdx === rowIdx && _hovCell?.col === col,
     }
   }
 
@@ -69,17 +79,21 @@
   function handleColHeaderClick(col, e) {
     if (e.target.closest('.col-resizer')) return
     if (activeMode === 'relevant-columns') onColumnToggle(col)
-    else if (activeMode === 'relevant-area') onAreaCornerClick(0, col)
+    else if (activeMode === 'chunk-column')    onChunkColumnSelect(col)
+    else if (activeMode === 'item-columns')    onItemColumnToggle(col)
+    else if (activeMode === 'relevant-area')   onAreaCornerClick(0, col)
   }
 
   function handleCellClick(rowIdx, col) {
-    if (activeMode === 'relevant-area')    onAreaCornerClick(rowIdx, col)
+    if (activeMode === 'relevant-area')         onAreaCornerClick(rowIdx, col)
     else if (activeMode === 'relevant-columns') onColumnToggle(col)
+    else if (activeMode === 'chunk-column')     onChunkColumnSelect(col)
+    else if (activeMode === 'item-columns')     onItemColumnToggle(col)
   }
 
   function handleCellEnter(rowIdx, col) {
     if (activeMode === 'relevant-area') hoveredCell = { rowIdx, col }
-    if (activeMode === 'relevant-columns') hoveredCol = col
+    if (['relevant-columns','chunk-column','item-columns'].includes(activeMode)) hoveredCol = col
   }
 
   function handleCellLeave() {
@@ -119,6 +133,8 @@
   $: hintText = (() => {
     if (!activeMode) return ''
     if (activeMode === 'header-row')       return 'Click any row to mark it as the headers row'
+    if (activeMode === 'chunk-column')     return 'Click any cell or column letter to set the chunk grouping column'
+    if (activeMode === 'item-columns')     return 'Click any cell or column letter to toggle item columns on/off'
     if (activeMode === 'relevant-columns') return 'Click any cell or column letter to toggle relevant columns on/off'
     if (activeMode === 'relevant-area')    return areaFirstCorner
       ? 'Click a second cell to complete the bounding box'
@@ -129,7 +145,12 @@
 
 <svelte:window on:mousemove={onMousemove} on:mouseup={onMouseup} />
 
-<div class="direct-table">
+<div
+  class="direct-table"
+  class:mode-chunk   ={activeMode === 'chunk-column'}
+  class:mode-item    ={activeMode === 'item-columns'}
+  class:mode-relevant={activeMode === 'relevant-columns'}
+>
 
   <!-- ── Titlebar / tab strip ────────────────────────────────────────────── -->
   <div class="titlebar">
@@ -150,6 +171,8 @@
     <div
       class="mode-hint"
       class:hint-header ={activeMode === 'header-row'}
+      class:hint-chunk  ={activeMode === 'chunk-column'}
+      class:hint-item   ={activeMode === 'item-columns'}
       class:hint-columns={activeMode === 'relevant-columns'}
       class:hint-area   ={activeMode === 'relevant-area'}
     >{hintText}</div>
@@ -166,7 +189,9 @@
             <!-- svelte-ignore a11y-no-static-element-interactions -->
             <th
               class:col-relevant={relevantColSet.has(col)}
-              class:col-clickable={activeMode === 'relevant-columns' || activeMode === 'relevant-area'}
+              class:col-chunk   ={chunkCol === col}
+              class:col-item    ={itemColSet.has(col) && chunkCol !== col}
+              class:col-clickable={['relevant-columns','relevant-area','chunk-column','item-columns'].includes(activeMode)}
               style={colWidths[col] ? `width: ${colWidths[col]}px; max-width: none;` : ''}
               on:click={e => handleColHeaderClick(col, e)}
             >
@@ -193,7 +218,7 @@
               <!-- svelte-ignore a11y-click-events-have-key-events -->
               <!-- svelte-ignore a11y-no-static-element-interactions -->
               <td
-                class={Object.entries(cellClasses(row._row_idx, col, relevantColSet, relevantArea, areaFirstCorner, previewArea, activeMode, hoveredCol, hoveredCell)).filter(([,v]) => v).map(([k]) => k).join(' ')}
+                class={Object.entries(cellClasses(row._row_idx, col, relevantColSet, relevantArea, areaFirstCorner, previewArea, activeMode, hoveredCol, hoveredCell, chunkCol, itemColSet)).filter(([,v]) => v).map(([k]) => k).join(' ')}
                 on:click={() => handleCellClick(row._row_idx, col)}
                 on:mouseenter={() => handleCellEnter(row._row_idx, col)}
                 on:mouseleave={handleCellLeave}
@@ -276,8 +301,10 @@
     border-bottom: 1px solid rgba(255,255,255,0.05);
   }
   .hint-header  { background: rgba(0, 212, 255, 0.08);  color: #00d4ff; }
+  .hint-chunk   { background: rgba(255, 140,   0, 0.08); color: #ff8c00; }
+  .hint-item    { background: rgba(255, 215,   0, 0.08); color: #d4a800; }
   .hint-columns { background: rgba(255, 105, 180, 0.08); color: #ff69b4; }
-  .hint-area    { background: rgba(50, 205, 50, 0.08);   color: #32cd32; }
+  .hint-area    { background: rgba(50,  205,  50, 0.08); color: #32cd32; }
 
   /* ── Table ── */
   .table-wrap { flex: 1; overflow: auto; }
@@ -301,8 +328,12 @@
   .row-num-col { width: 48px; flex-shrink: 0; }
 
   th.col-relevant  { background: rgba(255, 105, 180, 0.18); color: #ff69b4; }
+  th.col-chunk     { background: rgba(255, 140,   0, 0.20); color: #ff8c00; }
+  th.col-item      { background: rgba(255, 215,   0, 0.20); color: #d4a800; }
   th.col-clickable { cursor: pointer; }
-  th.col-clickable:hover:not(.col-relevant) { background: rgba(255, 105, 180, 0.07); }
+  .mode-relevant th.col-clickable:hover:not(.col-relevant) { background: rgba(255, 105, 180, 0.07); }
+  .mode-chunk    th.col-clickable:hover:not(.col-chunk)    { background: rgba(255, 140,   0, 0.10); }
+  .mode-item     th.col-clickable:hover:not(.col-item)     { background: rgba(255, 215,   0, 0.10); }
 
   .th-inner {
     display: flex;
@@ -353,6 +384,10 @@
   td.cell-first-corner  { background: rgba(50, 205, 50, 0.40) !important; }
   td.cell-preview       { background: rgba(50, 205, 50, 0.06); outline: 1px dashed rgba(50, 205, 50, 0.3); outline-offset: -1px; }
   td.cell-clickable     { cursor: crosshair; }
-  td.cell-col-hover     { background: rgba(255, 105, 180, 0.07); }
-  td.cell-hover         { background: rgba(50, 205, 50, 0.07); }
+  td.cell-chunk-col       { background: rgba(255, 140,   0, 0.08); }
+  td.cell-item-col        { background: rgba(255, 215,   0, 0.08); }
+  td.cell-col-hover       { background: rgba(255, 105, 180, 0.07); }
+  td.cell-col-hover-chunk { background: rgba(255, 140,   0, 0.07); }
+  td.cell-col-hover-item  { background: rgba(255, 215,   0, 0.07); }
+  td.cell-hover           { background: rgba(50,  205,  50, 0.07); }
 </style>

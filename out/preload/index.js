@@ -51,5 +51,6 @@ electron.contextBridge.exposeInMainWorld("api", {
   // Direct file view data & mapping
   getDirectFileData: () => electron.ipcRenderer.invoke("get-direct-file-data"),
   getDirectMapping: (fileName) => electron.ipcRenderer.invoke("get-direct-mapping", fileName),
-  saveDirectMapping: ({ fileName, tabs }) => electron.ipcRenderer.invoke("save-direct-mapping", { fileName, tabs })
+  saveDirectMapping: ({ fileName, tabs }) => electron.ipcRenderer.invoke("save-direct-mapping", { fileName, tabs }),
+  loadDirectToDb: (tabMapping) => electron.ipcRenderer.invoke("load-direct-to-db", { tabMapping })
 });

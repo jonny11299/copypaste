@@ -12,6 +12,60 @@ const MAPPING_DIR  = join(__dirname, '../../data/direct_mapping_profiles')
 const MAPPING_FILE = join(MAPPING_DIR, 'direct-mappings.json')
 
 export function getDirectFileViewWin() { return directFileViewWin }
+export function getDirectFileData() { return { rows: directFileData ?? [], fileName: directFileName } }
+
+function colLabelToIndex(label) {
+  let result = 0
+  for (let i = 0; i < label.length; i++) result = result * 26 + (label.charCodeAt(i) - 64)
+  return result - 1
+}
+
+export function buildDirectChunks(rows, tabMapping) {
+  const { header_row, chunk_column, item_columns, relevant_columns, relevant_area, tab_name } = tabMapping
+  const sortByCol = (a, b) => colLabelToIndex(a) - colLabelToIndex(b)
+  const itemSet   = new Set(item_columns)
+
+  // Slot order: item columns (L→R) first, then remaining relevant columns (L→R)
+  const slotOrder = [
+    ...item_columns.slice().sort(sortByCol),
+    ...relevant_columns.filter(c => !itemSet.has(c)).sort(sortByCol),
+  ]
+
+  // Header values keyed by column letter
+  const headerRowData = rows.find(r => r.chunk_title === tab_name && r._row_idx === header_row)
+  const headers = {}
+  relevant_columns.forEach(col => { headers[col] = String(headerRowData?.[col] ?? col) })
+
+  // Data rows: within relevant area, excluding the header row itself
+  const dataRows = rows.filter(r =>
+    r.chunk_title === tab_name &&
+    r._row_idx >= relevant_area.row_start &&
+    r._row_idx <= relevant_area.row_end &&
+    r._row_idx !== header_row
+  )
+
+  // Group rows by chunk column value, preserving insertion order
+  const chunkMap = new Map()
+  for (const row of dataRows) {
+    const key = String(row[chunk_column] ?? '').trim()
+    if (!key) continue
+    if (!chunkMap.has(key)) chunkMap.set(key, [])
+    chunkMap.get(key).push(row)
+  }
+
+  return Array.from(chunkMap.entries()).map(([chunkTitle, chunkRows]) => ({
+    chunk_title: chunkTitle,
+    items: chunkRows.map(row => ({
+      item_title: item_columns.slice().sort(sortByCol)
+        .map(col => String(row[col] ?? '')).filter(Boolean).join(', '),
+      contents: slotOrder.map((col, idx) => ({
+        c_id:      idx,
+        c_title:   headers[col] ?? col,
+        c_contents: String(row[col] ?? ''),
+      })),
+    })),
+  }))
+}
 
 function createDirectSetupWindow() {
   if (directSetupWin) { directSetupWin.focus(); return }

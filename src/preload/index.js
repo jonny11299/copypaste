@@ -63,4 +63,5 @@ contextBridge.exposeInMainWorld('api', {
   getDirectFileData:   ()                    => ipcRenderer.invoke('get-direct-file-data'),
   getDirectMapping:    (fileName)            => ipcRenderer.invoke('get-direct-mapping', fileName),
   saveDirectMapping:   ({ fileName, tabs })  => ipcRenderer.invoke('save-direct-mapping', { fileName, tabs }),
+  loadDirectToDb:      (tabMapping)          => ipcRenderer.invoke('load-direct-to-db', { tabMapping }),
 })

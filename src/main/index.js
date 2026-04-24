@@ -2,8 +2,8 @@ import { app, BrowserWindow, screen, ipcMain, clipboard, globalShortcut, dialog,
 import { join } from 'path'
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'fs'
 import XLSX from 'xlsx'
-import { initDb, savePayload, queryAll, saveDbToFile, loadDbFromFile, seedDummyDb } from './db.js'
-import { registerDirectHandlers } from './direct.js'
+import { initDb, savePayload, saveDirectPayload, queryAll, saveDbToFile, loadDbFromFile, seedDummyDb } from './db.js'
+import { registerDirectHandlers, getDirectFileData, buildDirectChunks } from './direct.js'
 import { buildPayloadV2 } from './payload_v2.js'
 import {
   EXPECTED_HEADERS,
@@ -289,6 +289,17 @@ ipcMain.on('close-generic-sql-table', (event) => { BrowserWindow.fromWebContents
 
 // Direct setup
 registerDirectHandlers()
+
+ipcMain.handle('load-direct-to-db', (_, { tabMapping }) => {
+  const { rows, fileName } = getDirectFileData()
+  if (!rows?.length) throw new Error('No file loaded')
+  const chunks = buildDirectChunks(rows, tabMapping)
+  saveDirectPayload(fileName, chunks)
+  const v2 = buildPayloadV2()
+  currentPayload = v2
+  mainWin?.webContents.send('sli-data', v2)
+  return { chunkCount: chunks.length }
+})
 
 // DB query for table viewer
 ipcMain.handle('query-db', () => queryAll())

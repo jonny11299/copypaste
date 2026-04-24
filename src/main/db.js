@@ -36,6 +36,27 @@ export function initDb() {
   `)
 }
 
+export function saveDirectPayload(name, chunks) {
+  db.exec('DELETE FROM contents; DELETE FROM items; DELETE FROM chunks; DELETE FROM payloads;')
+  const savedAt = new Date().toISOString()
+  const insertPayload = db.prepare('INSERT INTO payloads (name, mode, saved_at) VALUES (?, ?, ?)')
+  const insertChunk   = db.prepare('INSERT INTO chunks (payload_id, chunk_index, chunk_title) VALUES (?, ?, ?)')
+  const insertItem    = db.prepare('INSERT INTO items (chunk_id, item_index, item_title) VALUES (?, ?, ?)')
+  const insertContent = db.prepare(
+    'INSERT INTO contents (item_id, c_id, c_title, c_contents, c_override, c_type) VALUES (?, ?, ?, ?, ?, ?)'
+  )
+  const payloadId = insertPayload.run(name, 'direct', savedAt).lastInsertRowid
+  db.transaction(() => {
+    chunks.forEach((chunk, ci) => {
+      const chunkId = insertChunk.run(payloadId, ci, chunk.chunk_title).lastInsertRowid
+      chunk.items.forEach((item, ii) => {
+        const itemId = insertItem.run(chunkId, ii, item.item_title).lastInsertRowid
+        item.contents.forEach(c => insertContent.run(itemId, c.c_id, c.c_title, c.c_contents, null, 'string'))
+      })
+    })
+  })()
+}
+
 export function savePayload(name, payload) {
   db.exec('DELETE FROM contents; DELETE FROM items; DELETE FROM chunks; DELETE FROM payloads;')
 

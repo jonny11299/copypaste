@@ -11,9 +11,13 @@
   let error    = null
 
   // ── Selection state ────────────────────────────────────────────────────────
-  let activeMode      = null   // null | 'header-row' | 'relevant-columns' | 'relevant-area'
+  let activeMode      = null   // null | 'header-row' | 'chunk-column' | 'item-columns' | 'relevant-columns' | 'relevant-area'
   let activeTab       = null
   let areaFirstCorner = null   // { rowIdx, col } | null
+
+  // ── Load state ─────────────────────────────────────────────────────────────
+  let loadError  = null
+  let loadStatus = null   // null | 'loading' | 'success'
 
   // ── Mappings ───────────────────────────────────────────────────────────────
   // Array of: { tab_name, tab_id, header_row, relevant_columns, relevant_area }
@@ -54,6 +58,8 @@
         tab_name: activeTab,
         tab_id: activeTabId,
         header_row: null,
+        chunk_column: null,
+        item_columns: [],
         relevant_columns: [],
         relevant_area: null,
         ...updates,
@@ -97,6 +103,45 @@
     // mode stays active — user toggles multiple columns
   }
 
+  function handleChunkColumnSelect(col) {
+    const current = tabMapping?.chunk_column ?? null
+    updateTabMapping({ chunk_column: current === col ? null : col })
+    activeMode = null
+  }
+
+  function handleItemColumnToggle(col) {
+    const current = tabMapping?.item_columns ?? []
+    const next = current.includes(col)
+      ? current.filter(c => c !== col)
+      : [...current, col]
+    updateTabMapping({ item_columns: next })
+  }
+
+  async function handleLoadToDb() {
+    loadError  = null
+    loadStatus = null
+    if (tabMapping?.header_row == null) {
+      loadError = 'Set a Headers Row first'; return
+    }
+    if (!tabMapping?.relevant_area) {
+      loadError = 'Set a Relevant Area first'; return
+    }
+    if (!tabMapping?.chunk_column) {
+      loadError = 'Set a Chunk Column first'; return
+    }
+    if (!(tabMapping?.item_columns ?? []).length) {
+      loadError = 'Set at least one Item Column first'; return
+    }
+    loadStatus = 'loading'
+    try {
+      await window.api.loadDirectToDb(tabMapping)
+      loadStatus = 'success'
+    } catch (e) {
+      loadError  = e.message ?? 'Load failed'
+      loadStatus = null
+    }
+  }
+
   function handleAreaCornerClick(rowIdx, col) {
     if (!areaFirstCorner) {
       areaFirstCorner = { rowIdx, col }
@@ -128,7 +173,10 @@
     <Palette
       {activeMode}
       {tabMapping}
+      {loadError}
+      {loadStatus}
       onModeChange={handleModeChange}
+      onLoadToDb={handleLoadToDb}
     />
     <div class="table-pane">
       <DirectTable
@@ -141,6 +189,8 @@
         onHeaderRowSelect={handleHeaderRowSelect}
         onColumnToggle={handleColumnToggle}
         onAreaCornerClick={handleAreaCornerClick}
+        onChunkColumnSelect={handleChunkColumnSelect}
+        onItemColumnToggle={handleItemColumnToggle}
       />
     </div>
   {/if}

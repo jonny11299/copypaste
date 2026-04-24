@@ -2,9 +2,14 @@
   export let activeMode   = null
   export let tabMapping   = null
   export let onModeChange = (_mode) => {}
+  export let onLoadToDb   = () => {}
+  export let loadError    = null
+  export let loadStatus   = null   // null | 'loading' | 'success'
 
   const MODES = [
     { id: 'header-row',       label: 'Headers Row',      color: '#00d4ff' },
+    { id: 'chunk-column',     label: 'Chunk Column',     color: '#ff8c00' },
+    { id: 'item-columns',     label: 'Item Columns',     color: '#ffd700' },
     { id: 'relevant-columns', label: 'Relevant Columns', color: '#ff69b4' },
     { id: 'relevant-area',    label: 'Relevant Area',    color: '#32cd32' },
   ]
@@ -19,6 +24,12 @@
     let display = 'Not set'
     if (m.id === 'header-row') {
       display = tabMapping?.header_row != null ? `Row ${tabMapping.header_row}` : 'Not set'
+    } else if (m.id === 'chunk-column') {
+      display = tabMapping?.chunk_column ?? 'Not set'
+    } else if (m.id === 'item-columns') {
+      display = (tabMapping?.item_columns ?? []).length
+        ? tabMapping.item_columns.join(', ')
+        : 'Not set'
     } else if (m.id === 'relevant-columns') {
       display = (tabMapping?.relevant_columns ?? []).length
         ? tabMapping.relevant_columns.join(', ')
@@ -47,6 +58,19 @@
       </span>
     </button>
   {/each}
+
+  <div class="load-section">
+    {#if loadError}
+      <div class="load-feedback error">{loadError}</div>
+    {:else if loadStatus === 'success'}
+      <div class="load-feedback success">Loaded!</div>
+    {/if}
+    <button
+      class="load-btn"
+      on:click={onLoadToDb}
+      disabled={loadStatus === 'loading'}
+    >{loadStatus === 'loading' ? 'Loading…' : 'Load to DB'}</button>
+  </div>
 </div>
 
 <style>
@@ -121,4 +145,36 @@
     max-width: 118px;
   }
   .mode-item.active .mode-value { color: #666; }
+
+  /* ── Load section ── */
+  .load-section {
+    margin-top: auto;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .load-btn {
+    width: 100%;
+    padding: 8px;
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 4px;
+    color: #a5b4fc;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .load-btn:hover:not(:disabled) { background: rgba(99, 102, 241, 0.28); }
+  .load-btn:disabled { opacity: 0.45; cursor: default; }
+
+  .load-feedback {
+    font-size: 10px;
+    padding: 2px 0;
+  }
+  .load-feedback.error   { color: #ff5f57; }
+  .load-feedback.success { color: #32cd32; }
 </style>

@@ -280,11 +280,26 @@ function colLabel(i) {
   if (i < 26) return String.fromCharCode(65 + i);
   return String.fromCharCode(64 + Math.floor(i / 26)) + String.fromCharCode(65 + i % 26);
 }
+function expandMerges(ws) {
+  const merges = ws["!merges"] ?? [];
+  for (const { s, e } of merges) {
+    const originAddr = XLSX.utils.encode_cell({ r: s.r, c: s.c });
+    const originCell = ws[originAddr];
+    if (!originCell) continue;
+    for (let r = s.r; r <= e.r; r++) {
+      for (let c = s.c; c <= e.c; c++) {
+        if (r === s.r && c === s.c) continue;
+        ws[XLSX.utils.encode_cell({ r, c })] = { ...originCell };
+      }
+    }
+  }
+}
 function parseXlsxToRows(filePath) {
   const wb = XLSX.readFile(filePath);
   const allRows = [];
   for (const sheetName of wb.SheetNames) {
     const ws = wb.Sheets[sheetName];
+    expandMerges(ws);
     const raw = XLSX.utils.sheet_to_json(ws, { header: 1, raw: false, defval: "" });
     if (raw.length === 0) continue;
     let lastDataIdx = raw.length - 1;
